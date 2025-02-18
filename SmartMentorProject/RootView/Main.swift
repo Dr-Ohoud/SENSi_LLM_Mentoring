@@ -7,18 +7,38 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct Main: View {
+    @EnvironmentObject var viewModel: AuthViewModel
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        Group {
+            if viewModel.userSession == nil {
+                LoginView()
+            } else {
+                TabView {
+//                    UserProgressView()
+//                        .tabItem {
+//                            Label("Overview", systemImage: "pencil.and.outline")
+//                        }
+                    
+                    ChatView()
+                        .tabItem {
+                            Label("Mentor", systemImage: "ellipsis.message.fill")
+                        }
+                    
+                    UserProfileView()
+                        .tabItem {
+                            Label("Profile", systemImage: "person.crop.circle")
+                        }
+                }
+                .accentColor(.accent)
+                
+            }
         }
-        .padding()
+        
     }
 }
 
 #Preview {
-    ContentView()
+    Main()
 }

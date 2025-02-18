@@ -74,8 +74,6 @@ struct StepFourView: View {
                         .frame(width: 300, height: 30)
                         .padding()
                         .background(.accent)
-                        .disabled(!formIsValid)
-                        .opacity(formIsValid ? 1.0 : 0.5)
                         .cornerRadius(40)
                         .shadow(radius: 3)
                         .font(.headline)

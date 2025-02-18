@@ -66,30 +66,6 @@ struct StepOneView: View {
                         }
                     }
                     
-                    
-                    // sign up button
-                    //                        Button(action: {
-                    //                            Task {
-                    //                                //                            try await viewModel.createUser(
-                    //                                //                                withEmail: email,
-                    //                                //                                password: password,
-                    //                                //                                fullName: fullName)
-                    //                            }
-                    //                        }) {
-                    //                            HStack {
-                    //                                Text("SIGN UP")
-                    //                                    .fontWeight(.bold)
-                    //                                Image(systemName: "arrow.right")
-                    //                            }
-                    //                            .padding()
-                    //                            .frame(width: UIScreen.main.bounds.width - 32, height: 48)
-                    //                            .background(Color.accentColor)
-                    //                            .foregroundColor(.white)
-                    //                            .cornerRadius(10)
-                    //                        }
-                    //                        .padding()
-                    
-                    
                     Spacer()
                 }
                 // sign in button
@@ -118,8 +94,6 @@ struct StepOneView: View {
                     .frame(width: 300, height: 30)
                     .padding()
                     .background(.accent)
-                    .disabled(!formIsValid)
-                    .opacity(formIsValid ? 1.0 : 0.5)
                     .cornerRadius(40)
                     .shadow(radius: 3)
                     .font(.headline)
