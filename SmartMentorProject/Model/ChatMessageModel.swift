@@ -42,5 +42,5 @@ struct Choice: Codable {
 struct Message : Codable {
     let role: String
     let content: String
-    let refusal: String?
+//    let refusal: String?
 }
