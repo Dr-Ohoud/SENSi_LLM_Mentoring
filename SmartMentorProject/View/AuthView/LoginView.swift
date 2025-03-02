@@ -47,7 +47,7 @@ struct LoginView: View {
                         .frame(width: UIScreen.main.bounds.width - 32, height: 48)
                         .background(.accent)
                         .disabled(formIsValid)
-                        .opacity(formIsValid ? 1.0 : 0.5)
+//                        .opacity(formIsValid ? 1.0 : 0.5)
                         .foregroundColor(.white)
                         .cornerRadius(10)
                     }

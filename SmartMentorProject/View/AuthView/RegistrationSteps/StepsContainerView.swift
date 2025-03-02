@@ -21,7 +21,7 @@ struct StepsContainerView: View {
     // MARK: - User Background Section
     @State var eduactionLevel: eduactionLevelEnums = .BachelorDegree
     @State var skills: [String] = []
-    @State var experienceLevel: experienceLevelEnums = .graduateStudent
+    @State var experienceLevel: experienceLevelEnums = .freshGraduateStudent
     
     // MARK: - Career Aspirations Section
     @State var careerGoal: String = ""
@@ -102,8 +102,8 @@ struct StepsContainerView: View {
                     .padding()
                     .frame(width: UIScreen.main.bounds.width - 32, height: 48)
                     .background(.accent)
-                    .disabled(!formIsValid)
-                    .opacity(formIsValid ? 1.0 : 0.5)
+//                    .disabled(!formIsValid)
+//                    .opacity(formIsValid ? 1.0 : 0.5)
                     .foregroundColor(.white)
                     .cornerRadius(10)
                 }
@@ -169,7 +169,7 @@ extension StepsContainerView:AuthintcationFormPrtotcol {
         ConfirmPassword: "test",
         eduactionLevel: .BachelorDegree,
         skills: ["Swift Language", "Basic Coding"],
-        experienceLevel: .seniorStudent,
+        experienceLevel: .freshGraduateStudent,
         careerGoal: "Machine Learning Engineer",
         interests: "Machine Learning",
         skillGap: ["Python Language", "TensorFlow Framework"]

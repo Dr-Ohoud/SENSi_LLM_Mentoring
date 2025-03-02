@@ -35,6 +35,24 @@ struct User: Identifiable, Codable {
     let skillGap: [String]
 
 }
+
+struct UserData: Identifiable, Codable {
+    
+    var id: String = NSUUID().uuidString
+    var fullName: String = ""
+    var email: String = ""
+    var password: String = ""
+    var confirmPassword: String = ""
+    var educationLevel: String = ""
+    var skills: [String] = []
+    var experienceLevel: String = ""
+    var careerGoal: String = ""
+    var interests: String = ""
+    var skillGap: [String] = []
+    var bio: String = ""
+
+    var currentInput: String = "" // Temporarily holds user input before saving
+}
 // MARK: - MOCK User
 
 extension User {
@@ -44,7 +62,7 @@ extension User {
                                 bio: "Aspiring Software Engineer | AI Enthusiast | Swiftui developer",
                                 eduactionLevel: .masterDegree,
                                 skills: ["Swift Language", "Basic Coding"],
-                                experienceLevel: .seniorStudent,
+                                experienceLevel: .freshGraduateStudent,
                                 careerGoal: "Machine Learning Engineer",
                                 interests: "AI Ethics",
                                 skillGap: ["Python Language", "TensorFlow Framework"]
@@ -62,9 +80,8 @@ enum eduactionLevelEnums: String, CaseIterable, Identifiable, Codable{
 }
 
 enum experienceLevelEnums: String, CaseIterable, Identifiable, Codable {
-    case graduateStudent
-    case seniorStudent
-    case jobSeeker
+    case stillStudent
+    case freshGraduateStudent
     case earlyCareer
     
     var id: String { self.rawValue }
