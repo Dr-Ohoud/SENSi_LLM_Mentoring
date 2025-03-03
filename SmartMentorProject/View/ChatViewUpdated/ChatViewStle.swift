@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ChatViewStyle: View {
+struct ChatViewStle: View {
     @State private var messages: [ChatMessage] = []
     @State private var inputText: String = ""
     @State private var isTyping: Bool = false
