@@ -9,22 +9,24 @@ import SwiftUI
 
 struct RegistrationFlowView: View {
     @Binding var step: Int
-    @Binding var userData: UserData
+//    @Binding var userData: User
     @Binding var messages: [ChatMessage]
 
+    @EnvironmentObject var viewModel: AuthViewModel
+    
     var onComplete: () -> Void
 
     var body: some View {
         VStack {
             HStack {
-                TextField(getRegistrationPrompt(), text: $userData.currentInput)
-                    .autocorrectionDisabled()
-                
-                Button(action: proceedToNextStep) {
-                    Image(systemName: "arrow.right.circle.fill")
-                        .foregroundColor(.accent)
-                        .font(.title2)
-                }
+//                TextField(getRegistrationPrompt(), text: $userData.currentInput)
+//                    .autocorrectionDisabled()
+//                
+//                Button(action: proceedToNextStep) {
+//                    Image(systemName: "arrow.right.circle.fill")
+//                        .foregroundColor(.accent)
+//                        .font(.title2)
+//                }
             }
             .padding()
             .background(Color.gray.opacity(0.1))
@@ -35,31 +37,31 @@ struct RegistrationFlowView: View {
     }
 
     // Registration Steps
-    private func proceedToNextStep() {
-        let userResponse = userData.currentInput.trimmingCharacters(in: .whitespaces)
-        guard !userResponse.isEmpty else { return }
-
-        messages.append(ChatMessage(text: userResponse, isUser: true))
-
-        switch step {
-        case 1:
-            userData.fullName = userResponse
-        case 2:
-            userData.educationLevel = userResponse
-        case 3:
-            userData.careerGoal = userResponse
-        case 4:
-            userData.bio = userResponse
-            onComplete()
-            return
-        default:
-            break
-        }
-
-        step += 1
-        userData.currentInput = ""
-        messages.append(ChatMessage(text: getRegistrationPrompt(), isUser: false))
-    }
+//    private func proceedToNextStep() {
+//        let userResponse = userData.currentInput.trimmingCharacters(in: .whitespaces)
+//        guard !userResponse.isEmpty else { return }
+//
+//        messages.append(ChatMessage(text: userResponse, isUser: true))
+//
+//        switch step {
+//        case 1:
+//            userData.fullName = userResponse
+//        case 2:
+//            userData.educationLevel = userResponse
+//        case 3:
+//            userData.careerGoal = userResponse
+//        case 4:
+//            userData.bio = userResponse
+//            onComplete()
+//            return
+//        default:
+//            break
+//        }
+//
+//        step += 1
+//        userData.currentInput = ""
+//        messages.append(ChatMessage(text: getRegistrationPrompt(), isUser: false))
+//    }
 
     private func getRegistrationPrompt() -> String {
         switch step {
@@ -72,6 +74,6 @@ struct RegistrationFlowView: View {
     }
 }
 
-#Preview {
-    RegistrationFlowView(step: .constant(1), userData: .constant(UserData()), messages: .constant([]), onComplete: {})
-}
+//#Preview {
+//    RegistrationFlowView(step: .constant(1), userData: .constant(UserData()), messages: .constant([]), onComplete: {})
+//}

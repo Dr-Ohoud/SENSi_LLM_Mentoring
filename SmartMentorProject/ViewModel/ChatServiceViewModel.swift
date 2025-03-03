@@ -235,46 +235,46 @@ class ChatServiceViewModel {
 //    }
     
     private func saveChatHistoryToFirebase() {
-         saveTask?.cancel()  // Cancel previous task if user sends a new message
-
-         let task = DispatchWorkItem { [weak self] in
-             guard let self = self, let user = Auth.auth().currentUser else { return }
-             let userID = user.uid
-             let chatRef = db.collection("chats").document(userID)
-
-             let messagesDict = chatHistory.map { ["role": $0.role, "content": $0.content] }
-
-             chatRef.setData(["messages": messagesDict, "timestamp": Timestamp(date: Date())]) { error in
-                 if let error = error {
-                     print("[Error] Failed to save chat history: \(error.localizedDescription)")
-                 } else {
-                     print("Chat history saved to Firebase for user: \(userID)")
-                 }
-             }
-         }
-
-         self.saveTask = task
-         DispatchQueue.main.asyncAfter(deadline: .now() + 15, execute: task) // Save after 15 sec
+//         saveTask?.cancel()  // Cancel previous task if user sends a new message
+//
+//         let task = DispatchWorkItem { [weak self] in
+//             guard let self = self, let user = Auth.auth().currentUser else { return }
+//             let userID = user.uid
+//             let chatRef = db.collection("chats").document(userID)
+//
+//             let messagesDict = chatHistory.map { ["role": $0.role, "content": $0.content] }
+//
+//             chatRef.setData(["messages": messagesDict, "timestamp": Timestamp(date: Date())]) { error in
+//                 if let error = error {
+//                     print("[Error] Failed to save chat history: \(error.localizedDescription)")
+//                 } else {
+//                     print("Chat history saved to Firebase for user: \(userID)")
+//                 }
+//             }
+//         }
+//
+//         self.saveTask = task
+//         DispatchQueue.main.asyncAfter(deadline: .now() + 15, execute: task) // Save after 15 sec
      }
     
     private func loadChatHistory() {
-        guard let user = Auth.auth().currentUser else { return }
-        let userID = user.uid
-        let chatRef = db.collection("chats").document(userID)
-
-        chatRef.getDocument { (document, error) in
-            if let document = document, document.exists, let data = document.data(),
-               let messagesData = data["messages"] as? [[String: String]] {
-
-                self.chatHistory = messagesData.compactMap { dict in
-                    guard let role = dict["role"], let content = dict["content"] else { return nil }
-                    return Message(role: role, content: content)
-                }
-                print("Chat history loaded from Firebase for user: \(userID)")
-            } else {
-                print("[Error] Failed to load chat history: \(error?.localizedDescription ?? "Unknown error")")
-            }
-        }
+//        guard let user = Auth.auth().currentUser else { return }
+//        let userID = user.uid
+//        let chatRef = db.collection("chats").document(userID)
+//
+//        chatRef.getDocument { (document, error) in
+//            if let document = document, document.exists, let data = document.data(),
+//               let messagesData = data["messages"] as? [[String: String]] {
+//
+//                self.chatHistory = messagesData.compactMap { dict in
+//                    guard let role = dict["role"], let content = dict["content"] else { return nil }
+//                    return Message(role: role, content: content)
+//                }
+//                print("Chat history loaded from Firebase for user: \(userID)")
+//            } else {
+//                print("[Error] Failed to load chat history: \(error?.localizedDescription ?? "Unknown error")")
+//            }
+//        }
     }
     
     /// **Save all chat sessions at the end of the day**

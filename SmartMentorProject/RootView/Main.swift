@@ -15,7 +15,8 @@ struct Main: View {
             if viewModel.userSession == nil {
                 LoginView()
             } else {
-                ChatView( )
+//                ChatView( )
+                ChatViewStyle()
                 //                                TabView {
 //                //                    UserProgressView()
 //                //                        .tabItem {
