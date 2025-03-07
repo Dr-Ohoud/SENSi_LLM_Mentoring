@@ -58,7 +58,7 @@ struct LoginView: View {
                     // sign up button
                     NavigationLink(destination:
                                     ChatViewStyle(registrationStep: registrationStep)
-                                    //                        SignUpView()
+//                                                            SignUpView()
 //                                   StepsContainerView()
                         .navigationBarBackButtonHidden(true)) {
                             HStack(spacing: 3){

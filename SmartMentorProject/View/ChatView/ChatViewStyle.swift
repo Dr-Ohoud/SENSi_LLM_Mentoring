@@ -14,13 +14,13 @@ struct ChatViewStyle: View {
     @State private var responseText: String = ""
     @State private var isLoading: Bool = false
     
-    @State var registrationStep: Int = 6
+    @State var registrationStep: Int = 8
     
     let chatService: ChatServiceViewModel = ChatServiceViewModel()
     @EnvironmentObject var viewModel: AuthViewModel
     
     var body: some View {
-        print(" New View \(viewModel.currentUser?.fullName)")
+        print(" The User: \(viewModel.currentUser?.fullName)")
         return (
             NavigationStack{
                 
@@ -28,7 +28,9 @@ struct ChatViewStyle: View {
                     // MARK: - Top Bar
                     HStack {
                         Button(action: {
-                            // Handle menu action
+                                undoLastMessage()
+                            
+                            
                         }) {
                             Image(systemName: "arrow.uturn.backward")
                             //                        Image(systemName: "line.3.horizontal")
@@ -43,15 +45,16 @@ struct ChatViewStyle: View {
                             .foregroundColor(.primary)
                         
                         Spacer()
-                        
-                        NavigationLink(destination:
-                                        UserProfileView()
-                            .navigationBarBackButtonHidden(false)) {
-                                Image(systemName: "person.fill")
-                                    .font(.title2)
-                                    .foregroundColor(.accent)
-                            }
-                            .accentColor(.accent)
+                        if ((viewModel.currentUser?.fullName) != nil) {
+                            NavigationLink(destination:
+                                            UserProfileView()
+                                .navigationBarBackButtonHidden(false)) {
+                                    Image(systemName: "person.fill")
+                                        .font(.title2)
+                                        .foregroundColor(.accent)
+                                }
+                                .accentColor(.accent)
+                        }
                     }
                     .padding()
                     .background(Color(.systemGray6))
@@ -136,24 +139,24 @@ struct ChatViewStyle: View {
                     ScrollViewReader { proxy in
                         ScrollView {
                             ForEach(messages) { message in
-//                                HStack {
-//                                    if message.isUser {
-//                                        Spacer()
-//                                        Text(message.text)
-//                                            .padding()
-//                                            .background(.accent)
-//                                            .foregroundColor(.white)
-//                                            .cornerRadius(10)
-//                                            .frame(maxWidth: 500, alignment: .trailing)
-//                                    } else {
-//                                        Text(message.text)
-//                                            .padding()
-//                                            .background(Color.gray.opacity(0.2))
-//                                            .cornerRadius(10)
-//                                            .frame(maxWidth: 500, alignment: .leading)
-//                                        Spacer()
-//                                    }
-//                                }
+                                //                                HStack {
+                                //                                    if message.isUser {
+                                //                                        Spacer()
+                                //                                        Text(message.text)
+                                //                                            .padding()
+                                //                                            .background(.accent)
+                                //                                            .foregroundColor(.white)
+                                //                                            .cornerRadius(10)
+                                //                                            .frame(maxWidth: 500, alignment: .trailing)
+                                //                                    } else {
+                                //                                        Text(message.text)
+                                //                                            .padding()
+                                //                                            .background(Color.gray.opacity(0.2))
+                                //                                            .cornerRadius(10)
+                                //                                            .frame(maxWidth: 500, alignment: .leading)
+                                //                                        Spacer()
+                                //                                    }
+                                //                                }
                                 ChatBubbleView(message: message)
                                     .id(message.id)
                             }
@@ -176,7 +179,7 @@ struct ChatViewStyle: View {
                     }
                     
                     // Conditional View: Registration or Chat Input
-                    if registrationStep <= 6 {
+                    if registrationStep <= 8 {
                         RegistrationView(
                             step: $registrationStep,
                             messages: $messages,
@@ -194,6 +197,13 @@ struct ChatViewStyle: View {
 }
 
 extension ChatViewStyle {
+    
+    private func undoLastMessage() {
+        if !messages.isEmpty {
+            messages.removeLast()
+            messages.removeLast()
+        }
+    }
     
     private func completeRegistration() {
         messages.append(ChatMessage(text: "Thank you, \(viewModel.currentUser?.fullName ?? "")! Your mentor is ready to assist you.", isUser: false))
@@ -223,6 +233,8 @@ extension ChatViewStyle {
         let mentorMessage = ChatMessage(text: mentorResponse, isUser: false)
         messages.append(mentorMessage)
     }
+    
+    
 }
 
 #Preview {

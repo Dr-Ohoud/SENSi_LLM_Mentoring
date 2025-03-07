@@ -24,7 +24,7 @@ struct ChatView: View {
                 // MARK: - Top Bar
                 HStack {
                     Button(action: {
-                        // Handle menu action
+                        // Handle undo action
                     }) {
                         Image(systemName: "arrow.uturn.backward")
 //                        Image(systemName: "line.3.horizontal")

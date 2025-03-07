@@ -67,21 +67,21 @@ struct UserProfileView: View {
                             .accentColor(.gray)
                     }
                     
-                    HStack (alignment: .top){
-                        SettingsRowView(
-                            imageName: "pencil.and.outline",
-                            title: "User Skills",
-                            tintColor: Color(.systemGray)
-                        )
-                        Spacer()
-                        VStack(alignment: .leading){
-                            ForEach(user.skills, id: \.self) { skils in
-                                Text(skils)
-                                    .foregroundColor(.secondary)
-                                    .accentColor(.gray)
-                            }
-                        }
-                    }
+//                    HStack (alignment: .top){
+//                        SettingsRowView(
+//                            imageName: "pencil.and.outline",
+//                            title: "User Skills",
+//                            tintColor: Color(.systemGray)
+//                        )
+//                        Spacer()
+//                        VStack(alignment: .leading){
+//                            ForEach(user.skills, id: \.self) { skils in
+//                                Text(skils)
+//                                    .foregroundColor(.secondary)
+//                                    .accentColor(.gray)
+//                            }
+//                        }
+//                    }
                     HStack {
                         SettingsRowView(
                             imageName: "person.fill",
@@ -110,32 +110,32 @@ struct UserProfileView: View {
                             .accentColor(.gray)
                     }
                     
-                    HStack (alignment: .top){
-                        SettingsRowView(
-                            imageName: "chart.bar.fill",
-                            title: "Skill Gap Analysis",
-                            tintColor: .red
-                        )
-                        Spacer()
-                        VStack(alignment: .leading){
-                            ForEach(user.skillGap, id: \.self) { skillGap in
-                                Text(skillGap)
-                                    .foregroundColor(.secondary)
-                                    .accentColor(.gray)
-                            }
-                        }
-                    }
-                    HStack {
-                        SettingsRowView(
-                            imageName: "star.fill",
-                            title: "Interests",
-                            tintColor: .yellow
-                        )
-                        Spacer()
-                        Text(user.interests)
-                            .foregroundColor(.secondary)
-                            .accentColor(.gray)
-                    }
+//                    HStack (alignment: .top){
+//                        SettingsRowView(
+//                            imageName: "chart.bar.fill",
+//                            title: "Skill Gap Analysis",
+//                            tintColor: .red
+//                        )
+//                        Spacer()
+//                        VStack(alignment: .leading){
+//                            ForEach(user.skillGap, id: \.self) { skillGap in
+//                                Text(skillGap)
+//                                    .foregroundColor(.secondary)
+//                                    .accentColor(.gray)
+//                            }
+//                        }
+//                    }
+//                    HStack {
+//                        SettingsRowView(
+//                            imageName: "star.fill",
+//                            title: "Interests",
+//                            tintColor: .yellow
+//                        )
+//                        Spacer()
+//                        Text(user.interests)
+//                            .foregroundColor(.secondary)
+//                            .accentColor(.gray)
+//                    }
                 }
                 
                 // MARK: - Account
@@ -154,7 +154,7 @@ struct UserProfileView: View {
                     } label: {
                         SettingsRowView(
                             imageName: "xmark.circle.fill",
-                            title: "Delet Account",
+                            title: "Delete Account",
                             tintColor: Color(.red))
                     }
                 }

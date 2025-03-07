@@ -34,7 +34,9 @@ class ChatServiceViewModel {
     
     // 4. Executing the Request with URLSession
     func getChatResponse(prompt: String, userViewModel: AuthViewModel) async -> String {
-        
+//        -  **Skills:** \(String(describing: userViewModel.currentUser?.skills))
+//        -  **Interests:** \(String(describing: userViewModel.currentUser?.interests))
+//            -  **Skill Gap:** \(String(describing: userViewModel.currentUser?.skillGap))
         let userMessage = Message(role: "user", content: prompt)
         chatHistory.append(userMessage)
         
@@ -70,10 +72,9 @@ class ChatServiceViewModel {
         -  **Name:** \(String(describing: userViewModel.currentUser?.fullName))
         -  **Career Goal:** \(String(describing: userViewModel.currentUser?.careerGoal))
         -  **Education Level:** \(String(describing: userViewModel.currentUser?.eduactionLevel))
-        -  **Skills:** \(String(describing: userViewModel.currentUser?.skills))
-        -  **Interests:** \(String(describing: userViewModel.currentUser?.interests))
+      
         -  **Bio:** \(String(describing: userViewModel.currentUser?.bio))
-        -  **Skill Gap:** \(String(describing: userViewModel.currentUser?.skillGap))
+    
     
         ---
          **Example Conversation Structure:**

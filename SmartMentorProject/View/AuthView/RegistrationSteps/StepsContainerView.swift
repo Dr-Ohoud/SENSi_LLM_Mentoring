@@ -81,16 +81,16 @@ struct StepsContainerView: View {
                 
                 Button {
                     Task {
-                        try await viewModel.createUser(withEmail: email,
-                                                       password: password,
-                                                       fullName: fullName,
-                                                       bio: bio,
-                                                       eduactionLevel: eduactionLevel,
-                                                       skills: skills,
-                                                       experienceLevel: experienceLevel,
-                                                       careerGoal: careerGoal,
-                                                       interests: interests,
-                                                       skillGap: skillGap)
+//                        try await viewModel.createUser(withEmail: email,
+//                                                       password: password,
+//                                                       fullName: fullName,
+//                                                       bio: bio,
+//                                                       eduactionLevel: eduactionLevel,
+//                                                       skills: skills,
+//                                                       experienceLevel: experienceLevel,
+//                                                       careerGoal: careerGoal,
+//                                                       interests: interests,
+//                                                       skillGap: skillGap)
                     }
                     dismiss()
                 } label: {

@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ChatBubbleView: View {
     let message: ChatMessage
-
+    var onSelectOption: ((String) -> Void)? // Callback when an option is selected
+    
     var body: some View {
         HStack {
             if message.isUser {
@@ -26,6 +27,28 @@ struct ChatBubbleView: View {
                     .background(Color.gray.opacity(0.2))
                     .cornerRadius(10)
                     .frame(maxWidth: 500, alignment: .leading)
+                
+                // Render options if present
+                if let options = message.options {
+                    VStack(spacing: 8) {
+                        ForEach(options, id: \.self) { option in
+                            Button(action: {
+                                onSelectOption?(option)
+                            }) {
+                                Text(option)
+                                    .padding()
+                                    .frame(maxWidth: 250)
+                                    .background(Color.white)
+                                    .cornerRadius(8)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .stroke(Color.green, lineWidth: 2)
+                                    )
+                            }
+                        }
+                    }
+                    .frame(maxWidth: 300, alignment: .leading)
+                }
                 Spacer()
             }
         }
