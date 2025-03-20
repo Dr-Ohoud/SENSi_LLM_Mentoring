@@ -15,26 +15,7 @@ struct Main: View {
             if viewModel.userSession == nil {
                 LoginView()
             } else {
-//                ChatView( )
                 ChatViewStyle()
-                //                                TabView {
-//                //                    UserProgressView()
-//                //                        .tabItem {
-//                //                            Label("Overview", systemImage: "pencil.and.outline")
-//                //                        }
-//                
-//                                    ChatView()
-//                                        .tabItem {
-//                                            Label("Mentor", systemImage: "ellipsis.message.fill")
-//                                        }
-//                
-//                                    UserProfileView()
-//                                        .tabItem {
-//                                            Label("Profile", systemImage: "person.crop.circle")
-//                                        }
-//                                }
-//                                .accentColor(.accent)
-                
             }
         }
         

@@ -19,49 +19,12 @@ struct User: Identifiable, Codable {
         let formatter = PersonNameComponentsFormatter()
         if let components = formatter.personNameComponents(from: fullName) {
             formatter.style = .abbreviated
-            return formatter.string(from: components)
-        }
-        
-        return ""
-    }
-    
-    // MARK: - User Background Section
+            return formatter.string(from: components) }
+        return "" }
+    var milestones: [Milestone]?
     var eduactionLevel: eduactionLevelEnums
-//    let skills: [String]
     var experienceLevel: experienceLevelEnums
-    
-    // MARK: - Career Aspirations Section
     var careerGoal: String
-//    let interests: String
-//    let skillGap: [String]
-
-//        init() {
-//            self.id = NSUUID().uuidString
-//            self.fullName = ""
-//            self.email = ""
-//            self.bio = ""
-//            self.eduactionLevel = .highSchool
-//    //        self.skills = [""]
-//            self.experienceLevel = .stillStudent
-//            self.careerGoal = ""
-//    //        self.interests = ""
-//    //        self.skillGap = [""]
-//    //        self.currentInput = ""
-//        }
-    
-//        init(id: String, fullName: String, email: String, bio: String, eduactionLevel: eduactionLevelEnums, experienceLevel: experienceLevelEnums, careerGoal: String) {
-//            self.id = id
-//            self.fullName = fullName
-//            self.email = email
-//            self.bio = bio
-//            self.eduactionLevel = eduactionLevel
-//    //        self.skills = skills
-//            self.experienceLevel = experienceLevel
-//            self.careerGoal = careerGoal
-//    //        self.interests = interests
-//    //        self.skillGap = skillGap
-//    //        self.currentInput = ""
-//        }
 }
 // MARK: - MOCK User
 
@@ -76,91 +39,6 @@ extension User {
     )
 }
 
-
-//struct User: Identifiable, Codable {
-//    
-//    init() {
-//        self.id = NSUUID().uuidString
-//        self.fullName = ""
-//        self.email = ""
-//        self.bio = ""
-//        self.eduactionLevel = .highSchool
-////        self.skills = [""]
-//        self.experienceLevel = .stillStudent
-//        self.careerGoal = ""
-////        self.interests = ""
-////        self.skillGap = [""]
-////        self.currentInput = ""
-//        self.password = ""
-//        self.confirmPassword = ""
-//    }
-//    
-//    init(id: String, fullName: String, email: String, bio: String, eduactionLevel: eduactionLevelEnums, experienceLevel: experienceLevelEnums, careerGoal: String, password: String, confirmPassword: String) {
-//        self.id = id
-//        self.fullName = fullName
-//        self.email = email
-//        self.bio = bio
-//        self.eduactionLevel = eduactionLevel
-////        self.skills = skills
-//        self.experienceLevel = experienceLevel
-//        self.careerGoal = careerGoal
-////        self.interests = interests
-////        self.skillGap = skillGap
-////        self.currentInput = ""
-//        self.password = password
-//        self.confirmPassword = confirmPassword
-//    }
-//    
-//    // MARK: - General Information
-//    let id: String
-//    var fullName: String
-//    var email: String
-//    var password: String
-//    var confirmPassword: String
-//    var bio: String
-//    var initials: String {
-//        let formatter = PersonNameComponentsFormatter()
-//        if let components = formatter.personNameComponents(from: fullName) {
-//            formatter.style = .abbreviated
-//            return formatter.string(from: components)
-//        }
-//        
-//        return ""
-//    }
-//    
-//    // MARK: - User Background Section
-//    var eduactionLevel: eduactionLevelEnums
-////    var skills: [String]?
-//    var experienceLevel: experienceLevelEnums
-//    
-//    // MARK: - Career Aspirations Section
-//    var careerGoal: String
-////    var interests: String?
-////    var skillGap: [String]?
-//    
-////    var currentInput: String = "" // Temporarily holds user input before saving
-//    
-//    
-//}
-//
-//// MARK: - MOCK User
-//
-//extension User {
-//    static var MOCK_USER = User(
-//        id: NSUUID().uuidString,
-//        fullName: "Shahad Abdullah",
-//        email: "Shahad@gmail.com",
-//        bio: "Aspiring Software Engineer | AI Enthusiast | Swiftui developer",
-//        eduactionLevel: .highSchool,
-////        skills: ["Swift Language", "Basic Coding"],
-//        experienceLevel: .freshGraduateStudent,
-//        careerGoal: "Machine Learning Engineer",
-////        interests: "AI Ethics",
-////        skillGap: ["Python Language", "TensorFlow Framework"],
-//        password: "123456",
-//        confirmPassword: "123456"
-//    )
-//}
 
 // MARK: - Enums
 enum eduactionLevelEnums: String, CaseIterable, Identifiable, Codable, CustomStringConvertible{

@@ -7,6 +7,12 @@
 
 import Foundation
 
+struct Milestone: Codable, Identifiable {
+    var id: String = UUID().uuidString
+    var title: String
+    var steps: [String]
+}
+
 struct ChatMessage: Identifiable {
     let id = UUID()
     let text: String

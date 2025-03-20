@@ -80,7 +80,7 @@ struct RegistrationView: View {
                         TextField(getRegistrationPrompt(), text: $currentInput)
                             .autocorrectionDisabled()
                     }
-                    
+                   
                     Spacer()
                     ProgressView()
                         .opacity(isLoading ? 1 : 0)
@@ -105,7 +105,6 @@ struct RegistrationView: View {
                     }
                     .disabled(isLoading)
                 }
-                // NavigationLink outside the if condition
                 NavigationLink(destination: SignUpView(fullName: $fullName, bio: $bio, eduactionLevel: $eduactionLevel, experienceLevel: $experienceLevel, careerGoal: $careerGoal).navigationBarBackButtonHidden(false), isActive: $shouldNavigate) {
                     EmptyView() // Keeps it hidden but allows navigation
                 }.tint(.accent)
@@ -114,7 +113,7 @@ struct RegistrationView: View {
             .onAppear() {
                 messages.append(ChatMessage(text: getRegistrationPrompt(), isUser: false))
             }
-        }
+        }.tint(.accent)
     }
     private func fakeLoadingAndProceed() {
             isLoading = true // Show ProgressView
@@ -155,6 +154,8 @@ struct RegistrationView: View {
         case 5:
             bio = userResponse
         case 6:
+            registerUser = userResponse
+        case 7:
             onComplete()
             return
         default:
@@ -162,9 +163,6 @@ struct RegistrationView: View {
         }
         fakeLoadingAndProceed()
         
-//        step += 1
-//        currentInput = ""
-//        messages.append(ChatMessage(text: getRegistrationPrompt(), isUser: false))
     }
     
     private func getRegistrationPrompt() -> String {
@@ -175,7 +173,7 @@ struct RegistrationView: View {
         case 5: return "One more thing! help me to get know you by writing a short bio about yourself"
         case 6: return "I am now ready to assist you. Would you like me to create a profile for you to personalize and save your preferences?"
         case 7: return "Thank you, \(viewModel.currentUser?.fullName ?? "") All set !! I appreciate your confidence in me!"
-        default: return "Let me know how I can assist you today."
+        default: return "Welcome!"
         }
     }
 }

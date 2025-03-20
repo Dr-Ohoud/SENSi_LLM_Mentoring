@@ -13,7 +13,8 @@ struct SmartMentorProjectApp: App {
     @AppStorage("isOnboarding") var isOnboarding: Bool = true
     @State private var showMainApp = false
     @StateObject private var sessionUser = AuthViewModel()
-    
+    @StateObject private var chatService: ChatServiceViewModel = ChatServiceViewModel()
+
     init(){
         FirebaseApp.configure()
     }
@@ -22,9 +23,11 @@ struct SmartMentorProjectApp: App {
             if isOnboarding {
                 OnboardingContainerView()
                     .environmentObject(sessionUser)
+                    .environmentObject(chatService)
             } else {
                 Main()
                     .environmentObject(sessionUser)
+                    .environmentObject(chatService)
             }
         }
     }

@@ -11,7 +11,7 @@ import FirebaseFirestore
 import FirebaseAuth
 
 @MainActor
-class ChatServiceViewModel {
+class ChatServiceViewModel: ObservableObject{
     private let networkManager = NetworkManager()
     private let requestBuilder = ChatGPTAPI()
     private let errorMessage = "Error: Unable to generate response"
@@ -20,23 +20,17 @@ class ChatServiceViewModel {
     private var db = Firestore.firestore()  // Firestore database reference
     
     @Published var chatHistory: [Message] = []
+    @Published var milestones: [Milestone] = []
+    
     private var saveTask: DispatchWorkItem?
     
     init() {
         loadChatHistory()
+//        loadMailestone()
     }
-    
-    //    @Published var chatHistory: [Message] = []
-    //
-    //    init() {
-    //        loadChatHistory()
-    //    }
     
     // 4. Executing the Request with URLSession
     func getChatResponse(prompt: String, userViewModel: AuthViewModel) async -> String {
-//        -  **Skills:** \(String(describing: userViewModel.currentUser?.skills))
-//        -  **Interests:** \(String(describing: userViewModel.currentUser?.interests))
-//            -  **Skill Gap:** \(String(describing: userViewModel.currentUser?.skillGap))
         let userMessage = Message(role: "user", content: prompt)
         chatHistory.append(userMessage)
         
@@ -101,30 +95,16 @@ class ChatServiceViewModel {
                 ---
             **Follow these guidelines before responding.**
                 **Keep responses structured like this. Allow brief pauses for user interaction.**
+    
+    If your response contains a sequence of instructions, \ 
+    re-write those instructions in the following format:
+
+    Step 1 - ...
+    Step 2 - …
+    …
+    Step N - …
+
     """),
-            //"""
-            //                You are friendly and approachable mentor helping early-career individuals and recent graduates navigate thier careers:
-            //
-            //                1. Maintain a supportive, empathetic, and reliable tone to build trust.
-            //                2. Provide personalized advice based on the user’s skills, interests, and ambitions.
-            //                3. Use cognitive techniques (assess passions, help with critical decisions, suggest career pathways).
-            //                4. Encourage reflection and continuous learning (ask follow-up questions, goal-setting).
-            //                5. IMPORTANT: I want you to respond naturally, and if they ask for information, provide it concisely.
-            //                6. If user input seems incomplete or the conversation stalls, ask a clarifying question.
-            //
-            //                Follow these rules before responding.
-            //
-            //                This the user information to take it in your considration:
-            //
-            //                User fullName: \(String(describing: userViewModel.currentUser?.fullName))
-            //                Skills: \(String(describing: userViewModel.currentUser?.skills))
-            //                Interests: \(String(describing: userViewModel.currentUser?.interests))
-            //                Bio: \(String(describing: userViewModel.currentUser?.bio))
-            //                Eduaction Level: \(String(describing: userViewModel.currentUser?.eduactionLevel))
-            //                Career Goal: \(String(describing: userViewModel.currentUser?.careerGoal))
-            //                Skill Gap: \(String(describing: userViewModel.currentUser?.skillGap))
-            //            """
-            
             Message(role: "user", content: " \(prompt)")
         ]
         
@@ -135,66 +115,16 @@ class ChatServiceViewModel {
             return errorMessage
         }
         
-        //        do {
-        //            let data = try await networkManager.sendRequest(request)
-        //
-        //            if let jsonString = String(data: data, encoding: .utf8) {
-        //                print("Raw JSON response:\n\(jsonString)")
-        //            }
-        //
-        //            let responseText = decodeResponse(data)
-        //            let assistantMessage = Message(role: "assistant", content: responseText)
-        //
-        //            print("Response from assistant:\(responseText)")
-        //            print("Assistant message:\(assistantMessage)")
-        //            chatHistory.append(assistantMessage)
-        //            saveChatHistory()
-        //        } catch {
-        //            print("[Error] Failed to send request: \(error.localizedDescription)")
-        //            return errorMessage
-        //        }
-        
-        //        let instructionalPrompt = """
-        //        You are SmartMentor, a virtual AI mentor helping early-career individuals and recent graduates navigate careers in AI and related fields.
-        //
-        //        1. Maintain a supportive, empathetic, and reliable tone to build trust.
-        //        2. Provide personalized advice based on the user’s skills, interests, and ambitions.
-        //        3. Use cognitive techniques (assess passions, help with critical decisions, suggest career pathways).
-        //        4. Encourage reflection and continuous learning (ask follow-up questions, goal-setting).
-        //        5. IMPORTANT: Keep responses concise—limit your answer to about 4-5 sentences.
-        //        6. If user input seems incomplete or the conversation stalls, ask a clarifying question.
-        //
-        //        Follow these rules before responding.
-        //        """
-        //
-        //        let finalPrompt = """
-        //        \(instructionalPrompt)
-        //
-        //        \(assistantPrompt)
-        //
-        //        User Query:
-        //        \(prompt)
-        //        """
-        
-        
         do {
             let data = try await networkManager.sendRequest(request)
-            
-            // Debug: Print raw JSON
-//            if let jsonString = String(data: data, encoding: .utf8) {
-//                //                print("Raw JSON response:\n\(jsonString)")
-//            }
             
             let responseText = decodeResponse(data)
             let assistantMessage = Message(role: "assistant", content: responseText)
             
-            print("Response from assistant:\(responseText)")
             chatHistory.append(assistantMessage)
-//            saveChatHistory()
             saveChatHistoryToFirebase()
             print(data)
             return responseText
-            //            return decodeResponse(data)
             
         } catch {
             print("[Error] Failed to send request: \(error.localizedDescription)")
@@ -219,80 +149,174 @@ class ChatServiceViewModel {
         }
     }
     
-//    private func loadChatHistory() {
-//        if let savedData = UserDefaults.standard.data(forKey: "chatHistory"),
-//           let decoded = try? JSONDecoder().decode([Message].self, from: savedData) {
-//            chatHistory = decoded
-//            
-//            print(chatHistory)
-//        }
-//    }
-//    
-//    private func saveChatHistory() {
-//        if let encoded = try? JSONEncoder().encode(chatHistory) {
-//            print("chat saved!")
-//            UserDefaults.standard.set(encoded, forKey: "chatHistory")
-//        }
-//    }
-    
     private func saveChatHistoryToFirebase() {
-//         saveTask?.cancel()  // Cancel previous task if user sends a new message
-//
-//         let task = DispatchWorkItem { [weak self] in
-//             guard let self = self, let user = Auth.auth().currentUser else { return }
-//             let userID = user.uid
-//             let chatRef = db.collection("chats").document(userID)
-//
-//             let messagesDict = chatHistory.map { ["role": $0.role, "content": $0.content] }
-//
-//             chatRef.setData(["messages": messagesDict, "timestamp": Timestamp(date: Date())]) { error in
-//                 if let error = error {
-//                     print("[Error] Failed to save chat history: \(error.localizedDescription)")
-//                 } else {
-//                     print("Chat history saved to Firebase for user: \(userID)")
-//                 }
-//             }
-//         }
-//
-//         self.saveTask = task
-//         DispatchQueue.main.asyncAfter(deadline: .now() + 15, execute: task) // Save after 15 sec
+        saveTask?.cancel()
+
+            let task = DispatchWorkItem { [weak self] in
+                guard let self = self, let user = Auth.auth().currentUser else { return }
+                let userID = user.uid
+                let userRef = db.collection("users").document(userID) // Target the user's document
+
+                // Convert chat history to an array of dictionaries
+                let messagesDict = chatHistory.map { ["role": $0.role, "content": $0.content] }
+
+                // Update the user document with the chat history
+                userRef.updateData([
+                    "chatHistory": FieldValue.arrayUnion(messagesDict),
+                    "lastUpdated": Timestamp(date: Date())
+                ]) { error in
+                    if let error = error {
+                        print("[Error] Failed to save chat history: \(error.localizedDescription)")
+                    } else {
+                        print("Chat history updated successfully for user: \(userID)")
+                    }
+                }
+            }
+
+            self.saveTask = task
+            DispatchQueue.main.asyncAfter(deadline: .now() + 15, execute: task) // Save
      }
     
     private func loadChatHistory() {
-//        guard let user = Auth.auth().currentUser else { return }
-//        let userID = user.uid
-//        let chatRef = db.collection("chats").document(userID)
-//
-//        chatRef.getDocument { (document, error) in
-//            if let document = document, document.exists, let data = document.data(),
-//               let messagesData = data["messages"] as? [[String: String]] {
-//
-//                self.chatHistory = messagesData.compactMap { dict in
-//                    guard let role = dict["role"], let content = dict["content"] else { return nil }
-//                    return Message(role: role, content: content)
-//                }
-//                print("Chat history loaded from Firebase for user: \(userID)")
-//            } else {
-//                print("[Error] Failed to load chat history: \(error?.localizedDescription ?? "Unknown error")")
-//            }
-//        }
-    }
-    
-    /// **Save all chat sessions at the end of the day**
-    func saveEndOfDayChatHistory() {
         guard let user = Auth.auth().currentUser else { return }
         let userID = user.uid
-        let chatRef = db.collection("chats").document(userID)
+        let userRef = db.collection("users").document(userID)
 
-        let messagesDict = chatHistory.map { ["role": $0.role, "content": $0.content] }
+        userRef.getDocument { (document, error) in
+            if let document = document, document.exists, let data = document.data(),
+               let messagesData = data["chatHistory"] as? [[String: String]] {
 
-        chatRef.setData(["messages": messagesDict, "timestamp": Timestamp(date: Date())], merge: true) { error in
-            if let error = error {
-                print("[Error] Failed to save end-of-day chat history: \(error.localizedDescription)")
+                self.chatHistory = messagesData.compactMap { dict in
+                    guard let role = dict["role"], let content = dict["content"] else { return nil }
+                    return Message(role: role, content: content)
+                }
+//                print(self.chatHistory)
+                print("Chat history loaded from Firebase for user: \(userID)")
             } else {
-                print("✅ End-of-day chat history saved to Firebase for user: \(userID)")
+                print("[Error] Failed to load chat history: \(error?.localizedDescription ?? "Unknown error")")
             }
         }
     }
     
+    func saveMailestoneToFirebase(milestone: Milestone) {
+        print("Inside saveMailestoneToFirebase")
+        saveTask?.cancel() // Cancel previous save if a new message comes in
+        
+        let task = DispatchWorkItem { [weak self] in
+            guard let self = self else { return }
+            
+            if let user = Auth.auth().currentUser {
+                print("DEBUG: User is still signed in before saving milestone: \(user.uid)")
+            } else {
+                print("DEBUG: User is already nil before saving milestone!")
+            }
+            
+            guard let user = Auth.auth().currentUser else {
+                print("ERROR: User is nil, cannot proceed with Firestore update.")
+                return
+            }
+            let userID = user.uid
+            let userRef = db.collection("users").document(userID)
+            
+            let milestoneData: [String: Any] = [
+                "title": milestone.title,
+                "steps": milestone.steps
+            ]
+            userRef.updateData(["milestones": FieldValue.arrayUnion([milestoneData])]) { error in
+                if let error = error {
+                    print("[Error] Failed to save milestone: \(error.localizedDescription)")
+                    
+                    if let user = Auth.auth().currentUser {
+                        print("DEBUG: User still signed in after error: \(user.uid)")
+                    } else {
+                        print("DEBUG: User became NIL after Firestore error!")
+                    }
+                } else {
+                    print("Milestone updated successfully for user: \(userID)")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        print("🔄 DEBUG: Calling loadMilestone() after save.")
+                        self.loadMilestone()
+                    }
+                }
+            }
+        }
+        self.saveTask = task
+        print("🔵 DEBUG: Executing save task.")
+        DispatchQueue.main.async(execute: task)
+//         DispatchQueue.main.asyncAfter(deadline: .now() + 15, execute: task) // Save
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 15, execute: task) {
+//            if let updatedUser = Auth.auth().currentUser {
+//                print("User still logged in: \(updatedUser.uid)")
+//                self.loadMilestone()
+//            } else {
+//                print("User became nil after Firestore update.")
+//            }
+//        }
+        //DispatchQueue.main.asyncAfter(deadline: .now() + 15, execute: task) // Save
+    }
+    func loadMilestone() {
+        guard let user = Auth.auth().currentUser else { return }
+        let userID = user.uid
+        let userRef = db.collection("users").document(userID)
+
+        userRef.getDocument { (document, error) in
+            if let document = document, document.exists, let data = document.data(),
+               let milestonesData = data["milestones"] as? [[String: Any]] {
+                self.milestones = milestonesData.compactMap { dict in
+                    guard let milestoneTitle = dict["title"] as? String,
+                          let milestoneSteps = dict["steps"] as? [String] else { return nil }
+                    
+                    return Milestone(title: milestoneTitle, steps: milestoneSteps)
+                }
+                
+                print(self.milestones)
+                print("✅ Milestones loaded from Firebase for user: \(userID)")
+            } else {
+                print("[Error] Failed to load milestones: \(error?.localizedDescription ?? "Unknown error")")
+            }
+        }
+    }
+//    func loadMailestone() {
+//        guard let user = Auth.auth().currentUser else { return }
+//        let userID = user.uid
+//        let userRef = db.collection("users").document(userID)
+//        
+//        userRef.getDocument { (document, error) in
+//            if let document = document, document.exists, let data = document.data(),
+//               let milestonesData = data["milestones"] as? [[String: Any]] {
+//                
+//                self.Milestone = milestonesData.compactMap { dict in
+//                    guard let milestoneTitle = dict["title"] as? String,
+//                          let milestoneSteps = dict["steps"] as? [String] else { return nil }
+//                    
+//                    return Milestone(title: milestoneTitle, steps: milestoneSteps)
+//                }
+//                
+//                print(self.milestones)
+//                print("Milestones loaded from Firebase for user: \(userID)")
+//            } else {
+//                print("[Error] Failed to load milestones: \(error?.localizedDescription ?? "Unknown error")")
+//            }
+//        }
+////        userRef.getDocument { (document, error) in
+////            if let document = document, document.exists, let data = document.data(),
+////               let milestonesData = data["mailestone"] as? [[String: Any]] {
+////
+////                self.mailstones = milestonesData.compactMap { dict in
+////                    guard let milestoneTitle = dict["title"] as? String,
+////                          let milestoneSteps = dict["steps"] as? [String] else { return nil }
+////                    
+////                    // Create and return a Milestone object
+////                    return Milestone(title: milestoneTitle, steps: milestoneSteps)
+////                }
+////                
+////                print(self.mailstones)
+////                print("Milestones loaded from Firebase for user: \(userID)")
+////            } else {
+////                print("[Error] Failed to load milestones: \(error?.localizedDescription ?? "Unknown error")")
+////            }
+////        }
+//    }
+    
+
 }
