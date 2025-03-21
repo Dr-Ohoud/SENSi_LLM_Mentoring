@@ -266,7 +266,7 @@ extension ChatViewStyle {
         let milestone = Milestone(title: title, steps: extractedSteps)
         print("✅ DEBUG: Extracted Milestone: \(milestone)")
         
-        chatService.saveMailestoneToFirebase(milestone: milestone)
+        chatService.saveMilestoneToFirebase(milestone: milestone)
     }
 //    private func extractSteps(response: String) {
 //        let lines = response.split(separator: "\n").map { String($0) }

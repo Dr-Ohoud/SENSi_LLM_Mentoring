@@ -11,6 +11,7 @@ struct Milestone: Codable, Identifiable {
     var id: String = UUID().uuidString
     var title: String
     var steps: [String]
+    var statues = false
 }
 
 struct ChatMessage: Identifiable {
