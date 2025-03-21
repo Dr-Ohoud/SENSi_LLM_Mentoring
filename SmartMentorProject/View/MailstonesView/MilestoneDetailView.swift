@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MilestoneDetailView: View {
     var milestone: Milestone
+    
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -22,7 +23,7 @@ struct MilestoneDetailView: View {
             
             List(milestone.steps, id: \.self) { step in
                 HStack {
-                    Image(systemName: "checkmark.circle.fill")
+                    Image(systemName: "circle.fill")
                         .foregroundColor(.green)
                     Text(step)
                 }

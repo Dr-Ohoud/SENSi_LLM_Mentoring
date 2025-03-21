@@ -268,39 +268,6 @@ extension ChatViewStyle {
         
         chatService.saveMilestoneToFirebase(milestone: milestone)
     }
-//    private func extractSteps(response: String) {
-//        let lines = response.split(separator: "\n").map { String($0) }
-//        
-//        var extractedSteps: [String] = []
-//        var title: String = ""
-//        
-//        for line in lines {
-//            if line.hasPrefix("### ") || line.hasPrefix("#### ") {
-//                title = line.replacingOccurrences(of: "### ", with: "").replacingOccurrences(of: "####", with: "").trimmingCharacters(in: .whitespaces)
-//            } else if line.contains("**") {
-//                let step = line.replacingOccurrences(of: "**", with: "").trimmingCharacters(in: .whitespaces)
-//                extractedSteps.append(step)
-//            } else if line.hasPrefix("-") {
-//                let step = line.replacingOccurrences(of: "-", with: "").trimmingCharacters(in: .whitespaces)
-//                extractedSteps.append(step)
-//            }
-//        }
-//        
-//        if title.isEmpty {
-//            print("❌ ERROR: Milestone title is empty. Cannot save.")
-//            return
-//        }
-//        
-//        if extractedSteps.isEmpty {
-//            print("❌ ERROR: No steps extracted. Cannot save.")
-//            return
-//        }
-//        
-//        let milestone = Milestone(title: title, steps: extractedSteps)
-//        print("✅ DEBUG: Extracted Milestone: \(milestone)")
-//        chatService.saveMailestoneToFirebase(milestone: milestone)
-//        
-//    }
     
     private func undoLastMessage() {
         if messages.isEmpty {

@@ -26,7 +26,6 @@ class ChatServiceViewModel: ObservableObject{
     
     init() {
         loadChatHistory()
-//        loadMailestone()
     }
     
     // 4. Executing the Request with URLSession
@@ -190,62 +189,58 @@ class ChatServiceViewModel: ObservableObject{
                     guard let role = dict["role"], let content = dict["content"] else { return nil }
                     return Message(role: role, content: content)
                 }
-//                print(self.chatHistory)
                 print("Chat history loaded from Firebase for user: \(userID)")
             } else {
                 print("[Error] Failed to load chat history: \(error?.localizedDescription ?? "Unknown error")")
             }
         }
     }
+    
     func saveMilestoneToFirebase(milestone: Milestone) {
         print("Inside saveMilestoneToFirebase")
         
         guard let user = Auth.auth().currentUser else {
-            print("❌ ERROR: User is nil, cannot proceed with Firestore update.")
+            print(" ERROR: User is nil, cannot proceed with Firestore update.")
             return
         }
 
         let userID = user.uid
         let userRef = Firestore.firestore().collection("users").document(userID)
 
-        // ✅ Fetch user document
         userRef.getDocument { (document, error) in
             if let error = error {
-                print("❌ ERROR: Failed to fetch user document: \(error.localizedDescription)")
+                print("ERROR: Failed to fetch user document: \(error.localizedDescription)")
                 return
             }
 
             guard let document = document, document.exists, var user = try? document.data(as: User.self) else {
-                print("❌ ERROR: User document does not exist or failed to decode.")
+                print("ERROR: User document does not exist or failed to decode.")
                 return
             }
-
-            // ✅ Append new milestone
             if user.milestones == nil {
                 user.milestones = [milestone]
             } else {
                 user.milestones?.append(milestone)
             }
-
-            // ✅ Save updated milestones back to Firestore
             do {
                 let encodedUser = try Firestore.Encoder().encode(user)
                 userRef.setData(encodedUser, merge: true) { error in
                     if let error = error {
-                        print("❌ ERROR: Failed to save milestone: \(error.localizedDescription)")
+                        print("ERROR: Failed to save milestone: \(error.localizedDescription)")
                     } else {
-                        print("✅ SUCCESS: Milestone saved successfully for user: \(userID)")
+                        print("SUCCESS: Milestone saved successfully for user: \(userID)")
                         self.loadMilestone() // Reload milestones after saving
                     }
                 }
             } catch {
-                print("❌ ERROR: Encoding error: \(error.localizedDescription)")
+                print("ERROR: Encoding error: \(error.localizedDescription)")
             }
         }
     }
+    
     func loadMilestone() {
         guard let user = Auth.auth().currentUser else {
-            print("❌ ERROR: No authenticated user found.")
+            print("ERROR: No authenticated user found.")
             return
         }
 
@@ -254,20 +249,65 @@ class ChatServiceViewModel: ObservableObject{
 
         userRef.getDocument { (document, error) in
             if let error = error {
-                print("❌ ERROR: Failed to load milestones: \(error.localizedDescription)")
+                print("ERROR: Failed to load milestones: \(error.localizedDescription)")
                 return
             }
 
             guard let document = document, document.exists, let user = try? document.data(as: User.self) else {
-                print("❌ ERROR: User document does not exist or failed to decode.")
+                print("ERROR: User document does not exist or failed to decode.")
                 return
             }
 
-            // ✅ Ensure milestones exist
             self.milestones = user.milestones ?? []
-            print("✅ Milestones loaded successfully: \(self.milestones)")
+            print("Milestones loaded successfully: \(self.milestones)")
         }
     }
+    
+    func updateMilestoneProgress(milestoneID: String, completedSteps: [String]) {
+        guard let index = milestones.firstIndex(where: { $0.id == milestoneID }) else { return }
+        milestones[index].completedSteps = completedSteps
+
+        let updatedMilestone = milestones[index]
+
+        guard let user = Auth.auth().currentUser else { return }
+        let userID = user.uid
+        let userRef = db.collection("users").document(userID)
+
+        do {
+            let encodedMilestone = try Firestore.Encoder().encode(updatedMilestone)
+
+            userRef.updateData(["milestones": FieldValue.arrayUnion([encodedMilestone])]) { [weak self] error in
+                if let error = error {
+                    print("❌ ERROR: Failed to update milestone: \(error.localizedDescription)")
+                } else {
+                    DispatchQueue.main.async {
+                        self?.loadMilestone() // ✅ Ensure UI updates on the main thread
+                    }
+                }
+            }
+        } catch {
+            print("❌ ERROR: Encoding failed: \(error.localizedDescription)")
+        }
+    }
+    
+    private func saveUpdatedMilestone(_ milestone: Milestone) {
+            guard let user = Auth.auth().currentUser else { return }
+            let userID = user.uid
+            let userRef = db.collection("users").document(userID)
+
+            do {
+                let encodedMilestone = try Firestore.Encoder().encode(milestone)
+                userRef.updateData(["milestones": FieldValue.arrayUnion([encodedMilestone])]) { error in
+                    if let error = error {
+                        print("ERROR: Failed to update milestone: \(error.localizedDescription)")
+                    } else {
+                        print("SUCCESS: Milestone progress updated.")
+                    }
+                }
+            } catch {
+                print("ERROR: Encoding failed: \(error.localizedDescription)")
+            }
+        }
     
 //    func saveMailestoneToFirebase(milestone: Milestone) {
 //        print("Inside saveMailestoneToFirebase")

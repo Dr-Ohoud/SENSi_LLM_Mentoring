@@ -28,19 +28,22 @@ struct MailstonesView: View {
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
                         ForEach(chatViewModel.milestones, id: \.id) { milestone in
                             NavigationLink(destination: MilestoneDetailView(milestone: milestone)) {
+                                
                                 VStack {
+                                    
                                     Text(milestone.title)
                                         .font(.headline)
                                         .multilineTextAlignment(.center)
                                         .padding(.horizontal, 5)
                                     
-                                    Text("1 of \(milestone.steps.count)")
+                                    Text(" \(milestone.steps.count) steps")
                                         .font(.caption)
                                         .foregroundColor(.gray)
                                     
-                                    ProgressView(value: Float(1) / Float(milestone.steps.count))
+                                    ProgressView(value: Float(milestone.completedSteps.count) / Float(milestone.steps.count))
                                         .progressViewStyle(LinearProgressViewStyle())
                                         .frame(width: 120)
+                                    
                                 }
                                 .padding()
                                 .frame(width: 150, height: 150)
@@ -50,6 +53,8 @@ struct MailstonesView: View {
                     }
                     .padding()
                 }
+                
+               
                 Spacer()
             }
         }
