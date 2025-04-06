@@ -13,7 +13,7 @@ struct OnboardingContainerView: View {
     
     @State private var currentStep: Int = 0
     @State private var onboardingSteps = [
-        OnboardingSteps(id: UUID(), image: "LogoWithoutbacground", title: "SmartMentor", description: "", height: 100, width: 100),
+        OnboardingSteps(id: UUID(), image: "LogoWithoutbacground", title: "SENSI", description: "", height: 100, width: 100),
         
         OnboardingSteps(id: UUID(), image: "LogoWithoutbacground", title: "Say Hello to your Mentor", description: "Your career guidence assistant", height: 100, width: 100),
         

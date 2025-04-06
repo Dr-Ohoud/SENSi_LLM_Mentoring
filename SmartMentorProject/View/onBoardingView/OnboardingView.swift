@@ -44,5 +44,5 @@ struct OnboardingView: View  {
 
 
 #Preview {
-    OnboardingView(title: "Welcome to SmartMentor", description: "Platform that connects students with mentors who are available to help them with their studies.", image: "LogoWithoutbacground", width: 100, height: 100)
+    OnboardingView(title: "Welcome to SENSI Mentor", description: "Platform that connects students with mentors who are available to help them with their studies.", image: "LogoWithoutbacground", width: 100, height: 100)
 }
