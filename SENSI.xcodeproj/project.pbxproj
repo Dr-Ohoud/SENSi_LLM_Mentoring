@@ -130,7 +130,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5EA3B8CF2D5106BA00CDD606 /* Build configuration list for PBXProject "SmartMentorProject" */;
+			buildConfigurationList = 5EA3B8CF2D5106BA00CDD606 /* Build configuration list for PBXProject "SENSI" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -304,6 +304,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SmartMentorProject/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SENSI;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -338,6 +340,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SmartMentorProject/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SENSI;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -363,7 +367,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5EA3B8CF2D5106BA00CDD606 /* Build configuration list for PBXProject "SmartMentorProject" */ = {
+		5EA3B8CF2D5106BA00CDD606 /* Build configuration list for PBXProject "SENSI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5EA3B8E02D5106BB00CDD606 /* Debug */,

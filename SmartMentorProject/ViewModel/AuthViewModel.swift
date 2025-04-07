@@ -18,8 +18,8 @@ protocol AuthintcationFormPrtotcol {
 class AuthViewModel: ObservableObject {
     @Published var userSession: FirebaseAuth.User? //Firebase auth Model
     @Published var currentUser: User? //My Model
-    @Published var isLoading = false
-    
+    @Published var isLoading: Bool = false
+
     init() {
         // From Firebase
         self.userSession = Auth.auth().currentUser
@@ -91,7 +91,8 @@ class AuthViewModel: ObservableObject {
     }
     
     func fetchUser() async {
-            guard let uid = Auth.auth().currentUser?.uid else { return }
+        isLoading = true
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         
         do {
             let snapshot = try await Firestore.firestore().collection("users").document(uid).getDocument()
@@ -100,6 +101,7 @@ class AuthViewModel: ObservableObject {
                 do {
                     self.currentUser = try snapshot.data(as: User.self)
                     print("DEBUG: Fetched user \(String(describing: self.currentUser))")
+                    self.isLoading = false
                 } catch {
                     print("Decoding Error: \(error.localizedDescription)")
                 }
@@ -109,6 +111,5 @@ class AuthViewModel: ObservableObject {
         } catch {
             print("Error fetching user: \(error.localizedDescription)")
         }
-        }
-
+    }
 }

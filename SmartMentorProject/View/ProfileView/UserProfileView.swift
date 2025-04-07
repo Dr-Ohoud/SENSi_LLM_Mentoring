@@ -10,14 +10,18 @@ import SwiftUI
 struct UserProfileView: View {
     
     @EnvironmentObject var viewModel: AuthViewModel
+    @Environment(\.editMode) private var editMode
+    @State var fullName: String = ""
+    @State var bio: String = ""
     
     var body: some View {
         if let user = viewModel.currentUser {
-            NavigationStack{
+            NavigationStack {
                 List {
                     // MARK: - Header
                     Section{
                         HStack {
+                            
                             Text(user.initials)
                                 .font(.title)
                                 .fontWeight(.semibold)
@@ -27,17 +31,41 @@ struct UserProfileView: View {
                                 .clipShape(Circle())
                             
                             VStack(alignment: .leading, spacing: 4) {
-                                Text(user.fullName)
-                                    .font(.subheadline)
-                                    .fontWeight(.semibold)
-                                    .padding(.top, 4)
-                                
-                                Text(user.bio)
-                                    .font(.footnote)
-                                    .accentColor(.gray)
+                                if editMode?.wrappedValue.isEditing == true {
+                                    TextField(user.fullName, text: $fullName)
+                                } else {
+                                    Text(user.fullName)
+                                        .font(.subheadline)
+                                        .fontWeight(.semibold)
+                                        .padding(.top, 4)
+                                }
+                                if editMode?.wrappedValue.isEditing == true {
+                                    TextField(user.bio, text: $bio, axis: .vertical)
+                                        .textFieldStyle(.roundedBorder)
+                                        .lineLimit(5)
+                                } else {
+                                    Text(user.bio)
+                                        .font(.footnote)
+                                        .accentColor(.gray)
+                                }
+
+                                Button(action: {
+                                    withAnimation {
+                                        toggleEditMode()
+                                    }
+                                }) {
+                                    Text(editMode?.wrappedValue == .active ? "Done" : "Edit Profile")
+                                        .font(.system(size: 14, weight: .semibold))
+                                        .foregroundColor(.white)
+                                        .padding(.horizontal, 20)
+                                        .padding(.vertical, 10)
+                                        .background(editMode?.wrappedValue == .active ? Color.accent : Color.black)
+                                        .clipShape(Capsule()) // Rounded edges
+                                }.padding(.top)
                             }
                         }
                     }
+                   
                     // MARK: - General Information
                     Section("General Information"){
                         HStack {
@@ -69,8 +97,8 @@ struct UserProfileView: View {
                                     .foregroundColor(.accent)
                                     .accentColor(.accent)
                             }
-
-                           
+                            
+                            
                         }
                     }
                     
@@ -171,24 +199,26 @@ struct UserProfileView: View {
                                 tintColor: Color(.red))
                         }
                         
-//                        Button {
-//                            print("Delete Account  ... ")
-//                        } label: {
-//                            SettingsRowView(
-//                                imageName: "xmark.circle.fill",
-//                                title: "Delete Account",
-//                                tintColor: Color(.red))
-//                        }
+                        //                        Button {
+                        //                            print("Delete Account  ... ")
+                        //                        } label: {
+                        //                            SettingsRowView(
+                        //                                imageName: "xmark.circle.fill",
+                        //                                title: "Delete Account",
+                        //                                tintColor: Color(.red))
+                        //                        }
                     }
                 }
             }
         }
+        
+        
+    }
+    private func toggleEditMode() {
+        editMode?.wrappedValue = editMode?.wrappedValue == .active ? .inactive : .active
     }
 }
 
 
 
 
-#Preview {
-    UserProfileView()
-}

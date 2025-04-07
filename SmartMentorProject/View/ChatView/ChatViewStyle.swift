@@ -47,7 +47,7 @@ struct ChatViewStyle: View {
                         .opacity(registrationStep < 7 ? 0.3 : 1.0)
                         Spacer()
                         
-                        Text("Smart Mentor")
+                        Text("SENSI Mentor")
                             .font(.headline)
                             .foregroundColor(.primary)
                         
@@ -80,83 +80,6 @@ struct ChatViewStyle: View {
                     }
                     .padding()
                     .background(Color(.systemGray6))
-                    
-                    // MARK: - Chat Messages
-                    //                    VStack {
-                    //                        //                        ScrollViewReader { proxy in
-                    //                        //                            ScrollView {
-                    //                        //                                ForEach(messages) { message in
-                    //                        //                                    HStack {
-                    //                        //                                        if message.isUser {
-                    //                        //                                            Spacer()
-                    //                        //                                            Text(message.text)
-                    //                        //                                                .padding()
-                    //                        //                                                .background(.accent)
-                    //                        //                                                .foregroundColor(.white)
-                    //                        //                                                .cornerRadius(10)
-                    //                        //                                                .frame(maxWidth: 500, alignment: .trailing)
-                    //                        //                                        } else {
-                    //                        //                                            Text(message.text)
-                    //                        //                                                .padding()
-                    //                        //                                                .background(Color.gray.opacity(0.2))
-                    //                        //                                                .cornerRadius(10)
-                    //                        //                                                .frame(maxWidth: 500, alignment: .leading)
-                    //                        //                                            Spacer()
-                    //                        //                                        }
-                    //                        //                                    }
-                    //                        //                                    .padding()
-                    //                        //                                    .id(message.id)
-                    //                        //                                }
-                    //                        //
-                    //                        //                                if isTyping {
-                    //                        //                                    HStack {
-                    //                        //                                        Text("Mentor is typing...")
-                    //                        //                                            .italic()
-                    //                        //                                            .foregroundColor(.gray)
-                    //                        //                                        Spacer()
-                    //                        //                                    }
-                    //                        //                                    .padding()
-                    //                        //                                }
-                    //                        //                            }
-                    //                        //                            .onChange(of: messages.count) { _ in
-                    //                        //                                if let lastMessage = messages.last {
-                    //                        //                                    proxy.scrollTo(lastMessage.id, anchor: .bottom)
-                    //                        //                                }
-                    //                        //                            }
-                    //                        //                        }
-                    //                        //
-                    //                        //                        HStack {
-                    //                        //                            HStack{
-                    //                        //                                TextField("Type a message...", text: $inputText)
-                    //                        //                                    .autocorrectionDisabled()
-                    //                        //                                Spacer()
-                    //                        //                                ProgressView()
-                    //                        //                                    .opacity(isLoading ? 1 : 0)
-                    //                        //
-                    //                        //                            }
-                    //                        //                            .padding()
-                    //                        //                            .background(Color.gray.opacity(0.1))
-                    //                        //                            .cornerRadius(10)
-                    //                        //                            .padding(.horizontal, 10)
-                    //                        //
-                    //                        //
-                    //                        //                            AsyncButton {
-                    //                        //                                await sendMessage()
-                    //                        //                            } label: {
-                    //                        //                                Image(systemName: "paperplane.fill")
-                    //                        //                                    .padding()
-                    //                        //                                    .background(isLoading ? Color.gray : .accent)
-                    //                        //                                    .foregroundStyle(.white)
-                    //                        //                                    .cornerRadius(10)
-                    //                        //                                    .padding(.horizontal, 10)
-                    //                        //                            }
-                    //                        //                        }
-                    //                        //                        .padding()
-                    //                        //                    }
-                    //                        //                    .padding(.top, 10)
-                    //
-                    //
-                    //                    }
                     
                     ScrollViewReader { proxy in
                         ScrollView {

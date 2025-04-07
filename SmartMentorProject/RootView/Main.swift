@@ -15,7 +15,11 @@ struct Main: View {
             if viewModel.userSession == nil {
                 LoginView()
             } else {
-                ChatViewStyle()
+                if viewModel.isLoading {
+                    LoadingView()
+                } else {
+                    ChatViewStyle()
+                }
             }
         }
         

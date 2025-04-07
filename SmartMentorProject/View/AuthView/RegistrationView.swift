@@ -167,7 +167,8 @@ struct RegistrationView: View {
     
     private func getRegistrationPrompt() -> String {
         switch step {
-        case 1: return "Welcome! I am very happy to help you 🌟. Can I know your name?"        case 2: return "Now, I need to start with knowing about your education background?"
+        case 1: return "Welcome! I am very happy to help you but first let sign you up🌟. Can I know your name?"
+        case 2: return "Now, I need to start with knowing about your education background?"
         case 3: return "What is you experience level?"
         case 4: return "What is your career goals? Example: I want to be Data Engineer "
         case 5: return "One more thing! help me to get know you by writing a short bio about yourself"

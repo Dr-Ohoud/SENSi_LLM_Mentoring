@@ -15,8 +15,8 @@ struct ChatInputMessages: View {
     var body: some View {
         HStack {
             HStack{
-                TextField("Type a message...", text: $inputText)
-                    .autocorrectionDisabled()
+                TextField("Type a message...", text: $inputText, axis: .vertical)
+                    .lineLimit(5)
                 Spacer()
                 ProgressView()
                     .opacity(isLoading ? 1 : 0)

@@ -21,6 +21,7 @@ class ChatServiceViewModel: ObservableObject{
     
     @Published var chatHistory: [Message] = []
     @Published var milestones: [Milestone] = []
+    @Published var isLoading: Bool = false
     
     private var saveTask: DispatchWorkItem?
     
@@ -242,6 +243,8 @@ class ChatServiceViewModel: ObservableObject{
     }
     
     func loadMilestone() {
+        isLoading = true
+        
         guard let user = Auth.auth().currentUser else {
             print("ERROR: No authenticated user found.")
             return
@@ -261,8 +264,12 @@ class ChatServiceViewModel: ObservableObject{
                 return
             }
 
-            self.milestones = user.milestones ?? []
-            print("Milestones loaded successfully: \(self.milestones)")
+            DispatchQueue.main.async {
+                self.milestones = user.milestones ?? []
+                print("Milestones loaded successfully: \(self.milestones)")
+                self.isLoading = false
+            }
+
         }
     }
     
@@ -311,127 +318,5 @@ class ChatServiceViewModel: ObservableObject{
                 print("ERROR: Encoding failed: \(error.localizedDescription)")
             }
         }
-    
-//    func saveMailestoneToFirebase(milestone: Milestone) {
-//        print("Inside saveMailestoneToFirebase")
-//        saveTask?.cancel() // Cancel previous save if a new message comes in
-//        
-//        let task = DispatchWorkItem { [weak self] in
-//            guard let self = self else { return }
-//            
-//            if let user = Auth.auth().currentUser {
-//                print("DEBUG: User is still signed in before saving milestone: \(user.uid)")
-//            } else {
-//                print("DEBUG: User is already nil before saving milestone!")
-//            }
-//            
-//            guard let user = Auth.auth().currentUser else {
-//                print("ERROR: User is nil, cannot proceed with Firestore update.")
-//                return
-//            }
-//            let userID = user.uid
-//            let userRef = db.collection("users").document(userID)
-//            
-//            let milestoneData: [String: Any] = [
-//                "title": milestone.title,
-//                "steps": milestone.steps
-//            ]
-//            userRef.updateData(["milestones": FieldValue.arrayUnion([milestoneData])]) { error in
-//                if let error = error {
-//                    print("[Error] Failed to save milestone: \(error.localizedDescription)")
-//                    
-//                    if let user = Auth.auth().currentUser {
-//                        print("DEBUG: User still signed in after error: \(user.uid)")
-//                    } else {
-//                        print("DEBUG: User became NIL after Firestore error!")
-//                    }
-//                } else {
-//                    print("Milestone updated successfully for user: \(userID)")
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                        print("🔄 DEBUG: Calling loadMilestone() after save.")
-//                        self.loadMilestone()
-//                    }
-//                }
-//            }
-//        }
-//        self.saveTask = task
-//        print("🔵 DEBUG: Executing save task.")
-//        DispatchQueue.main.async(execute: task)
-////         DispatchQueue.main.asyncAfter(deadline: .now() + 15, execute: task) // Save
-////        DispatchQueue.main.asyncAfter(deadline: .now() + 15, execute: task) {
-////            if let updatedUser = Auth.auth().currentUser {
-////                print("User still logged in: \(updatedUser.uid)")
-////                self.loadMilestone()
-////            } else {
-////                print("User became nil after Firestore update.")
-////            }
-////        }
-//        //DispatchQueue.main.asyncAfter(deadline: .now() + 15, execute: task) // Save
-//    }
-    
-//    func loadMilestone() {
-//        guard let user = Auth.auth().currentUser else { return }
-//        let userID = user.uid
-//        let userRef = db.collection("users").document(userID)
-//
-//        userRef.getDocument { (document, error) in
-//            if let document = document, document.exists, let data = document.data(),
-//               let milestonesData = data["milestones"] as? [[String: Any]] {
-//                self.milestones = milestonesData.compactMap { dict in
-//                    guard let milestoneTitle = dict["title"] as? String,
-//                          let milestoneSteps = dict["steps"] as? [String] else { return nil }
-//                    
-//                    return Milestone(title: milestoneTitle, steps: milestoneSteps)
-//                }
-//                
-//                print(self.milestones)
-//                print("✅ Milestones loaded from Firebase for user: \(userID)")
-//            } else {
-//                print("[Error] Failed to load milestones: \(error?.localizedDescription ?? "Unknown error")")
-//            }
-//        }
-//    }
-//    func loadMailestone() {
-//        guard let user = Auth.auth().currentUser else { return }
-//        let userID = user.uid
-//        let userRef = db.collection("users").document(userID)
-//        
-//        userRef.getDocument { (document, error) in
-//            if let document = document, document.exists, let data = document.data(),
-//               let milestonesData = data["milestones"] as? [[String: Any]] {
-//                
-//                self.Milestone = milestonesData.compactMap { dict in
-//                    guard let milestoneTitle = dict["title"] as? String,
-//                          let milestoneSteps = dict["steps"] as? [String] else { return nil }
-//                    
-//                    return Milestone(title: milestoneTitle, steps: milestoneSteps)
-//                }
-//                
-//                print(self.milestones)
-//                print("Milestones loaded from Firebase for user: \(userID)")
-//            } else {
-//                print("[Error] Failed to load milestones: \(error?.localizedDescription ?? "Unknown error")")
-//            }
-//        }
-////        userRef.getDocument { (document, error) in
-////            if let document = document, document.exists, let data = document.data(),
-////               let milestonesData = data["mailestone"] as? [[String: Any]] {
-////
-////                self.mailstones = milestonesData.compactMap { dict in
-////                    guard let milestoneTitle = dict["title"] as? String,
-////                          let milestoneSteps = dict["steps"] as? [String] else { return nil }
-////                    
-////                    // Create and return a Milestone object
-////                    return Milestone(title: milestoneTitle, steps: milestoneSteps)
-////                }
-////                
-////                print(self.mailstones)
-////                print("Milestones loaded from Firebase for user: \(userID)")
-////            } else {
-////                print("[Error] Failed to load milestones: \(error?.localizedDescription ?? "Unknown error")")
-////            }
-////        }
-//    }
-    
 
 }

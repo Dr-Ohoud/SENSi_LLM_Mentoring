@@ -18,7 +18,10 @@ struct MailstonesView: View {
                     .frame(alignment: .leading)
                     .font(.title).bold()
                     .padding()
-                if chatViewModel.milestones.isEmpty {
+                if chatViewModel.isLoading {
+                    LoadingView()
+                    
+                } else if chatViewModel.milestones.isEmpty {
                     Text("No Milestone Found")
                         .padding()
                         .font(.headline)
@@ -54,7 +57,7 @@ struct MailstonesView: View {
                     .padding()
                 }
                 
-               
+                
                 Spacer()
             }
         }
