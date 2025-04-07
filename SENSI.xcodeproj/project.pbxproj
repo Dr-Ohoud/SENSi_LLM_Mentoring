@@ -17,26 +17,26 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5EA3B8D42D5106BA00CDD606 /* SmartMentorProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartMentorProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5EA3B8D42D5106BA00CDD606 /* SENSI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SENSI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5EA3B93A2D510B7D00CDD606 /* Exceptions for "SmartMentorProject" folder in "SmartMentorProject" target */ = {
+		5EA3B93A2D510B7D00CDD606 /* Exceptions for "SENSI" folder in "SENSI" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 5EA3B8D32D5106BA00CDD606 /* SmartMentorProject */;
+			target = 5EA3B8D32D5106BA00CDD606 /* SENSI */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		5EA3B8D62D5106BA00CDD606 /* SmartMentorProject */ = {
+		5EA3B8D62D5106BA00CDD606 /* SENSI */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				5EA3B93A2D510B7D00CDD606 /* Exceptions for "SmartMentorProject" folder in "SmartMentorProject" target */,
+				5EA3B93A2D510B7D00CDD606 /* Exceptions for "SENSI" folder in "SENSI" target */,
 			);
-			path = SmartMentorProject;
+			path = SENSI;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -62,7 +62,7 @@
 		5EA3B8CB2D5106BA00CDD606 = {
 			isa = PBXGroup;
 			children = (
-				5EA3B8D62D5106BA00CDD606 /* SmartMentorProject */,
+				5EA3B8D62D5106BA00CDD606 /* SENSI */,
 				5EA3B9492D5119D000CDD606 /* Frameworks */,
 				5EA3B8D52D5106BA00CDD606 /* Products */,
 			);
@@ -71,7 +71,7 @@
 		5EA3B8D52D5106BA00CDD606 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5EA3B8D42D5106BA00CDD606 /* SmartMentorProject.app */,
+				5EA3B8D42D5106BA00CDD606 /* SENSI.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -86,9 +86,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5EA3B8D32D5106BA00CDD606 /* SmartMentorProject */ = {
+		5EA3B8D32D5106BA00CDD606 /* SENSI */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5EA3B8E22D5106BB00CDD606 /* Build configuration list for PBXNativeTarget "SmartMentorProject" */;
+			buildConfigurationList = 5EA3B8E22D5106BB00CDD606 /* Build configuration list for PBXNativeTarget "SENSI" */;
 			buildPhases = (
 				5EA3B8D02D5106BA00CDD606 /* Sources */,
 				5EA3B8D12D5106BA00CDD606 /* Frameworks */,
@@ -99,9 +99,9 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				5EA3B8D62D5106BA00CDD606 /* SmartMentorProject */,
+				5EA3B8D62D5106BA00CDD606 /* SENSI */,
 			);
-			name = SmartMentorProject;
+			name = SENSI;
 			packageProductDependencies = (
 				5EA3B9412D5117DA00CDD606 /* FirebaseAppCheck */,
 				5EA3B9432D5117DA00CDD606 /* FirebaseAppDistribution-Beta */,
@@ -112,7 +112,7 @@
 				5EA3B94E2D511A0D00CDD606 /* FirebaseFirestoreCombine-Community */,
 			);
 			productName = SmartMentorProject;
-			productReference = 5EA3B8D42D5106BA00CDD606 /* SmartMentorProject.app */;
+			productReference = 5EA3B8D42D5106BA00CDD606 /* SENSI.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -147,7 +147,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5EA3B8D32D5106BA00CDD606 /* SmartMentorProject */,
+				5EA3B8D32D5106BA00CDD606 /* SENSI */,
 			);
 		};
 /* End PBXProject section */
@@ -299,11 +299,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"SmartMentorProject/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"SENSI/Preview Content\"";
 				DEVELOPMENT_TEAM = 83GUQUX6U7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = SmartMentorProject/Info.plist;
+				INFOPLIST_FILE = SENSI/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SENSI;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -335,11 +335,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"SmartMentorProject/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"SENSI/Preview Content\"";
 				DEVELOPMENT_TEAM = 83GUQUX6U7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = SmartMentorProject/Info.plist;
+				INFOPLIST_FILE = SENSI/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SENSI;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -376,7 +376,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5EA3B8E22D5106BB00CDD606 /* Build configuration list for PBXNativeTarget "SmartMentorProject" */ = {
+		5EA3B8E22D5106BB00CDD606 /* Build configuration list for PBXNativeTarget "SENSI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5EA3B8E32D5106BB00CDD606 /* Debug */,
