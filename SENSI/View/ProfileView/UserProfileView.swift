@@ -10,9 +10,15 @@ import SwiftUI
 struct UserProfileView: View {
     
     @EnvironmentObject var viewModel: AuthViewModel
-    @Environment(\.editMode) private var editMode
+    @State private var isEditing = false
     @State var fullName: String = ""
+    @State var email: String = ""
+    @State var eduactionLevel: eduactionLevelEnums = .none
+    @State var experienceLevel: experienceLevelEnums = .none
+    @State var careerGoal: String = ""
     @State var bio: String = ""
+    @State var skills: [String]?
+    @State var newSkill: String = ""
     
     var body: some View {
         if let user = viewModel.currentUser {
@@ -31,41 +37,50 @@ struct UserProfileView: View {
                                 .clipShape(Circle())
                             
                             VStack(alignment: .leading, spacing: 4) {
-                                if editMode?.wrappedValue.isEditing == true {
+                                if isEditing {
                                     TextField(user.fullName, text: $fullName)
+                                        .textInputAutocapitalization(.words)
+                                        .disableAutocorrection(false)
                                 } else {
                                     Text(user.fullName)
                                         .font(.subheadline)
                                         .fontWeight(.semibold)
                                         .padding(.top, 4)
                                 }
-                                if editMode?.wrappedValue.isEditing == true {
+                                if isEditing{
                                     TextField(user.bio, text: $bio, axis: .vertical)
                                         .textFieldStyle(.roundedBorder)
+                                        .textInputAutocapitalization(.words)
+                                        .disableAutocorrection(false)
                                         .lineLimit(5)
                                 } else {
                                     Text(user.bio)
                                         .font(.footnote)
                                         .accentColor(.gray)
                                 }
-
+                                
                                 Button(action: {
-                                    withAnimation {
-                                        toggleEditMode()
+                                    Task {
+                                        if isEditing {
+                                            await updateUserData()
+                                        }
+                                        withAnimation {
+                                            isEditing.toggle()
+                                        }
                                     }
                                 }) {
-                                    Text(editMode?.wrappedValue == .active ? "Done" : "Edit Profile")
+                                    Text(isEditing ? "Save" : "Edit Profile")
                                         .font(.system(size: 14, weight: .semibold))
                                         .foregroundColor(.white)
                                         .padding(.horizontal, 20)
                                         .padding(.vertical, 10)
-                                        .background(editMode?.wrappedValue == .active ? Color.accent : Color.black)
-                                        .clipShape(Capsule()) // Rounded edges
-                                }.padding(.top)
+                                        .background(isEditing ? Color.accent : Color.black)
+                                        .clipShape(Capsule())
+                                }
                             }
                         }
                     }
-                   
+                    
                     // MARK: - General Information
                     Section("General Information"){
                         HStack {
@@ -75,9 +90,18 @@ struct UserProfileView: View {
                                 tintColor: Color(.systemGray)
                             )
                             Spacer()
-                            Text(user.email)
-                                .foregroundColor(.secondary)
-                                .accentColor(.gray)
+                            if isEditing {
+                                TextField(user.email, text: $email, axis: .vertical)
+                                    .textFieldStyle(.roundedBorder)
+                                    .textInputAutocapitalization(.words)
+                                    .disableAutocorrection(false)
+                                    .lineLimit(5)
+                            } else {
+                                Text(user.email)
+                                    .foregroundColor(.secondary)
+                                    .accentColor(.gray)
+                            }
+                            
                         }
                     }
                     // MARK: - Mailstones
@@ -97,52 +121,102 @@ struct UserProfileView: View {
                                     .foregroundColor(.accent)
                                     .accentColor(.accent)
                             }
-                            
-                            
                         }
                     }
                     
                     // MARK: - User Background Section
                     Section("User Background") {
-                        
-                        HStack {
-                            SettingsRowView(
-                                imageName: "graduationcap",
-                                title: "Education Level",
-                                tintColor: Color(.systemGray)
-                            )
-                            Spacer()
-                            Text("\(user.eduactionLevel)")
-                                .foregroundColor(.secondary)
-                                .accentColor(.gray)
-                        }
-                        
-                        //                    HStack (alignment: .top){
-                        //                        SettingsRowView(
-                        //                            imageName: "pencil.and.outline",
-                        //                            title: "User Skills",
-                        //                            tintColor: Color(.systemGray)
-                        //                        )
-                        //                        Spacer()
-                        //                        VStack(alignment: .leading){
-                        //                            ForEach(user.skills, id: \.self) { skils in
-                        //                                Text(skils)
-                        //                                    .foregroundColor(.secondary)
-                        //                                    .accentColor(.gray)
-                        //                            }
-                        //                        }
-                        //                    }
-                        HStack {
-                            SettingsRowView(
-                                imageName: "person.fill",
-                                title: "Experience Level",
-                                tintColor: Color(.systemGray)
-                            )
-                            Spacer()
-                            Text("\(user.experienceLevel)")
-                                .foregroundColor(.secondary)
-                                .accentColor(.gray)
-                        }
+                            // MARK: -  Background Level
+                            HStack {
+                                SettingsRowView(
+                                    imageName: "graduationcap",
+                                    title: "Education Level",
+                                    tintColor: Color(.systemGray)
+                                )
+                                Spacer()
+                                if isEditing {
+                                    Picker("Education Level", selection: $eduactionLevel) {
+                                        ForEach(eduactionLevelEnums.allCases.filter { $0 != .none }, id: \.self) { level in
+                                            Text("\(level)").tag(level)
+                                        }
+                                    }
+                                    .pickerStyle(.wheel)
+                                    .frame(height: 100)
+                                } else {
+                                    Text("\(user.eduactionLevel)")
+                                        .foregroundColor(.secondary)
+                                        .accentColor(.gray)
+                                }
+                            }
+                            
+                            // MARK: -  User Skills
+//                            if let userSkills = user.skills, !userSkills.isEmpty {
+//                                ForEach(userSkills, id: \.self) { skill in
+//                                    HStack {
+//                                        SettingsRowView(
+//                                            imageName: "pencil.and.outline",
+//                                            title: "Skill",
+//                                            tintColor: Color(.systemGray)
+//                                        )
+//                                        Spacer()
+//                                        Text(skill)
+//                                            .foregroundColor(.secondary)
+//                                    }
+//                                }
+//                            } else {
+//                                HStack {
+//                                    SettingsRowView(
+//                                        imageName: "pencil.and.outline",
+//                                        title: "User Skills",
+//                                        tintColor: Color(.systemGray)
+//                                    )
+//                                    Spacer()
+//                                    Text("No skills added yet")
+//                                        .foregroundColor(.secondary)
+//                                }
+//                            }
+//                            if isEditing {
+//                                HStack {
+//                                    SettingsRowView(
+//                                        imageName: "plus",
+//                                        title: "Add Skill",
+//                                        tintColor: Color.accent
+//                                    )
+//                                    Spacer()
+//                                    TextField("Enter a skill", text: $newSkill)
+//                                    Button("Add") {
+//                                        if !newSkill.isEmpty {
+//                                            if skills == nil { skills = [] }
+//                                            skills?.append(newSkill)
+//                                            newSkill = ""
+//                                        }
+//                                    }
+//                                }
+//                            }
+                            
+                            // MARK: -  Experience Level
+                            HStack {
+                                SettingsRowView(
+                                    imageName: "person.fill",
+                                    title: "Experience Level",
+                                    tintColor: Color(.systemGray)
+                                )
+                                Spacer()
+                                if isEditing {
+                                    Picker("Experience Level", selection: $experienceLevel) {
+                                        ForEach(experienceLevelEnums.allCases.filter { $0 != .none } , id: \.self) { level in
+                                            Text("\(level)").tag(level)
+                                        }
+                                    }
+                                    .pickerStyle(.wheel)
+                                    .frame(height: 100)
+                                } else {
+                                    Text("\(user.experienceLevel)")
+                                        .foregroundColor(.secondary)
+                                        .accentColor(.gray)
+                                }
+                                
+                            }
                     }
                     
                     // MARK: - Career Aspirations Section
@@ -155,37 +229,19 @@ struct UserProfileView: View {
                                 tintColor: .blue
                             )
                             Spacer()
-                            Text(user.careerGoal)
-                                .foregroundColor(.secondary)
-                                .accentColor(.gray)
+                            if isEditing {
+                                TextField(user.careerGoal, text: $careerGoal, axis: .vertical)
+                                    .textFieldStyle(.roundedBorder)
+                                    .textInputAutocapitalization(.words)
+                                    .disableAutocorrection(false)
+                                    .lineLimit(5)
+                            } else {
+                                Text(user.careerGoal)
+                                    .foregroundColor(.secondary)
+                                    .accentColor(.gray)
+                            }
+                            
                         }
-                        
-                        //                    HStack (alignment: .top){
-                        //                        SettingsRowView(
-                        //                            imageName: "chart.bar.fill",
-                        //                            title: "Skill Gap Analysis",
-                        //                            tintColor: .red
-                        //                        )
-                        //                        Spacer()
-                        //                        VStack(alignment: .leading){
-                        //                            ForEach(user.skillGap, id: \.self) { skillGap in
-                        //                                Text(skillGap)
-                        //                                    .foregroundColor(.secondary)
-                        //                                    .accentColor(.gray)
-                        //                            }
-                        //                        }
-                        //                    }
-                        //                    HStack {
-                        //                        SettingsRowView(
-                        //                            imageName: "star.fill",
-                        //                            title: "Interests",
-                        //                            tintColor: .yellow
-                        //                        )
-                        //                        Spacer()
-                        //                        Text(user.interests)
-                        //                            .foregroundColor(.secondary)
-                        //                            .accentColor(.gray)
-                        //                    }
                     }
                     
                     // MARK: - Account
@@ -198,25 +254,49 @@ struct UserProfileView: View {
                                 title: "Sign out",
                                 tintColor: Color(.red))
                         }
-                        
-                        //                        Button {
-                        //                            print("Delete Account  ... ")
-                        //                        } label: {
-                        //                            SettingsRowView(
-                        //                                imageName: "xmark.circle.fill",
-                        //                                title: "Delete Account",
-                        //                                tintColor: Color(.red))
-                        //                        }
                     }
+                    
                 }
+            }
+            .onAppear {
+                if fullName.isEmpty { fullName = user.fullName }
+                if bio.isEmpty { bio = user.bio }
+                if email.isEmpty { email = user.email }
+                if eduactionLevel == .none { eduactionLevel = user.eduactionLevel }
+                if experienceLevel == .none { experienceLevel = user.experienceLevel }
+                if careerGoal.isEmpty { careerGoal = user.careerGoal }
+                if skills == nil || skills?.isEmpty ?? true { skills = user.skills }
             }
         }
         
+    }
+    
+    private func updateUserData() async {
+        guard var user = viewModel.currentUser else { return }
         
+        if !fullName.isEmpty { user.fullName = fullName }
+        if !bio.isEmpty { user.bio = bio }
+        if !email.isEmpty { user.email = email }
+        if eduactionLevel != .none { user.eduactionLevel = eduactionLevel }
+        if experienceLevel != .none { user.experienceLevel = experienceLevel }
+        if !careerGoal.isEmpty { user.careerGoal = careerGoal }
+        
+        if let updatedSkills = skills {
+            user.skills = updatedSkills
+        }
+        
+        await viewModel.updateUser(userUpdated: user)
     }
-    private func toggleEditMode() {
-        editMode?.wrappedValue = editMode?.wrappedValue == .active ? .inactive : .active
+    private func addSkill() {
+        
+        print("skill added")
+        //                guard var user = viewModel.currentUser else { return }
+        //
+        //                guard !newSkill.isEmpty, skills.count < 5 else { return }
+        //                skills.append(newSkill)
+        //                newSkill = "" // Clear the input field
     }
+    
 }
 
 

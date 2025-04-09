@@ -25,6 +25,7 @@ struct User: Identifiable, Codable {
     var eduactionLevel: eduactionLevelEnums
     var experienceLevel: experienceLevelEnums
     var careerGoal: String
+    var skills: [String]?
 }
 // MARK: - MOCK User
 
@@ -46,7 +47,7 @@ enum eduactionLevelEnums: String, CaseIterable, Identifiable, Codable, CustomStr
     case BachelorDegree = "Bachelor Degree"
     case masterDegree = "Master Degree"
     case doctorDegree = "PhD Degree"
-    
+    case none = "None"
     var id: String { self.rawValue }
     
     var description: String {
@@ -58,7 +59,7 @@ enum experienceLevelEnums: String, CaseIterable, Identifiable, Codable, CustomSt
     case stillStudent = "Still Student"
     case freshGraduateStudent = "Fresh Graduate Student"
     case earlyCareer = "Early Career"
-    
+    case none = "None"
     var id: String { self.rawValue }
     
     var description: String {

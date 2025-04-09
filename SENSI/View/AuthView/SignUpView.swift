@@ -24,6 +24,9 @@ struct SignUpView: View {
     // MARK: - Career Aspirations Section
     @Binding var careerGoal: String
     
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+    
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var viewModel: AuthViewModel
     
@@ -44,20 +47,45 @@ struct SignUpView: View {
                                   placeholder: "Enter your Email")
                         .autocapitalization(.none)
                         
+                        // Email Feedback
+                        if !email.isEmpty && (!email.contains("@") || !email.contains(".")) {
+                            Text("Please enter a valid email address.")
+                                .font(.caption)
+                                .foregroundColor(.red)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
                         
                         InputView(text: $password,
                                   title: "Password",
                                   placeholder: "Enter your Password",
                                   isSecureField: true)
                         
-                        InputView(text: $ConfirmPassword,
-                                  title: "Confirm Password",
-                                  placeholder: "Confirm your Password",
-                                  isSecureField: true)
+                        if !password.isEmpty && password.count < 6 {
+                            Text("Password must be at least 6 characters.")
+                                .font(.caption)
+                                .foregroundColor(.red)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+
+                        }
                         
-                        // sign in button
-                        Button(action: {
-                            
+                        ZStack(alignment: .trailing){
+                            InputView(text: $ConfirmPassword,
+                                      title: "Confirm Password",
+                                      placeholder: "Confirm your Password",
+                                      isSecureField: true)
+                            if !password.isEmpty && password == ConfirmPassword {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .imageScale(.large)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Color(.systemGreen))
+                            } else {
+                                Image(systemName: "xmark.circle.fill")
+                                    .imageScale(.large)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Color(.systemRed))
+                            }
+                        }
+                        Button {
                             Task {
                                 registred = try await viewModel.createUser(withEmail: email, password: password, fullName: fullName, bio: bio, eduactionLevel: eduactionLevel, experienceLevel: experienceLevel, careerGoal: careerGoal)
                                 
@@ -65,10 +93,9 @@ struct SignUpView: View {
                                     dismiss()
                                 }
                             }
-                            
-                        }) {
+                        } label: {
                             if registred {
-                                ProgressView()  // Show a loading spinner
+                                ProgressView()
                             } else {
                                 HStack {
                                     Text("SIGN UP")
@@ -81,9 +108,11 @@ struct SignUpView: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                             }
-                            
                         }
                         .padding()
+                        .disabled(!formIsValid)
+                        .opacity(!formIsValid ? 0.5 : 1)
+
                         Spacer()
                         
                         // sign in button
@@ -109,24 +138,36 @@ struct SignUpView: View {
                     }
                     
                 }
+                .alert("Registration Error", isPresented: $showAlert, actions: {
+                    Button("OK", role: .cancel) {
+                        dismiss()
+                    }
+                }, message: {
+                    Text("There is an error registering your account. Please try again.")
+                })
             }
             
         )
+    }
+    
+    func registerUser(email: String, password: String) {
+        Task {
+            registred = try await viewModel.createUser(withEmail: email, password: password, fullName: fullName, bio: bio, eduactionLevel: eduactionLevel, experienceLevel: experienceLevel, careerGoal: careerGoal)
+            
+            if registred == false{
+                showAlert = true
+            }
+        }
     }
 }
 
 extension SignUpView:AuthintcationFormPrtotcol {
     var formIsValid: Bool {
-        return !email.isEmpty
-        && !email.contains("@")
-        && !password.isEmpty
-        && password.count < 6
+        return !email.isEmpty &&
+        email.contains("@") &&
+        email.contains(".") &&
+        !password.isEmpty &&
+        password.count >= 6
         && ConfirmPassword == password
-        && !careerGoal.isEmpty
-        && !experienceLevel.rawValue.isEmpty
-        && !eduactionLevel.rawValue.isEmpty
-        && !bio.isEmpty
-        && !fullName.isEmpty
-        
     }
 }

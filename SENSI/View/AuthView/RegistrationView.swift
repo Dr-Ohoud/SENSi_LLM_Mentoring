@@ -33,85 +33,104 @@ struct RegistrationView: View {
     
     @State private var selectedEducation: eduactionLevelEnums? = nil
     @State private var selectedExperienceLevel: experienceLevelEnums? = nil
-    
+    @Environment(\.dismiss) var dismiss
     
     var onComplete: () -> Void
     
     var body: some View {
         NavigationStack {
-            HStack {
-                HStack{
-                    
-                    if step == 2 {
-                        ChatBubbleSelectionView(
-                            message: getRegistrationPrompt(),
-                            options: eduactionLevelEnums.allCases,
-                            selectedOption: $selectedEducation,
-                            onSelect: { option in
-                                handleUserSelection(option.rawValue)
-                            }
-                        )
-                    } else if step == 3 {
-                        ChatBubbleSelectionView(
-                            message: getRegistrationPrompt(),
-                            options: experienceLevelEnums.allCases,
-                            selectedOption: $selectedExperienceLevel,
-                            onSelect: { option in
-                                handleUserSelection(option.rawValue)
-                            }
-                        )
-                    }  else if step == 6 {
-                        ChatBubbleSelectionView(
-                            message: getRegistrationPrompt(),
-                            options: ["Yes", "No"],
-                            selectedOption: $registerUser,
-                            onSelect: { option in
-                                handleUserSelection(option)
-                                if option == "Yes" {
-                                    registerUser = "No"
-                                    shouldNavigate = true // Trigger navigation
-                                    
+            VStack{
+                Button {
+                    dismiss()
+                } label: {
+                    HStack(spacing: 3){
+                        Text("Already have an account?")
+                            .fontWeight(.medium)
+                            .foregroundColor(.accent)
+                        Text("Sign In")
+                            .fontWeight(.bold)
+                            .foregroundColor(.accent)
+                    }
+                    .font(.system(size: 14))
+                }
+                HStack {
+                    HStack{
+                        
+                        if step == 2 {
+                            ChatBubbleSelectionView(
+                                message: getRegistrationPrompt(),
+                                options: eduactionLevelEnums.allCases.filter { $0 != .none },
+                                selectedOption: $selectedEducation,
+                                onSelect: { option in
+                                    handleUserSelection(option.rawValue)
                                 }
-                            }
-                        )
+                            )
+                        } else if step == 3 {
+                            ChatBubbleSelectionView(
+                                message: getRegistrationPrompt(),
+                                options: experienceLevelEnums.allCases.filter { $0 != .none },
+                                selectedOption: $selectedExperienceLevel,
+                                onSelect: { option in
+                                    handleUserSelection(option.rawValue)
+                                }
+                            )
+                        }  else if step == 6 {
+                            ChatBubbleSelectionView(
+                                message: getRegistrationPrompt(),
+                                options: ["Yes", "No"],
+                                selectedOption: $registerUser,
+                                onSelect: { option in
+                                    handleUserSelection(option)
+                                    if option == "Yes" {
+                                        registerUser = "No"
+                                        shouldNavigate = true // Trigger navigation
+                                        
+                                    }
+                                }
+                            )
+                            
+                        }
+                        else {
+                            TextField(getRegistrationPrompt(), text: $currentInput)
+                                .autocorrectionDisabled()
+                        }
+                        
+                        Spacer()
+                        ProgressView()
+                            .opacity(isLoading ? 1 : 0)
                         
                     }
-                    else {
-                        TextField(getRegistrationPrompt(), text: $currentInput)
-                            .autocorrectionDisabled()
-                    }
-                   
-                    Spacer()
-                    ProgressView()
-                        .opacity(isLoading ? 1 : 0)
+                    .padding()
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(10)
+                    .padding(.horizontal, 10)
                     
+                    
+                    if step == 1 || (step >= 4 && step != 6) {
+                        AsyncButton {
+                            await proceedToNextStep()
+                        } label: {
+                            Image(systemName: "paperplane.fill")
+                                .padding()
+                                .background(isLoading ? Color.gray : .accent)
+                                .foregroundStyle(.white)
+                                .cornerRadius(10)
+                                .padding(.horizontal, 10)
+                        }
+                        .disabled(isLoading)
+                    }
+                    NavigationLink(destination: SignUpView(fullName: $fullName, bio: $bio, eduactionLevel: $eduactionLevel, experienceLevel: $experienceLevel, careerGoal: $careerGoal).navigationBarBackButtonHidden(false), isActive: $shouldNavigate) {
+                        EmptyView() // Keeps it hidden but allows navigation
+                    }.tint(.accent)
                 }
                 .padding()
-                .background(Color.gray.opacity(0.1))
-                .cornerRadius(10)
-                .padding(.horizontal, 10)
-                
-                
-                if step == 1 || (step >= 4 && step != 6) {
-                    AsyncButton {
-                        await proceedToNextStep()
-                    } label: {
-                        Image(systemName: "paperplane.fill")
-                            .padding()
-                            .background(isLoading ? Color.gray : .accent)
-                            .foregroundStyle(.white)
-                            .cornerRadius(10)
-                            .padding(.horizontal, 10)
+                .onAppear() {
+                    isLoading = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        isLoading = false
+                        messages.append(ChatMessage(text: getRegistrationPrompt(), isUser: false))
                     }
-                    .disabled(isLoading)
                 }
-                NavigationLink(destination: SignUpView(fullName: $fullName, bio: $bio, eduactionLevel: $eduactionLevel, experienceLevel: $experienceLevel, careerGoal: $careerGoal).navigationBarBackButtonHidden(false), isActive: $shouldNavigate) {
-                    EmptyView() // Keeps it hidden but allows navigation
-                }.tint(.accent)
-            }
-            .padding()
-            .onAppear() {
-                messages.append(ChatMessage(text: getRegistrationPrompt(), isUser: false))
             }
         }.tint(.accent)
     }
@@ -167,7 +186,7 @@ struct RegistrationView: View {
     
     private func getRegistrationPrompt() -> String {
         switch step {
-        case 1: return "Welcome! I am very happy to help you but first let sign you up🌟. Can I know your name?"
+        case 1: return "Welcome! I am very happy to help you but first let sign you up🌟. Can I know your name?" 
         case 2: return "Now, I need to start with knowing about your education background?"
         case 3: return "What is you experience level?"
         case 4: return "What is your career goals? Example: I want to be Data Engineer "

@@ -19,7 +19,7 @@ class AuthViewModel: ObservableObject {
     @Published var userSession: FirebaseAuth.User? //Firebase auth Model
     @Published var currentUser: User? //My Model
     @Published var isLoading: Bool = false
-
+    
     init() {
         // From Firebase
         self.userSession = Auth.auth().currentUser
@@ -28,56 +28,59 @@ class AuthViewModel: ObservableObject {
         }
     }
     
-    func signIn(withEmail email: String, password: String) async throws {
+    func signIn(withEmail email: String, password: String) async throws -> String {
         do {
             let result = try await Auth.auth().signIn(withEmail: email, password: password)
             self.userSession = result.user
             await fetchUser()
+            return "User Sign In Successfully"
+            
         } catch {
-            print("DEBUG: Failed to login user: \(error.localizedDescription)")
-
+//            print("DEBUG: Failed to login user: \(error.localizedDescription)")
+            return "DEBUG: Failed to login user: \(error.localizedDescription)"
         }
+        
     }
     
     func createUser(withEmail email: String, password: String, fullName: String, bio: String, eduactionLevel: eduactionLevelEnums, experienceLevel: experienceLevelEnums, careerGoal: String ) async throws -> Bool{
         DispatchQueue.main.async {
-                self.isLoading = true
+            self.isLoading = true
+        }
+        
+        do {
+            let result = try await Auth.auth().createUser(withEmail: email, password: password)
+            self.userSession = result.user
+            print("DEBUG: Firebase Auth success - UID: \(result.user.uid)")
+            
+            // Double-check authentication
+            guard let user = Auth.auth().currentUser else {
+                print("DEBUG: No authenticated user found after signup")
+                return false
             }
             
-            do {
-                let result = try await Auth.auth().createUser(withEmail: email, password: password)
-                self.userSession = result.user
-                print("DEBUG: Firebase Auth success - UID: \(result.user.uid)")
-
-                // Double-check authentication
-                guard let user = Auth.auth().currentUser else {
-                    print("DEBUG: No authenticated user found after signup")
-                    return false
-                }
-                
-                let userData = User(id: user.uid,
+            let userData = User(id: user.uid,
                                 fullName: fullName,
                                 email: email,
                                 bio: bio,
                                 eduactionLevel: eduactionLevel,
                                 experienceLevel: experienceLevel,
                                 careerGoal: careerGoal
-                )
-                let encodeUser = try Firestore.Encoder().encode(userData)
-
-                try await Firestore.firestore()
-                    .collection("users")
-                    .document(user.uid)
-                    .setData(encodeUser)
-                
-                await fetchUser()
-                      
-                      return true
-                  } catch {
-                      print("DEBUG: Failed to create user: \(error.localizedDescription)")
-                      return false
-                  }
+            )
+            let encodeUser = try Firestore.Encoder().encode(userData)
+            
+            try await Firestore.firestore()
+                .collection("users")
+                .document(user.uid)
+                .setData(encodeUser)
+            
+            await fetchUser()
+            
+            return true
+        } catch {
+            print("DEBUG: Failed to create user: \(error.localizedDescription)")
+            return false
         }
+    }
     
     func signOut() {
         do {
@@ -112,4 +115,46 @@ class AuthViewModel: ObservableObject {
             print("Error fetching user: \(error.localizedDescription)")
         }
     }
+    
+    func updateUser ( userUpdated: User) async {
+        
+        isLoading = true
+        guard let user = Auth.auth().currentUser else {
+            print(" ERROR: User is nil, cannot proceed with Firestore update.")
+            return
+        }
+        
+        let userID = user.uid
+        let userRef = Firestore.firestore().collection("users").document(userID)
+        
+        do {
+            let snapshot = try await userRef.getDocument()
+            
+            var existingUser = try snapshot.data(as: User.self)
+            
+            existingUser.fullName = userUpdated.fullName
+            existingUser.email = userUpdated.email
+            existingUser.bio = userUpdated.bio
+            existingUser.eduactionLevel = userUpdated.eduactionLevel
+            existingUser.experienceLevel = userUpdated.experienceLevel
+            existingUser.careerGoal = userUpdated.careerGoal
+            
+//            if let skills = skills {
+//                existingUser.skills = skills
+//            }
+            print("✅ Updated user: \(existingUser)")
+
+            try userRef.setData(from: existingUser, merge: true)
+            print("✅ SUCCESS: User profile updated.")
+            await fetchUser() // Refresh the local user object
+            
+            self.isLoading = false
+        } catch {
+            print("❌ ERROR: Failed to update user data: \(error.localizedDescription)")
+        }
+        
+        
+    }
+    
+    
 }

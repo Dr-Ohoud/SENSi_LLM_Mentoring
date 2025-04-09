@@ -16,6 +16,8 @@ struct ChatInputMessages: View {
         HStack {
             HStack{
                 TextField("Type a message...", text: $inputText, axis: .vertical)
+                    .textInputAutocapitalization(.words)
+                    .disableAutocorrection(false)
                     .lineLimit(5)
                 Spacer()
                 ProgressView()
