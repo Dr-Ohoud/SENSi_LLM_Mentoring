@@ -17,7 +17,8 @@ struct ChatViewStyle: View {
     @State private var shouldNavigate: Bool = false
     @State private var chatOptionView: Bool = false
     @State private var showingAlert: Bool = false
-    
+    @State private var alertMessage = ""
+
     @State var registrationStep: Int = 7
     
     
@@ -25,7 +26,7 @@ struct ChatViewStyle: View {
     @EnvironmentObject var viewModel: AuthViewModel
     
     var body: some View {
-        print(" The User: \(viewModel.currentUser?.fullName)")
+        print(" The User: \(String(describing: viewModel.currentUser?.fullName))")
         return (
             NavigationStack{
                 
@@ -38,7 +39,6 @@ struct ChatViewStyle: View {
                             Image(systemName: "arrow.uturn.backward")
                                 .font(.title2)
                                 .foregroundColor(registrationStep < 7 ? Color.gray : .accent)
-//                                .foregroundColor(.accent)
                         }
                         .alert(isPresented: $showingAlert) {
                             Alert(title: Text("No message to undo"), message: Text("Text your mentor to get started"), dismissButton: .default(Text("Got it!")))
@@ -139,11 +139,20 @@ struct ChatViewStyle: View {
                             ChatInputMessages(inputText: $inputText, isLoading: $isLoading, sendMessage: sendMessage)
                         }
                     }
+                    
                     NavigationLink(destination: MailstonesView()
                         .navigationBarBackButtonHidden(false),
                                    isActive: $shouldNavigate) {
                         EmptyView() // Keeps it hidden but allows navigation
                     }.tint(.accent)
+                }
+                
+                .alert(isPresented: $showingAlert) {
+                    Alert(
+                        title: Text("Undo"),
+                        message: Text(alertMessage),
+                        dismissButton: .default(Text("OK"))
+                    )
                 }
             }.tint(.accent)
         )
@@ -192,12 +201,35 @@ extension ChatViewStyle {
         chatService.saveMilestoneToFirebase(milestone: milestone)
     }
     
+//    private func undoLastMessage() {
+//        if messages.isEmpty {
+//            messages.removeLast()
+//            messages.removeLast()
+//        } else {
+//            self.showingAlert = true
+//        }
+//    }
+    
     private func undoLastMessage() {
-        if messages.isEmpty {
-            messages.removeLast()
-            messages.removeLast()
+        if messages.count >= 2 {
+            if messages.count >= 3,
+               messages.last?.text.contains("Would you like me to save this ") == true {
+                messages.removeLast()
+            }
+
+            withAnimation {
+                // Remove mentor message
+                messages.removeLast()
+                
+                // Remove user message
+                messages.removeLast()
+            }
+            alertMessage = "Last message removed."
+            showingAlert = true
+
         } else {
-            self.showingAlert = true
+            alertMessage = "No message to undo. Start chatting with your mentor first."
+            showingAlert = true
         }
     }
     
@@ -243,6 +275,5 @@ extension ChatViewStyle {
 }
 
 #Preview {
-    
-    ChatView()
+    ChatViewStyle()
 }

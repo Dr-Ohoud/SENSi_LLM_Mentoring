@@ -29,20 +29,25 @@ class AuthViewModel: ObservableObject {
     }
     
     func signIn(withEmail email: String, password: String) async throws -> String {
+        DispatchQueue.main.async {
+            self.isLoading = true
+        }
         do {
             let result = try await Auth.auth().signIn(withEmail: email, password: password)
             self.userSession = result.user
             await fetchUser()
+            self.isLoading = false
             return "User Sign In Successfully"
             
         } catch {
-//            print("DEBUG: Failed to login user: \(error.localizedDescription)")
+            print("DEBUG: Failed to login user: \(error.localizedDescription)")
             return "DEBUG: Failed to login user: \(error.localizedDescription)"
         }
         
     }
     
     func createUser(withEmail email: String, password: String, fullName: String, bio: String, eduactionLevel: eduactionLevelEnums, experienceLevel: experienceLevelEnums, careerGoal: String ) async throws -> Bool{
+        
         DispatchQueue.main.async {
             self.isLoading = true
         }
@@ -74,6 +79,7 @@ class AuthViewModel: ObservableObject {
                 .setData(encodeUser)
             
             await fetchUser()
+            self.isLoading = false
             
             return true
         } catch {

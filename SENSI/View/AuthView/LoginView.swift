@@ -58,17 +58,21 @@ struct LoginView: View {
                     Button(action: {
                         authenticateUser(email: email, password: password)
                     }) {
-                        HStack {
-                            Text("SIGN IN")
-                                .fontWeight(.bold)
-                            Image(systemName: "arrow.right")
+                        if viewModel.isLoading {
+                            LoadingView()
+                        } else {
+                            HStack {
+                                Text("SIGN IN")
+                                    .fontWeight(.bold)
+                                Image(systemName: "arrow.right")
+                            }
+                            .padding()
+                            .frame(width: UIScreen.main.bounds.width - 32, height: 48)
+                            .background(.accent)
+                            .disabled(formIsValid)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
                         }
-                        .padding()
-                        .frame(width: UIScreen.main.bounds.width - 32, height: 48)
-                        .background(.accent)
-                        .disabled(formIsValid)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
                     }
                     .padding()
                     .disabled(!formIsValid)

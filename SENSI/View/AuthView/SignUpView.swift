@@ -94,8 +94,8 @@ struct SignUpView: View {
                                 }
                             }
                         } label: {
-                            if registred {
-                                ProgressView()
+                            if viewModel.isLoading {
+                                LoadingView()
                             } else {
                                 HStack {
                                     Text("SIGN UP")
