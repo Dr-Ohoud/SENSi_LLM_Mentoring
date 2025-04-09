@@ -266,7 +266,7 @@ class ChatServiceViewModel: ObservableObject{
 
             DispatchQueue.main.async {
                 self.milestones = user.milestones ?? []
-                print("Milestones loaded successfully: \(self.milestones)")
+//                print("Milestones loaded successfully: \(self.milestones)")
                 self.isLoading = false
             }
 

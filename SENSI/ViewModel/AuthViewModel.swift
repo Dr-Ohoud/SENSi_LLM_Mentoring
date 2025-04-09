@@ -109,7 +109,7 @@ class AuthViewModel: ObservableObject {
             if let data = snapshot.data() {
                 do {
                     self.currentUser = try snapshot.data(as: User.self)
-                    print("DEBUG: Fetched user \(String(describing: self.currentUser))")
+//                    print("DEBUG: Fetched user \(String(describing: self.currentUser))")
                     self.isLoading = false
                 } catch {
                     print("Decoding Error: \(error.localizedDescription)")
