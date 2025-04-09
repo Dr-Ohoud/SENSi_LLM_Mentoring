@@ -30,6 +30,7 @@ struct MailstonesView: View {
                 } else {
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
                         ForEach(chatViewModel.milestones, id: \.id) { milestone in
+                            
                             NavigationLink(destination: MilestoneDetailView(milestone: milestone)) {
                                 
                                 VStack {
@@ -39,7 +40,7 @@ struct MailstonesView: View {
                                         .multilineTextAlignment(.center)
                                         .padding(.horizontal, 5)
                                     
-                                    Text(" \(milestone.steps.count) steps")
+                                    Text("\(milestone.completedSteps.count) out of \(milestone.steps.count) steps")
                                         .font(.caption)
                                         .foregroundColor(.gray)
                                     

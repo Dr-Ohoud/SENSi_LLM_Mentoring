@@ -318,5 +318,32 @@ class ChatServiceViewModel: ObservableObject{
                 print("ERROR: Encoding failed: \(error.localizedDescription)")
             }
         }
+    
+    @MainActor
+    func updateMilestoneCompletion(for milestone: Milestone) async -> Bool {
+        guard let user = Auth.auth().currentUser else { return false }
+
+        let userRef = Firestore.firestore().collection("users").document(user.uid)
+
+        do {
+            let snapshot = try await userRef.getDocument()
+            var user = try snapshot.data(as: User.self)
+
+            if let index = user.milestones?.firstIndex(where: { $0.id == milestone.id }) {
+                user.milestones?[index].completedSteps = milestone.completedSteps
+
+                try userRef.setData(from: user, merge: true)
+
+                // Optional: refresh milestones in view
+                loadMilestone()
+                return true
+            }
+
+        } catch {
+            print("❌ Failed to update milestone completion: \(error.localizedDescription)")
+        }
+
+        return false
+    }
 
 }
