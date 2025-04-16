@@ -117,9 +117,16 @@ struct MilestoneDetailView: View {
         } else {
             milestone.completedSteps.append(step)
         }
-
+        
         Task {
-            let _ = await chatViewModel.updateMilestoneCompletion(for: milestone)
+            let updated = await chatViewModel.updateMilestoneCompletion(for: milestone)
+            
+            // ✅ Check if all steps are complete and schedule notification
+            if updated && milestone.completedSteps.count == milestone.steps.count {
+                NotificationManager.shared.scheduleNotification(
+                    title: "🎯 You did it!",
+                    body: "You've completed your milestone. Check with SENSI what is the next step!")
+            }
         }
     }
 

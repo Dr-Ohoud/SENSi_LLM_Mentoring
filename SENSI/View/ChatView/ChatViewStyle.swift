@@ -166,6 +166,9 @@ struct ChatViewStyle: View {
                 }, message: {
                     Text("Milstone could not be saved. Please try again.")
                 })
+                .onAppear {
+                    UNUserNotificationCenter.current().setBadgeCount(0)
+                }
             }.tint(.accent)
         )
     }

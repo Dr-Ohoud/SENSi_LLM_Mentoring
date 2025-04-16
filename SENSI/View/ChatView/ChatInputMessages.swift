@@ -24,9 +24,9 @@ struct ChatInputMessages: View {
                 Spacer()
                 ProgressView()
                     .opacity(isLoading ? 1 : 0)
-                MicButton(isRecording: isRecording, action: {
-                    startRecording()
-                })
+//                MicButton(isRecording: isRecording, action: {
+//                    startRecording()
+//                })
                 
             }
             .padding()

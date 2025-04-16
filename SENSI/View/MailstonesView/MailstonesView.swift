@@ -65,6 +65,9 @@ struct MailstonesView: View {
         .tint(.accent)
         .onAppear {
             chatViewModel.loadMilestone()
+            chatViewModel.scheduleWeeklyReminderIfNeeded()
+            UNUserNotificationCenter.current().setBadgeCount(0)
+            
         }
     }
 }

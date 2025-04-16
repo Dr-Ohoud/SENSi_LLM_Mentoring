@@ -383,4 +383,46 @@ class ChatServiceViewModel: ObservableObject{
             print("❌ Failed to update milestone title: \(error.localizedDescription)")
         }
     }
+    
+    func scheduleWeeklyReminderIfNeeded() {
+        
+        let hasIncompleteMilestone = milestones.contains { milestone in
+            milestone.completedSteps.count < milestone.steps.count
+        }
+
+        guard hasIncompleteMilestone else {
+            print("All milestones completed — no reminder scheduled.")
+            return
+        }
+
+        // 2. Prepare notification content
+        let content = UNMutableNotificationContent()
+        content.title = "🚀 Keep Going!"
+        content.body = "You have milestones waiting. Come back and complete your steps!"
+        content.sound = .default
+        content.badge = 1
+
+        // 3. Set trigger: Every Sunday at 9:00 AM
+        var dateComponents = DateComponents()
+        dateComponents.weekday = 1 // Sunday
+        dateComponents.hour = 9
+        dateComponents.minute = 0
+
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+
+        // 4. Schedule request
+        let request = UNNotificationRequest(
+            identifier: "weeklyMilestoneReminder",
+            content: content,
+            trigger: trigger
+        )
+
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Failed to schedule reminder: \(error.localizedDescription)")
+            } else {
+                print("Weekly milestone reminder scheduled.")
+            }
+        }
+    }
 }
