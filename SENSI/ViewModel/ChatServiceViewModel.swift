@@ -346,4 +346,41 @@ class ChatServiceViewModel: ObservableObject{
         return false
     }
 
+    func deleteMilestone(withId id: String) async {
+        guard let user = Auth.auth().currentUser else { return }
+
+        let userRef = Firestore.firestore().collection("users").document(user.uid)
+
+        do {
+            let snapshot = try await userRef.getDocument()
+            var user = try snapshot.data(as: User.self)
+
+            user.milestones?.removeAll { $0.id == id }
+
+            try userRef.setData(from: user, merge: true)
+            loadMilestone()
+
+            print("✅ Milestone deleted.")
+        } catch {
+            print("❌ Failed to delete milestone: \(error.localizedDescription)")
+        }
+    }
+    
+    func updateMilestoneTitle(id: String, newTitle: String) async {
+        guard let user = Auth.auth().currentUser else { return }
+
+        let userRef = Firestore.firestore().collection("users").document(user.uid)
+
+        do {
+            var user = try await userRef.getDocument().data(as: User.self)
+
+            if let index = user.milestones?.firstIndex(where: { $0.id == id }) {
+                user.milestones?[index].title = newTitle
+                try userRef.setData(from: user, merge: true)
+                loadMilestone()
+            }
+        } catch {
+            print("❌ Failed to update milestone title: \(error.localizedDescription)")
+        }
+    }
 }

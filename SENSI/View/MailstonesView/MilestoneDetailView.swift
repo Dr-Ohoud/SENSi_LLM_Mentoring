@@ -37,15 +37,25 @@ import SwiftUI
 
 struct MilestoneDetailView: View {
     @EnvironmentObject var chatViewModel: ChatServiceViewModel
-    @State var milestone: Milestone
+    @EnvironmentObject var viewModel: AuthViewModel
+    @Environment(\.dismiss) var dismiss
 
+    @State var milestone: Milestone
+    @State private var isEditing = false
+    @State private var title: String = ""
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text(milestone.title)
-                .font(.title2)
-                .bold()
-                .padding(.bottom, 10)
-
+            if isEditing {
+                TextField(milestone.title, text: $title)
+                    .textInputAutocapitalization(.words)
+                    .disableAutocorrection(false)
+            } else {
+                Text(milestone.title)
+                    .font(.title2)
+                    .bold()
+                    .padding(.bottom, 10)
+            }
             Text("Steps to Complete")
                 .font(.headline)
 
@@ -64,7 +74,41 @@ struct MilestoneDetailView: View {
 
             Spacer()
         }
+        
+        .navigationBarItems(trailing: HStack(spacing: 16){
+            Button(action: {
+                Task {
+                    if isEditing {
+                        await chatViewModel.updateMilestoneTitle(id: milestone.id, newTitle: title)
+                        milestone.title = title // Update local view state
+                    }
+                    withAnimation {
+                        isEditing.toggle()
+                    }
+                }}) {
+                    Image(systemName: (isEditing ? "tray.and.arrow.down" : "square.and.pencil" ))
+                        .font(.system(size: 20, weight: .semibold))
+                        .foregroundColor(isEditing ? Color.accent : Color.black)
+                }
+            if isEditing {
+                Button(action: {
+                    Task {
+                        await chatViewModel.deleteMilestone(withId: milestone.id)
+                        withAnimation {
+                            dismiss()
+                        }
+                    }
+                }) {
+                    Image(systemName: "trash")
+                        .foregroundColor(.red)
+                }
+            }
+        })
         .padding()
+        
+        .onAppear() {
+            self.title = milestone.title
+        }
     }
 
     private func toggleStep(_ step: String) {
@@ -78,6 +122,9 @@ struct MilestoneDetailView: View {
             let _ = await chatViewModel.updateMilestoneCompletion(for: milestone)
         }
     }
+
 }
+
+
 
 

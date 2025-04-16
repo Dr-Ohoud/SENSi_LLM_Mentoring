@@ -105,7 +105,7 @@ struct UserProfileView: View {
                         }
                     }
                     // MARK: - Mailstones
-                    Section("Saved Mailstones"){
+                    Section("My Mailstones"){
                         HStack {
                             SettingsRowView(
                                 imageName: "target",
@@ -117,7 +117,7 @@ struct UserProfileView: View {
                                 MailstonesView()
                                     .navigationBarBackButtonHidden(false)
                             } label: {
-                                Text("Mailstones Page")
+                                Text("Mailstones")
                                     .foregroundColor(.accent)
                                     .accentColor(.accent)
                             }
@@ -287,6 +287,8 @@ struct UserProfileView: View {
         
         await viewModel.updateUser(userUpdated: user)
     }
+    
+    
     private func addSkill() {
         
         print("skill added")

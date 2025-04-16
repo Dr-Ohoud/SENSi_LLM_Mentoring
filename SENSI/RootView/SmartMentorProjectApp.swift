@@ -17,6 +17,7 @@ struct SmartMentorProjectApp: App {
 
     init(){
         FirebaseApp.configure()
+        NotificationManager.shared.requestAuthorization()
     }
     var body: some Scene {
         WindowGroup {

@@ -10,6 +10,8 @@ import SwiftUI
 struct ChatInputMessages: View {
     @Binding var inputText: String
     @Binding var isLoading: Bool
+    @Binding var isRecording: Bool
+    
     var sendMessage: () async -> Void
 
     var body: some View {
@@ -22,6 +24,9 @@ struct ChatInputMessages: View {
                 Spacer()
                 ProgressView()
                     .opacity(isLoading ? 1 : 0)
+                MicButton(isRecording: isRecording, action: {
+                    startRecording()
+                })
                 
             }
             .padding()
@@ -29,18 +34,23 @@ struct ChatInputMessages: View {
             .cornerRadius(10)
             .padding(.horizontal, 10)
             
-            
-            AsyncButton {
-                await sendMessage()
-            } label: {
-                Image(systemName: "paperplane.fill")
-                    .padding()
-                    .background(isLoading ? Color.gray : .accent)
-                    .foregroundStyle(.white)
-                    .cornerRadius(10)
-                    .padding(.horizontal, 10)
+            HStack{
+                
+                AsyncButton {
+                    await sendMessage()
+                } label: {
+                    Image(systemName: "paperplane.fill")
+                        .padding()
+                        .background(isLoading ? Color.gray : .accent)
+                        .foregroundStyle(.white)
+                        .cornerRadius(10)
+                        .padding(.horizontal, 10)
+                }
             }
         }
         .padding()
+    }
+    func startRecording() {
+        isRecording.toggle()
     }
 }

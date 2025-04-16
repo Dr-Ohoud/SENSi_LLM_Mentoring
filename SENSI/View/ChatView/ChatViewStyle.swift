@@ -18,6 +18,7 @@ struct ChatViewStyle: View {
     @State private var chatOptionView: Bool = false
     @State private var showingAlert: Bool = false
     @State private var alertMessage = ""
+    @State private var isRecording = false
 
     @State private var milestoneSaved: Bool = false
 
@@ -139,7 +140,11 @@ struct ChatViewStyle: View {
                                 }
                             )
                         } else {
-                            ChatInputMessages(inputText: $inputText, isLoading: $isLoading, sendMessage: sendMessage)
+                            ChatInputMessages(
+                                inputText: $inputText,
+                                isLoading: $isLoading,
+                                isRecording: $isRecording,
+                                sendMessage: sendMessage)
                         }
                     }
                     
@@ -167,62 +172,6 @@ struct ChatViewStyle: View {
 }
 
 extension ChatViewStyle {
-    
-
-    // HEAD: Updated
-//    private func extractMilestone(response: String) async {
-//        var title: String = "Untitled Milestone"
-//        let lines = response.split(separator: "\n").map { String($0) }
-//        var extractedSteps: [String] = []
-//        
-//        for line in lines {
-//            let trimmed = line.trimmingCharacters(in: .whitespaces)
-//            
-//            // Extract title
-//            if trimmed.lowercased().starts(with: "**title") || trimmed.lowercased().starts(with: "title:") {
-//                title = trimmed
-//                    .replacingOccurrences(of: "**Title", with: "", options: .caseInsensitive)
-//                    .replacingOccurrences(of: "Title:", with: "", options: .caseInsensitive)
-//                    .trimmingCharacters(in: .whitespacesAndNewlines)
-//            }
-//            
-//            // Extract steps
-//            if trimmed.lowercased().contains("step") && trimmed.contains("-") {
-//                if let dashIndex = trimmed.firstIndex(of: "-") {
-//                    let step = trimmed[dashIndex...].dropFirst() // remove "-"
-//                    extractedSteps.append(step.trimmingCharacters(in: .whitespacesAndNewlines))
-//                }
-//            }
-//        }
-//        
-//        if extractedSteps.isEmpty {
-//            milestoneSaved = true
-//            print("❌ ERROR: No steps extracted. Cannot save.")
-//            return
-//        }
-//        
-//        let milestone = Milestone(title: title, steps: extractedSteps)
-//        print("✅ DEBUG: Extracted Milestone: \(milestone)")
-//        
-//        milestoneSaved = await chatService.saveMilestoneToFirebase(milestone: milestone)
-//    }
-
-    
-//    private func extractTitle(response: String) -> String {
-//        var title: String = "Untitled Milestone"
-//        let sentences = response.components(separatedBy: ".") // Split into sentences
-//        
-//        
-//        for sentence in sentences {
-//            let trimmed = sentence.trimmingCharacters(in: .whitespacesAndNewlines)
-//            
-//            if !trimmed.isEmpty, trimmed.contains("**Title:") {
-//               title = trimmed.replacingOccurrences(of: "**Title:", with: "").trimmingCharacters(in: .whitespaces)
-////                print(title)
-//            }
-//        }
-//        return title
-//    }
     
     private func extractTitle(response: String) -> String {
         var title = "Untitled Milestone"
