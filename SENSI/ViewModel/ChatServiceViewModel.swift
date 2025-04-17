@@ -38,7 +38,7 @@ class ChatServiceViewModel: ObservableObject{
             
             Message(role: "system", content:
                         """
-         You are mentor, a professional mentor specializing in career transitions and skill development. 
+         You are mentor, a professional mentor specializing in career transitions and skill development. Your Experince is fully in \(String(describing: userViewModel.currentUser?.careerGoal)).
              You guide early-career professionals and graduates in their career paths using a natural and conversational approach.
              
              **Guidelines for your responses:**
@@ -66,7 +66,7 @@ class ChatServiceViewModel: ObservableObject{
         -  **Name:** \(String(describing: userViewModel.currentUser?.fullName))
         -  **Career Goal:** \(String(describing: userViewModel.currentUser?.careerGoal))
         -  **Education Level:** \(String(describing: userViewModel.currentUser?.eduactionLevel))
-      
+        -  **Experience Level:** \(String(describing: userViewModel.currentUser?.experienceLevel))
         -  **Bio:** \(String(describing: userViewModel.currentUser?.bio))
     
     

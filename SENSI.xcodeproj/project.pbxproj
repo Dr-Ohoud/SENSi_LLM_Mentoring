@@ -14,10 +14,12 @@
 		5EA3B94B2D5119D000CDD606 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 5EA3B94A2D5119D000CDD606 /* FirebaseAuth */; };
 		5EA3B94D2D5119D800CDD606 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 5EA3B94C2D5119D800CDD606 /* FirebaseFirestore */; };
 		5EA3B94F2D511A0D00CDD606 /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 5EA3B94E2D511A0D00CDD606 /* FirebaseFirestoreCombine-Community */; };
+		5EB36EC52DAFECB000DE805D /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 5EB36EC42DAFECB000DE805D /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5EA3B8D42D5106BA00CDD606 /* SENSI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SENSI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5EB36EC42DAFECB000DE805D /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -62,6 +64,7 @@
 		5EA3B8CB2D5106BA00CDD606 = {
 			isa = PBXGroup;
 			children = (
+				5EB36EC42DAFECB000DE805D /* Localizable.xcstrings */,
 				5EA3B8D62D5106BA00CDD606 /* SENSI */,
 				5EA3B9492D5119D000CDD606 /* Frameworks */,
 				5EA3B8D52D5106BA00CDD606 /* Products */,
@@ -136,6 +139,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ar,
 			);
 			mainGroup = 5EA3B8CB2D5106BA00CDD606;
 			minimizedProjectReferenceProxies = 1;
@@ -157,6 +161,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EB36EC52DAFECB000DE805D /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,6 +237,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -288,6 +294,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

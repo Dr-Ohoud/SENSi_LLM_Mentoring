@@ -1,0 +1,634 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%lld out of %lld steps" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld من اصل %2$lld خطوة"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld out of %2$lld steps"
+          }
+        }
+      }
+    },
+    "%lld/%lld Points" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld/%2$lld نقطة"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld/%2$lld Points"
+          }
+        }
+      }
+    },
+    "✔" : {
+      "shouldTranslate" : false
+    },
+    "0 Tasks Completed" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "0 مهمة مكتملة"
+          }
+        }
+      }
+    },
+    "Account" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الحساب"
+          }
+        }
+      }
+    },
+    "Add" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إضافة"
+          }
+        }
+      }
+    },
+    "Add Your Skills" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إضافة مهاراتك"
+          }
+        }
+      }
+    },
+    "Ahad" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ahad"
+          }
+        }
+      }
+    },
+    "All steps complete!" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جميع الخطوات مكتملة!"
+          }
+        }
+      }
+    },
+    "Already have an account?" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هل لديك حساب بالفعل؟ "
+          }
+        }
+      }
+    },
+    "Career Aspirations" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الطموح الوظيفي"
+          }
+        }
+      }
+    },
+    "Career Plan" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الخطة الوظيفية"
+          }
+        }
+      }
+    },
+    "Don't have an account?" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " ليس لديك حساب؟"
+          }
+        }
+      }
+    },
+    "Edit Profile" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تعديل الملف الشخصي"
+          }
+        }
+      }
+    },
+    "Education Level" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "المستوى التعليمي"
+          }
+        }
+      }
+    },
+    "Email or Password is incorrect" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يبدو أن هناك خطأ في البريد الإلكتروني أو كلمة المرور. حاول مرة أخرى."
+          }
+        }
+      }
+    },
+    "Enter a skill" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أضف مهارة"
+          }
+        }
+      }
+    },
+    "Experience Level" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مستواك المهني"
+          }
+        }
+      }
+    },
+    "Failed to create user, Try Again" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تعذّر إنشاء المستخدم، يرجى المحاولة مجددًا"
+          }
+        }
+      }
+    },
+    "General Information" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "البيانات العامة"
+          }
+        }
+      }
+    },
+    "Get Started" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " ابدأ الآن"
+          }
+        }
+      }
+    },
+    "Got it!" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حسنًا!"
+          }
+        }
+      }
+    },
+    "Help Your Mentor get to know you by writing a short letter" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عرِّف مرشدك عليك برسالة قصيرة"
+          }
+        }
+      }
+    },
+    "Loading ..." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جاري التحميل…"
+          }
+        }
+      }
+    },
+    "Login Error" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خطأ في تسجيل الدخول"
+          }
+        }
+      }
+    },
+    "Mailstones" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خطوات الانجاز"
+          }
+        }
+      }
+    },
+    "Mark Complete" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تعيين كمكتمل"
+          }
+        }
+      }
+    },
+    "Mentor is typing..." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "المُرشد يكتب…"
+          }
+        }
+      }
+    },
+    "Milestone" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خطوة انجاز"
+          }
+        }
+      }
+    },
+    "Milstone could not be saved. Please try again." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تعذّر حفظ خطوة الانجاز. يُرجى المحاولة مرة أخرى"
+          }
+        }
+      }
+    },
+    "My Mailstones" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خطوات انجازي"
+          }
+        }
+      }
+    },
+    "Next" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "التالي"
+          }
+        }
+      }
+    },
+    "No message to undo" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لا توجد رسائل للتراجع"
+          }
+        }
+      }
+    },
+    "No Milestone Found" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لاتوجد خطوات انجاز "
+          }
+        }
+      }
+    },
+    "OK" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حسنًا"
+          }
+        }
+      }
+    },
+    "One more thing" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أمر آخر"
+          }
+        }
+      }
+    },
+    "Password must be at least 6 characters." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " يجب أن تتكون كلمة المرور من 6 أحرف على الأقل"
+          }
+        }
+      }
+    },
+    "Please enter a valid email address." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يرجى إدخال عنوان بريد إلكتروني صالح"
+          }
+        }
+      }
+    },
+    "Registration Error" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خطأ في التسجيل"
+          }
+        }
+      }
+    },
+    "Registration Form" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نموذج إنشاء الحساب"
+          }
+        }
+      }
+    },
+    "Save" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حفظ"
+          }
+        }
+      }
+    },
+    "Saving Milestone Error" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خطأ في حفظ خطوات الانجاز"
+          }
+        }
+      }
+    },
+    "SENSI Mentor" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مرشد SENSI"
+          }
+        }
+      }
+    },
+    "Sign In" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تسجيل الدخول"
+          }
+        }
+      }
+    },
+    "SIGN IN" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تسجيل الدخول"
+          }
+        }
+      }
+    },
+    "Sign Up" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إنشاء حساب"
+          }
+        }
+      }
+    },
+    "SIGN UP" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إنشاء حساب"
+          }
+        }
+      }
+    },
+    "Signup Failed" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تعذّر إنشاء الحساب"
+          }
+        }
+      }
+    },
+    "Skip" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تخطي"
+          }
+        }
+      }
+    },
+    "Smart Mentor" : {
+      "shouldTranslate" : false
+    },
+    "Steps to Complete" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الخطوات المطلوب إتمامها"
+          }
+        }
+      }
+    },
+    "Text your mentor to get started" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أرسل رسالة نصية إلى مرشدك للبدء"
+          }
+        }
+      }
+    },
+    "There is an error registering your account. Please try again." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حدث خطأ أثناء إنشاء الحساب. يرجى المحاولة مرة أخرى"
+          }
+        }
+      }
+    },
+    "Type a message..." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " اكتب رسالة…"
+          }
+        }
+      }
+    },
+    "Undo" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تراجع"
+          }
+        }
+      }
+    },
+    "User Background" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نبذة عن المستخدم"
+          }
+        }
+      }
+    },
+    "What is your Career Goal ?" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ما هو هدفك المهني؟"
+          }
+        }
+      }
+    },
+    "What is your education level ?" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ما هو مستواك التعليمي؟"
+          }
+        }
+      }
+    },
+    "What is your experience level ?" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ما هو مستوى خبرتك؟"
+          }
+        }
+      }
+    },
+    "What is your Interests ?" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ما هي اهتماماتك؟"
+          }
+        }
+      }
+    },
+    "What is your Skill Gap you want to improve?" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ما هي المهارات التي ترغب في تحسينها؟"
+          }
+        }
+      }
+    },
+    "You can only add up to 5 skills." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يمكنك إضافة 5 مهارات كحد أقصى"
+          }
+        }
+      }
+    },
+    "Your Skills" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مهاراتك"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
