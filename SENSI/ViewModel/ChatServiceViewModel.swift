@@ -402,9 +402,9 @@ class ChatServiceViewModel: ObservableObject{
         content.sound = .default
         content.badge = 1
 
-        // 3. Set trigger: Every Sunday at 9:00 AM
+        // 3. Set trigger
         var dateComponents = DateComponents()
-        dateComponents.weekday = 1 // Sunday
+//        dateComponents.day = 1 // Sunday
         dateComponents.hour = 9
         dateComponents.minute = 0
 

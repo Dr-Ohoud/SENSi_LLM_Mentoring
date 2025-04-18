@@ -13,11 +13,27 @@ struct OnboardingContainerView: View {
     
     @State private var currentStep: Int = 0
     @State private var onboardingSteps = [
-        OnboardingSteps(id: UUID(), image: "LogoWithoutbacground", title: "SENSI", description: "", height: 100, width: 100),
+        OnboardingSteps(id: UUID(),
+                        image: "SENSI1",
+                        title: "Welcome to SENSI 👋",
+                        description: "Your personal career mentor — designed to guide you step-by-step through your learning and growth journey.", height: 300, width: 350),
         
-        OnboardingSteps(id: UUID(), image: "LogoWithoutbacground", title: "Say Hello to your Mentor", description: "Your career guidence assistant", height: 100, width: 100),
+        OnboardingSteps(id: UUID(),
+                        image: "SENSI2",
+                        title: "Personalized Guidance, Just for You",
+                        description:
+                        """
+                        SENSI gives you:
+                        Career advice tailored to your goals
+                        Milestones to help you take action
+                        Skill gap insights to grow faster
+                        """
+                        , height: 250, width: 350),
         
-        OnboardingSteps(id: UUID(), image: "", title: "Meet the AI Mentor that grows with you", description: "Learning and evolving with every interaction", height: 100, width: 100)
+        OnboardingSteps(id: UUID(),
+                        image: "SENSI3",
+                        title: "Built by Mentors. Powered by AI.",
+                        description: "SENSI is like having a career coach in your pocket — always there to support, guide, and motivate you", height: 300, width: 350)
     ]
     
     var body: some View {

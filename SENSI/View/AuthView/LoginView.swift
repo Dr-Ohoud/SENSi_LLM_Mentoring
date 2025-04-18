@@ -103,6 +103,9 @@ struct LoginView: View {
         }, message: {
             Text("Email or Password is incorrect")
         })
+        .onAppear(){
+            viewModel.isLoading = false
+        }
     }
     
     func authenticateUser(email: String, password: String) {

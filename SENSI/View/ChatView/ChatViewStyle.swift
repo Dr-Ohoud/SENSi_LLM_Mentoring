@@ -190,6 +190,12 @@ extension ChatViewStyle {
                     .replacingOccurrences(of: "**", with: "")
                     .trimmingCharacters(in: .whitespacesAndNewlines)
                 break
+            } else if trimmed.lowercased().contains("### title:") {
+                title = trimmed
+                    .replacingOccurrences(of: "### title:", with: "", options: .caseInsensitive)
+                    .replacingOccurrences(of: "**", with: "")
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
+                break
             }
         }
         return title

@@ -41,6 +41,7 @@ class AuthViewModel: ObservableObject {
             
         } catch {
             print("DEBUG: Failed to login user: \(error.localizedDescription)")
+            self.isLoading = false
             return "DEBUG: Failed to login user: \(error.localizedDescription)"
         }
         

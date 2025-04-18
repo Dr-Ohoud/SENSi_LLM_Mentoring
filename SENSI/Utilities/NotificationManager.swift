@@ -33,7 +33,7 @@ class NotificationManager: ObservableObject {
         content.badge = 1
         
         //Time
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 45.0, repeats: false)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 15.0, repeats: false)
         
 //        //Calender
 //        var dateComponents = DateComponents()
