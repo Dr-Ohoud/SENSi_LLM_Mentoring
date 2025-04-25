@@ -129,7 +129,10 @@ struct RegistrationView: View {
                     isLoading = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         isLoading = false
-                        messages.append(ChatMessage(text: getRegistrationPrompt(), isUser: false))
+                        withAnimation {
+                            messages.append(ChatMessage(text: getRegistrationPrompt(), isUser: false))
+
+                        }
                     }
                 }
             }
@@ -188,7 +191,13 @@ struct RegistrationView: View {
     
     private func getRegistrationPrompt() -> String {
         switch step {
-        case 1: return "Welcome! I am very happy to help you but first let sign you up🌟. Can I know your name?" 
+        case 1: return
+           """
+Welcome to SignUp page 🌟! 
+I am very happy to help you,
+
+But first, Can I know your name?
+"""
         case 2: return "Now, I need to start with knowing about your education background?"
         case 3: return "What is you experience level?"
         case 4: return "What is your career goals? Example: I want to be Data Engineer "

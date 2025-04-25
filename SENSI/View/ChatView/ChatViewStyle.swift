@@ -51,7 +51,7 @@ struct ChatViewStyle: View {
                         .opacity(registrationStep < 7 ? 0.3 : 1.0)
                         Spacer()
                         
-                        Text("SENSI Mentor")
+                        Text(registrationStep < 7 ? "Regsitration Page" : "SENSI Mentor")
                             .font(.headline)
                             .foregroundColor(.primary)
                         
