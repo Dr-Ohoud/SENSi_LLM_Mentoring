@@ -13,7 +13,6 @@ struct RegistrationView: View {
     @Binding var messages: [ChatMessage]
     @Binding var isLoading: Bool
     
-    
     @EnvironmentObject var viewModel: AuthViewModel
     @State var fullName: String = ""
     @State var bio: String = ""
@@ -91,8 +90,10 @@ struct RegistrationView: View {
                             
                         }
                         else {
-                            TextField(getRegistrationPrompt(), text: $currentInput)
-                                .autocorrectionDisabled()
+                            TextField("Type a message...", text: $currentInput, axis: .vertical)
+                                .textInputAutocapitalization(.sentences)
+                                .disableAutocorrection(false)
+                                .lineLimit(5)
                         }
                         
                         Spacer()
@@ -132,6 +133,7 @@ struct RegistrationView: View {
                     }
                 }
             }
+            
         }.tint(.accent)
     }
     private func fakeLoadingAndProceed() {
@@ -197,3 +199,11 @@ struct RegistrationView: View {
         }
     }
 }
+
+#if canImport(UIKit)
+extension RegistrationView {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+#endif

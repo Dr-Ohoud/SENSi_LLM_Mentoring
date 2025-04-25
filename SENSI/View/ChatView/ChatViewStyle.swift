@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ChatViewStyle: View {
+    
     @State private var messages: [ChatMessage] = []
     @State private var inputText: String = ""
     @State private var isTyping: Bool = false
@@ -19,13 +20,13 @@ struct ChatViewStyle: View {
     @State private var showingAlert: Bool = false
     @State private var alertMessage = ""
     @State private var isRecording = false
-
+    
     @State private var milestoneSaved: Bool = false
-
+    
     @State var registrationStep: Int = 7
     
     
-    @EnvironmentObject var chatService: ChatServiceViewModel 
+    @EnvironmentObject var chatService: ChatServiceViewModel
     @EnvironmentObject var viewModel: AuthViewModel
     
     var body: some View {
@@ -61,7 +62,7 @@ struct ChatViewStyle: View {
                                 .navigationBarBackButtonHidden(false)) {
                                     Image(systemName: "person.fill")
                                         .font(.title2)
-//                                        .foregroundColor(.accent)
+                                    //                                        .foregroundColor(.accent)
                                         .foregroundColor(registrationStep < 7 ? Color.gray : .accent)
                                 }
                                 .accentColor(.accent)
@@ -73,7 +74,7 @@ struct ChatViewStyle: View {
                                     Image(systemName: "rectangle.portrait.and.arrow.right")
                                         .font(.title2)
                                         .foregroundColor(registrationStep < 7 ? Color.gray : .accent)
-//                                        .foregroundColor(.accent)
+                                    //                                        .foregroundColor(.accent)
                                 }
                                 .accentColor(.accent)
                                 .disabled(registrationStep < 7 )
@@ -106,6 +107,9 @@ struct ChatViewStyle: View {
                                 proxy.scrollTo(lastMessage.id, anchor: .bottom)
                             }
                         }
+                    }
+                    .onTapGesture {
+                        hideKeyboard()
                     }
                     
                     if registrationStep < 7 {
@@ -144,6 +148,7 @@ struct ChatViewStyle: View {
                                 inputText: $inputText,
                                 isLoading: $isLoading,
                                 isRecording: $isRecording,
+                                responseText: $responseText,
                                 sendMessage: sendMessage)
                         }
                     }
@@ -168,6 +173,20 @@ struct ChatViewStyle: View {
                 })
                 .onAppear {
                     UNUserNotificationCenter.current().setBadgeCount(0)
+                    
+//                    if messages.isEmpty {
+//                        // Assuming Message has `text` and `isUser` properties like ChatMessage
+//                        let recentMessages = chatService.chatHistory.suffix(7).map { message in
+//                            if message.role == "user" {
+//                                ChatMessage(text: message.content, isUser: true)
+//                            } else {
+//                                ChatMessage(text: message.content, isUser: false)
+//                            }
+//                        }
+//                        messages.append(contentsOf: recentMessages)
+//                        self.messages.append(contentsOf: recentMessages )
+//                    }
+                    
                 }
             }.tint(.accent)
         )
@@ -180,7 +199,7 @@ extension ChatViewStyle {
         var title = "Untitled Milestone"
         
         let lines = response.components(separatedBy: .newlines)
-
+        
         for line in lines {
             let trimmed = line.trimmingCharacters(in: .whitespacesAndNewlines)
             
@@ -236,7 +255,7 @@ extension ChatViewStyle {
                messages.last?.text.contains("Would you like me to save this ") == true {
                 messages.removeLast()
             }
-
+            
             withAnimation {
                 // Remove mentor message
                 messages.removeLast()
@@ -246,7 +265,7 @@ extension ChatViewStyle {
             }
             alertMessage = "Last message removed."
             showingAlert = true
-
+            
         } else {
             alertMessage = "No message to undo. Start chatting with your mentor first."
             showingAlert = true
@@ -257,7 +276,8 @@ extension ChatViewStyle {
         messages.append(ChatMessage(text: "Thank you, \(viewModel.currentUser?.fullName ?? "")! Your mentor is ready to assist you.", isUser: false))
         registrationStep = 7 // Enable normal chat mode
     }
-
+    
+    
     func sendMessage() async {
         guard !inputText.trimmingCharacters(in: .whitespaces).isEmpty else { return }
         
@@ -279,19 +299,26 @@ extension ChatViewStyle {
         
         // Append mentor’s response
         let mentorMessage = ChatMessage(text: mentorResponse, isUser: false)
-
+        
         messages.append(mentorMessage)
         
-        if mentorMessage.text.contains("1. **") ||  mentorMessage.text.contains("**Step ") ||  mentorMessage.text.contains("Step "){
+        if mentorMessage.text.contains("**Step ") ||  mentorMessage.text.contains("Step "){
             self.chatOptionView = true
-
+            
             messages.append(ChatMessage(text: "Would you like me to save this plan as a milestone to track progress and review later?", isUser: false))
         }
-
+        
     }
     
     
 }
+#if canImport(UIKit)
+extension ChatViewStyle {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+#endif
 
 #Preview {
     ChatViewStyle()

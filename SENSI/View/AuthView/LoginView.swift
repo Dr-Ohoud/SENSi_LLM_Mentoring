@@ -58,9 +58,6 @@ struct LoginView: View {
                     Button(action: {
                         authenticateUser(email: email, password: password)
                     }) {
-                        if viewModel.isLoading {
-                            LoadingView()
-                        } else {
                             HStack {
                                 Text("SIGN IN")
                                     .fontWeight(.bold)
@@ -72,13 +69,12 @@ struct LoginView: View {
                             .disabled(formIsValid)
                             .foregroundColor(.white)
                             .cornerRadius(10)
-                        }
                     }
                     .padding()
                     .disabled(!formIsValid)
                     .opacity(!formIsValid ? 0.5 : 1)
-                    Spacer()
-                    
+                    Divider()
+
                     // sign up button
                     NavigationLink(destination:
                                     ChatViewStyle(registrationStep: registrationStep)
@@ -95,6 +91,9 @@ struct LoginView: View {
                         }
                 }
                 .padding(.horizontal, 32)
+                .onTapGesture {
+                    hideKeyboard()
+                }
                 
             }
         }
@@ -103,9 +102,7 @@ struct LoginView: View {
         }, message: {
             Text("Email or Password is incorrect")
         })
-        .onAppear(){
-            viewModel.isLoading = false
-        }
+        
     }
     
     func authenticateUser(email: String, password: String) {
@@ -128,6 +125,13 @@ extension LoginView: AuthintcationFormPrtotcol {
     }
 }
 
+#if canImport(UIKit)
+extension LoginView {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+#endif
 
 #Preview {
     LoginView()

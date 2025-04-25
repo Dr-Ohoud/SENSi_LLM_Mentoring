@@ -47,9 +47,10 @@ struct MilestoneDetailView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             if isEditing {
-                TextField(milestone.title, text: $title)
-                    .textInputAutocapitalization(.words)
+                TextField(milestone.title, text: $title, axis: .vertical)
+                    .textInputAutocapitalization(.sentences)
                     .disableAutocorrection(false)
+                    .lineLimit(5)
             } else {
                 Text(milestone.title)
                     .font(.title2)
@@ -86,11 +87,10 @@ struct MilestoneDetailView: View {
                         isEditing.toggle()
                     }
                 }}) {
-                    Image(systemName: (isEditing ? "tray.and.arrow.down" : "square.and.pencil" ))
-                        .font(.system(size: 20, weight: .semibold))
+                    Text(isEditing ? "Save" : "Edit")
+                        .font(.system(size: 14, weight: .semibold))
                         .foregroundColor(isEditing ? Color.accent : Color.black)
                 }
-            if isEditing {
                 Button(action: {
                     Task {
                         await chatViewModel.deleteMilestone(withId: milestone.id)
@@ -101,8 +101,9 @@ struct MilestoneDetailView: View {
                 }) {
                     Image(systemName: "trash")
                         .foregroundColor(.red)
+                        .font(.system(size: 14, weight: .semibold))
                 }
-            }
+            
         })
         .padding()
         

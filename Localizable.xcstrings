@@ -136,6 +136,9 @@
         }
       }
     },
+    "Edit" : {
+
+    },
     "Edit Profile" : {
       "localizations" : {
         "ar" : {
@@ -156,6 +159,28 @@
         }
       }
     },
+    "Email" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "البريد الالكتروني"
+          }
+        }
+      }
+    },
+    "Email Address" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "البريد الالكتروني"
+          }
+        }
+      }
+    },
     "Email or Password is incorrect" : {
       "localizations" : {
         "ar" : {
@@ -172,6 +197,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "أضف مهارة"
+          }
+        }
+      }
+    },
+    "Enter your Email" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أدخل بريدك الإلكتروني"
+          }
+        }
+      }
+    },
+    "Enter your Password" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أدخل كلمة المرور"
           }
         }
       }
@@ -366,12 +413,34 @@
         }
       }
     },
+    "Password" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "كلمة المرور"
+          }
+        }
+      }
+    },
     "Password must be at least 6 characters." : {
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : " يجب أن تتكون كلمة المرور من 6 أحرف على الأقل"
+          }
+        }
+      }
+    },
+    "Personalized Guidance, Just for You" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إرشاد شخصي مخصص لك"
           }
         }
       }
@@ -426,6 +495,17 @@
         }
       }
     },
+    "SENSI gives you:\n                        Career advice tailored to your goals\n                        Milestones to help you take action\n                        Skill gap insights to grow faster" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تقدم لك SENSI:\n•نصائح مهنية مُصممة خصيصًا لأهدافك\n•معالم تساعدك على اتخاذ الإجراءات\n•رؤى حول فجوات المهارات لتنمو بشكل أسرع"
+          }
+        }
+      }
+    },
     "SENSI Mentor" : {
       "localizations" : {
         "ar" : {
@@ -452,6 +532,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "تسجيل الدخول"
+          }
+        }
+      }
+    },
+    "Sign out" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تسجيل الخروج"
           }
         }
       }
@@ -559,6 +650,17 @@
         }
       }
     },
+    "Welcome to SENSI" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " مرحبًا بك في SENSI"
+          }
+        }
+      }
+    },
     "What is your Career Goal ?" : {
       "localizations" : {
         "ar" : {
@@ -609,12 +711,34 @@
         }
       }
     },
+    "Would you like me to save this plan as a milestone to track progress and review later?" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هل تريد حفظ هذه الخطة كخطوة انجاز لمتابعة التقدم ومراجعتها لاحقًا؟"
+          }
+        }
+      }
+    },
     "You can only add up to 5 skills." : {
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "يمكنك إضافة 5 مهارات كحد أقصى"
+          }
+        }
+      }
+    },
+    "Your personal career mentor — designed to guide you step-by-step through your learning and growth journey." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مرشدك المهني الشخصي — مُصمّم ليرافقك خطوة بخطوة في رحلة تعلمك وتطورك."
           }
         }
       }

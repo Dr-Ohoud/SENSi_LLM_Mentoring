@@ -22,11 +22,29 @@ struct ChatBubbleView: View {
                     .cornerRadius(10)
                     .frame(maxWidth: 500, alignment: .trailing)
             } else {
-                Text(message.text)
-                    .padding()
-                    .background(Color.gray.opacity(0.2))
-                    .cornerRadius(10)
-                    .frame(maxWidth: 500, alignment: .leading)
+//                let spaced = message.text.replacingOccurrences(
+//                    of: "\\*\\*(.+?)\\*\\*",
+//                    with: "\n**$1**\n",
+//                    options: .regularExpression
+//                )
+//                if let attr = try? AttributedString(markdown: spaced) {
+//                    Text(attr)       // will render **…** as bold
+//                        .padding()
+//                        .background(Color.gray.opacity(0.2))
+//                        .cornerRadius(10)
+//                        .frame(maxWidth: 500, alignment: .leading)
+//                } else {
+                    Text(message.text)
+                        .padding()
+                        .background(Color.gray.opacity(0.2))
+                        .cornerRadius(10)
+                        .frame(maxWidth: 500, alignment: .leading)
+//                }
+                //                Text(message.text)
+                //                    .padding()
+                //                    .background(Color.gray.opacity(0.2))
+                //                    .cornerRadius(10)
+                //                    .frame(maxWidth: 500, alignment: .leading)
                 
                 // Render options if present
                 if let options = message.options {

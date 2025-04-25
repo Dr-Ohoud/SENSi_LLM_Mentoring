@@ -65,7 +65,7 @@ struct SignUpView: View {
                                 .font(.caption)
                                 .foregroundColor(.red)
                                 .frame(maxWidth: .infinity, alignment: .leading)
-
+                            
                         }
                         
                         ZStack(alignment: .trailing){
@@ -94,10 +94,7 @@ struct SignUpView: View {
                                 }
                             }
                         } label: {
-                            if viewModel.isLoading {
-                                LoadingView()
-                            } else {
-                                HStack {
+                             HStack {
                                     Text("SIGN UP")
                                         .fontWeight(.bold)
                                     Image(systemName: "arrow.right")
@@ -107,12 +104,12 @@ struct SignUpView: View {
                                 .background(.accent)
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
-                            }
+                            
                         }
                         .padding()
                         .disabled(!formIsValid)
                         .opacity(!formIsValid ? 0.5 : 1)
-
+                        
                         Spacer()
                         
                         // sign in button
@@ -146,7 +143,6 @@ struct SignUpView: View {
                     Text("There is an error registering your account. Please try again.")
                 })
             }
-            
         )
     }
     

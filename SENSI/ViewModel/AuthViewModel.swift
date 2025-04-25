@@ -23,15 +23,15 @@ class AuthViewModel: ObservableObject {
     init() {
         // From Firebase
         self.userSession = Auth.auth().currentUser
+        self.isLoading = false
         Task {
             await fetchUser()
         }
     }
     
     func signIn(withEmail email: String, password: String) async throws -> String {
-        DispatchQueue.main.async {
-            self.isLoading = true
-        }
+        self.isLoading = true
+        
         do {
             let result = try await Auth.auth().signIn(withEmail: email, password: password)
             self.userSession = result.user

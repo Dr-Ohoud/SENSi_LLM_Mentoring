@@ -58,25 +58,6 @@ struct UserProfileView: View {
                                         .font(.footnote)
                                         .accentColor(.gray)
                                 }
-                                
-                                Button(action: {
-                                    Task {
-                                        if isEditing {
-                                            await updateUserData()
-                                        }
-                                        withAnimation {
-                                            isEditing.toggle()
-                                        }
-                                    }
-                                }) {
-                                    Text(isEditing ? "Save" : "Edit Profile")
-                                        .font(.system(size: 14, weight: .semibold))
-                                        .foregroundColor(.white)
-                                        .padding(.horizontal, 20)
-                                        .padding(.vertical, 10)
-                                        .background(isEditing ? Color.accent : Color.black)
-                                        .clipShape(Capsule())
-                                }
                             }
                         }
                     }
@@ -267,8 +248,28 @@ struct UserProfileView: View {
                 if careerGoal.isEmpty { careerGoal = user.careerGoal }
                 if skills == nil || skills?.isEmpty ?? true { skills = user.skills }
             }
+            .navigationBarItems(trailing: HStack(spacing: 16){
+                Button(action: {
+                    Task {
+                        if isEditing {
+                            await updateUserData()
+                        }
+                        withAnimation {
+                            isEditing.toggle()
+                        }
+                    }
+                }) {
+                    Text(isEditing ? "Save" : "Edit Profile")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(isEditing ? Color.accent : Color.black)
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 10)
+//                        .background(isEditing ? Color.accent : Color.black)
+//                        .clipShape(Capsule())
+                        .padding(.top, 15)
+                }
+            })
         }
-        
     }
     
     private func updateUserData() async {
@@ -287,18 +288,6 @@ struct UserProfileView: View {
         
         await viewModel.updateUser(userUpdated: user)
     }
-    
-    
-    private func addSkill() {
-        
-        print("skill added")
-        //                guard var user = viewModel.currentUser else { return }
-        //
-        //                guard !newSkill.isEmpty, skills.count < 5 else { return }
-        //                skills.append(newSkill)
-        //                newSkill = "" // Clear the input field
-    }
-    
 }
 
 

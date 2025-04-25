@@ -14,7 +14,8 @@ struct SmartMentorProjectApp: App {
     @State private var showMainApp = false
     @StateObject private var sessionUser = AuthViewModel()
     @StateObject private var chatService: ChatServiceViewModel = ChatServiceViewModel()
-
+    @Environment(\.colorScheme) private var colorScheme
+    
     init(){
         FirebaseApp.configure()
         NotificationManager.shared.requestAuthorization()
@@ -25,10 +26,12 @@ struct SmartMentorProjectApp: App {
                 OnboardingContainerView()
                     .environmentObject(sessionUser)
                     .environmentObject(chatService)
+                    .preferredColorScheme(.light)
             } else {
                 Main()
                     .environmentObject(sessionUser)
                     .environmentObject(chatService)
+                    .preferredColorScheme(.light)
             }
         }
     }
