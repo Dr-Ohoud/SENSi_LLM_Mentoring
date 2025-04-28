@@ -64,7 +64,7 @@ struct MilestoneDetailView: View {
                 HStack {
                     Image(systemName: milestone.completedSteps.contains(step) ? "checkmark.circle.fill" : "circle")
                         .foregroundColor(milestone.completedSteps.contains(step) ? .green : .gray)
-                    Text(step)
+                    TextMarkdown(step)
                 }
                 .onTapGesture {
                     toggleStep(step)

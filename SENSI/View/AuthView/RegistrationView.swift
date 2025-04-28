@@ -203,7 +203,7 @@ But first, can I know your name?
         case 3: return "What is you experience level?"
         case 4: return "What is your career goals? Example: I want to be Data Engineer "
         case 5: return "One more thing! help me to get know you by writing a short bio about yourself"
-        case 6: return "I am now ready to assist you. Let me create a profile for you first to personalize and save your preferences?"
+        case 6: return "I am now ready to assist you. Let me **create a profile** for you first to personalize and save your preferences"
         case 7: return "Thank you, \(viewModel.currentUser?.fullName ?? "") All set !! I appreciate your confidence in me!"
         default: return "Welcome!"
         }

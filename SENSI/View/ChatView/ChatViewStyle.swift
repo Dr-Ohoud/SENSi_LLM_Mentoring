@@ -197,7 +197,7 @@ struct ChatViewStyle: View {
 extension ChatViewStyle {
     
     private func extractTitle(response: String) -> String {
-        var title = "Untitled Milestone"
+        var title = "SENSI not give a title for you, update your title "
         
         let lines = response.components(separatedBy: .newlines)
         
@@ -232,10 +232,11 @@ extension ChatViewStyle {
             if line.contains("**Step") {
                 let step = line.replacingOccurrences(of: "**Step", with: "").trimmingCharacters(in: .whitespaces)
                 extractedSteps.append(step)
-            } else if line.hasPrefix("-") {
-                let step = line.replacingOccurrences(of: "-", with: "").trimmingCharacters(in: .whitespaces)
-                extractedSteps.append(step)
             }
+//            else if line.hasPrefix("-") {
+//                let step = line.replacingOccurrences(of: "-", with: "").trimmingCharacters(in: .whitespaces)
+//                extractedSteps.append(step)
+//            }
         }
         
         if extractedSteps.isEmpty {

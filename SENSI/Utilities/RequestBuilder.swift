@@ -35,7 +35,7 @@ class ChatGPTAPI {
         
         let parameters: [String: Any] = [
             "model": "gpt-4o-mini",
-            "temperature": 0.8,
+            "temperature": 0.2,
             "messages": formattedMessages,
 //                [
 //                [ "role": "user",
