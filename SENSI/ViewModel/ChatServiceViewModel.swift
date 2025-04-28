@@ -14,7 +14,7 @@ import FirebaseAuth
 class ChatServiceViewModel: ObservableObject{
     private let networkManager = NetworkManager()
     private let requestBuilder = ChatGPTAPI()
-    private let errorMessage = "Error: Unable to generate response"
+    private let errorMessage = "Could you please try again? I didn’t quite understand you"
     private let url = URL(string: "https://api.openai.com/v1/chat/completions")
     
     private var db = Firestore.firestore()  // Firestore database reference

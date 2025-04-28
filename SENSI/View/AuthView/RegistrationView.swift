@@ -76,15 +76,15 @@ struct RegistrationView: View {
                         }  else if step == 6 {
                             ChatBubbleSelectionView(
                                 message: getRegistrationPrompt(),
-                                options: ["Yes", "No"],
+                                options: ["Ok, Lets create the account!"],
                                 selectedOption: $registerUser,
                                 onSelect: { option in
                                     handleUserSelection(option)
-                                    if option == "Yes" {
+//                                    if option == "Yes" {
                                         registerUser = "No"
                                         shouldNavigate = true // Trigger navigation
                                         
-                                    }
+//                                    }
                                 }
                             )
                             
@@ -120,7 +120,8 @@ struct RegistrationView: View {
                         }
                         .disabled(isLoading)
                     }
-                    NavigationLink(destination: SignUpView(fullName: $fullName, bio: $bio, eduactionLevel: $eduactionLevel, experienceLevel: $experienceLevel, careerGoal: $careerGoal).navigationBarBackButtonHidden(false), isActive: $shouldNavigate) {
+                    
+                    NavigationLink(destination: SignUpView(fullName: $fullName, bio: $bio, eduactionLevel: $eduactionLevel, experienceLevel: $experienceLevel, careerGoal: $careerGoal).navigationBarBackButtonHidden(true), isActive: $shouldNavigate) {
                         EmptyView() // Keeps it hidden but allows navigation
                     }.tint(.accent)
                 }
@@ -136,7 +137,7 @@ struct RegistrationView: View {
                     }
                 }
             }
-            
+            .tint(.accent)
         }.tint(.accent)
     }
     private func fakeLoadingAndProceed() {
@@ -193,16 +194,16 @@ struct RegistrationView: View {
         switch step {
         case 1: return
            """
-Welcome to SignUp page 🌟! 
+Welcome to **SIGNUP** page 🌟! 
 I am very happy to help you,
 
-But first, Can I know your name?
+But first, can I know your name?
 """
         case 2: return "Now, I need to start with knowing about your education background?"
         case 3: return "What is you experience level?"
         case 4: return "What is your career goals? Example: I want to be Data Engineer "
         case 5: return "One more thing! help me to get know you by writing a short bio about yourself"
-        case 6: return "I am now ready to assist you. Would you like me to create a profile for you to personalize and save your preferences?"
+        case 6: return "I am now ready to assist you. Let me create a profile for you first to personalize and save your preferences?"
         case 7: return "Thank you, \(viewModel.currentUser?.fullName ?? "") All set !! I appreciate your confidence in me!"
         default: return "Welcome!"
         }

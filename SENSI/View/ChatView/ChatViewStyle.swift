@@ -173,19 +173,20 @@ struct ChatViewStyle: View {
                 })
                 .onAppear {
                     UNUserNotificationCenter.current().setBadgeCount(0)
-                    
-//                    if messages.isEmpty {
-//                        // Assuming Message has `text` and `isUser` properties like ChatMessage
-//                        let recentMessages = chatService.chatHistory.suffix(7).map { message in
-//                            if message.role == "user" {
-//                                ChatMessage(text: message.content, isUser: true)
-//                            } else {
-//                                ChatMessage(text: message.content, isUser: false)
-//                            }
-//                        }
-//                        messages.append(contentsOf: recentMessages)
-//                        self.messages.append(contentsOf: recentMessages )
-//                    }
+                    if registrationStep >= 7 {
+                        if messages.isEmpty {
+                            //                        let recentMessages = chatService.chatHistory.suffix(7).map { message in
+                            //                            if message.role == "user" {
+                            //                                ChatMessage(text: message.content, isUser: true)
+                            //                            } else {
+                            //                                ChatMessage(text: message.content, isUser: false)
+                            //                            }
+                            //                        }
+                            //                        messages.append(ChatMessage(text: "Hey \(String(describing: viewModel.currentUser?.fullName))! 😊 What I can help you with today?", isUser: false))
+                            
+                            self.messages.append(ChatMessage(text: "Hey \(viewModel.currentUser?.fullName ?? "there")! 😊 What I can help you with today?", isUser: false))
+                        }
+                    }
                     
                 }
             }.tint(.accent)

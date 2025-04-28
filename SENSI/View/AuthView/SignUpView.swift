@@ -112,20 +112,37 @@ struct SignUpView: View {
                         
                         Spacer()
                         
-                        // sign in button
-                        Button {
-                            dismiss()
-                        } label: {
-                            HStack(spacing: 3){
-                                Text("Already have an account?")
-                                    .fontWeight(.medium)
-                                    .foregroundColor(.accent)
-                                Text("Sign In")
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.accent)
+                        // sign up button
+                        Divider()
+                        NavigationLink(destination:
+                                        LoginView()
+                            .navigationBarBackButtonHidden(true)) {
+                                HStack(spacing: 3){
+                                    Text("Already have an account?")
+                                        .fontWeight(.medium)
+                                        .foregroundColor(.accent)
+                                    Text("Sign In")
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.accent)
+                                }
+                                .font(.system(size: 14))
                             }
-                            .font(.system(size: 14))
-                        }
+                        Spacer()
+                        
+//                        // sign in button
+//                        Button {
+//                            dismiss()
+//                        } label: {
+//                            HStack(spacing: 3){
+//                                Text("Already have an account?")
+//                                    .fontWeight(.medium)
+//                                    .foregroundColor(.accent)
+//                                Text("Sign In")
+//                                    .fontWeight(.bold)
+//                                    .foregroundColor(.accent)
+//                            }
+//                            .font(.system(size: 14))
+//                        }
                     }
                     .padding(.horizontal, 32)
                     .alert("Signup Failed", isPresented: $registred) {
@@ -142,7 +159,7 @@ struct SignUpView: View {
                 }, message: {
                     Text("There is an error registering your account. Please try again.")
                 })
-            }
+            }.tint(.accent)
         )
     }
     

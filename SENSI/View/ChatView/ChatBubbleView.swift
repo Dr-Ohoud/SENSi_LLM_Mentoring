@@ -21,6 +21,8 @@ struct ChatBubbleView: View {
                     .foregroundColor(.white)
                     .cornerRadius(10)
                     .frame(maxWidth: 500, alignment: .trailing)
+                    .textSelection(.enabled)
+
             } else {
 //                let spaced = message.text.replacingOccurrences(
 //                    of: "\\*\\*(.+?)\\*\\*",
@@ -34,11 +36,14 @@ struct ChatBubbleView: View {
 //                        .cornerRadius(10)
 //                        .frame(maxWidth: 500, alignment: .leading)
 //                } else {
-                    Text(message.text)
+                TextMarkdown(message.text)
+//                    Text(message.text)
                         .padding()
                         .background(Color.gray.opacity(0.2))
                         .cornerRadius(10)
                         .frame(maxWidth: 500, alignment: .leading)
+                        .textSelection(.enabled)
+
 //                }
                 //                Text(message.text)
                 //                    .padding()
@@ -70,6 +75,7 @@ struct ChatBubbleView: View {
                 Spacer()
             }
         }
+        .textSelection(.enabled)
         .padding()
     }
 }

@@ -119,6 +119,7 @@ struct UserProfileView: View {
                                     Picker("Education Level", selection: $eduactionLevel) {
                                         ForEach(eduactionLevelEnums.allCases.filter { $0 != .none }, id: \.self) { level in
                                             Text("\(level)").tag(level)
+                                                .font(.system(size: 17))
                                         }
                                     }
                                     .pickerStyle(.wheel)
@@ -187,6 +188,7 @@ struct UserProfileView: View {
                                     Picker("Experience Level", selection: $experienceLevel) {
                                         ForEach(experienceLevelEnums.allCases.filter { $0 != .none } , id: \.self) { level in
                                             Text("\(level)").tag(level)
+                                                .font(.system(size: 17))
                                         }
                                     }
                                     .pickerStyle(.wheel)

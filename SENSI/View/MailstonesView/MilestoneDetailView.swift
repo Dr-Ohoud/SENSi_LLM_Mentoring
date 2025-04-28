@@ -60,18 +60,21 @@ struct MilestoneDetailView: View {
             Text("Steps to Complete")
                 .font(.headline)
 
-            List {
-                ForEach(milestone.steps, id: \.self) { step in
-                    HStack {
-                        Image(systemName: milestone.completedSteps.contains(step) ? "checkmark.circle.fill" : "circle")
-                            .foregroundColor(milestone.completedSteps.contains(step) ? .green : .gray)
-                        Text(step)
-                    }
-                    .onTapGesture {
-                        toggleStep(step)
-                    }
+            List(milestone.steps, id: \.self) { step in
+                HStack {
+                    Image(systemName: milestone.completedSteps.contains(step) ? "checkmark.circle.fill" : "circle")
+                        .foregroundColor(milestone.completedSteps.contains(step) ? .green : .gray)
+                    Text(step)
                 }
-            }
+                .onTapGesture {
+                    toggleStep(step)
+                }
+                      }
+//            List {
+//                ForEach(milestone.steps, id: \.self) { step in
+//
+//                }
+//            }
 
             Spacer()
         }

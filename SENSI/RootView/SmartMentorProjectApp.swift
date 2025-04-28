@@ -19,6 +19,17 @@ struct SmartMentorProjectApp: App {
     init(){
         FirebaseApp.configure()
         NotificationManager.shared.requestAuthorization()
+        
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.configureWithTransparentBackground()
+        navBarAppearance.backgroundColor = UIColor.clear
+        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor(named: "AccentColor") ?? .systemGreen]
+        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor(named: "AccentColor") ?? .systemGreen]
+        
+        UINavigationBar.appearance().standardAppearance = navBarAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
+        UINavigationBar.appearance().compactAppearance = navBarAppearance
+        UINavigationBar.appearance().tintColor = UIColor(named: "AccentColor") ?? .systemGreen
     }
     var body: some Scene {
         WindowGroup {
