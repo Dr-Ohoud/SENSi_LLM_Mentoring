@@ -137,6 +137,7 @@ struct RegistrationView: View {
                     }
                 }
             }
+//            .padding()
             .tint(.accent)
         }.tint(.accent)
     }

@@ -20,7 +20,8 @@ struct ChatViewStyle: View {
     @State private var showingAlert: Bool = false
     @State private var alertMessage = ""
     @State private var isRecording = false
-    
+    @State private var showUndoConfirmation = false
+    @State private var canUndo = false
     @State private var milestoneSaved: Bool = false
     
     @State var registrationStep: Int = 7
@@ -37,18 +38,30 @@ struct ChatViewStyle: View {
                 VStack {
                     // MARK: - Top Bar
                     HStack {
+                        
+//                        Button(action: {
+//                            undoLastMessage()
+//                        }) {
+//                            Image(systemName: "arrow.uturn.backward")
+//                                .font(.title2)
+//                                .foregroundColor(registrationStep < 7 ? Color.gray : .accent)
+//                        }
                         Button(action: {
-                            undoLastMessage()
+                            if messages.count >= 2 {
+                                showUndoConfirmation = true
+                            } else {
+                                alertMessage = "No ongoing dialogue, Text your mentor to get started."
+                                showingAlert = true
+                            }
                         }) {
-                            Image(systemName: "arrow.uturn.backward")
+                            Image(systemName: "arrow.uturn.backward.circle")
                                 .font(.title2)
-                                .foregroundColor(registrationStep < 7 ? Color.gray : .accent)
                         }
                         .alert(isPresented: $showingAlert) {
                             Alert(title: Text("No message to undo"), message: Text("Text your mentor to get started"), dismissButton: .default(Text("Got it!")))
                         }
                         .disabled(registrationStep < 7 )
-                        .opacity(registrationStep < 7 ? 0.3 : 1.0)
+                        .opacity(registrationStep < 7 ? 0 : 1.0)
                         Spacer()
                         
                         Text(registrationStep < 7 ? "Regsitration Page" : "SENSI Mentor")
@@ -79,7 +92,7 @@ struct ChatViewStyle: View {
                                 .accentColor(.accent)
                                 .disabled(registrationStep < 7 )
                             
-                                .opacity(registrationStep < 7 ? 0.3 : 1.0)
+                                .opacity(registrationStep < 7 ? 0 : 1.0)
                         }
                     }
                     .padding()
@@ -161,8 +174,8 @@ struct ChatViewStyle: View {
                 }
                 .alert(isPresented: $showingAlert) {
                     Alert(
-                        title: Text("Undo"),
-                        message: Text(alertMessage),
+                        title: Text(alertMessage),
+//                        message: Text(alertMessage),
                         dismissButton: .default(Text("OK"))
                     )
                 }
@@ -191,6 +204,14 @@ struct ChatViewStyle: View {
                 }
             }.tint(.accent)
         )
+        .alert("SENSI not understand your question?", isPresented: $showUndoConfirmation) {
+            Button("Undo Messages", role: .destructive) {
+                performUndo() // your logic here
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("This will remove both your last message and the mentor’s response so you can rephrase your question or intent.")
+        }
     }
 }
 
@@ -249,6 +270,21 @@ extension ChatViewStyle {
         print("✅ DEBUG: Extracted Milestone")
         
         chatService.saveMilestoneToFirebase(milestone: milestone)
+    }
+    
+    private func performUndo() {
+        if messages.count >= 3,
+           messages.last?.text.contains("Would you like me to save this ") == true {
+            messages.removeLast()
+        }
+
+        withAnimation {
+            messages.removeLast() // Remove mentor message
+            messages.removeLast() // Remove user message
+        }
+
+        alertMessage = "Last message removed."
+        showingAlert = true
     }
     
     private func undoLastMessage() {

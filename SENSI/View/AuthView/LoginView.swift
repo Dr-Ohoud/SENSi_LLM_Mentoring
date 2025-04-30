@@ -90,19 +90,20 @@ struct LoginView: View {
                             .font(.system(size: 14))
                         }
                 }
-                .padding(.horizontal, 32)
                 .onTapGesture {
                     hideKeyboard()
                 }
-                
+//                .padding(.horizontal, 32)
             }
+            .padding(.horizontal, 32)
+//            .padding()
+            
         }
         .alert("Login Error", isPresented: $showAlert, actions: {
             Button("OK", role: .cancel) {}
         }, message: {
             Text("Email or Password is incorrect")
         })
-        
     }
     
     func authenticateUser(email: String, password: String) {

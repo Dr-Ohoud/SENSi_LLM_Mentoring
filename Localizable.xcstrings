@@ -106,6 +106,12 @@
         }
       }
     },
+    "Are you sure you want to delete this milestone?" : {
+
+    },
+    "Cancel" : {
+
+    },
     "Career Aspirations" : {
       "localizations" : {
         "ar" : {
@@ -125,6 +131,9 @@
           }
         }
       }
+    },
+    "Delete" : {
+
     },
     "Don't have an account?" : {
       "localizations" : {
@@ -519,6 +528,9 @@
         }
       }
     },
+    "SENSI not understand your question?" : {
+
+    },
     "Sign In" : {
       "localizations" : {
         "ar" : {
@@ -623,6 +635,9 @@
         }
       }
     },
+    "This will remove both your last message and the mentor’s response so you can rephrase your question or intent." : {
+
+    },
     "Type a message..." : {
       "localizations" : {
         "ar" : {
@@ -634,6 +649,7 @@
       }
     },
     "Undo" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -642,6 +658,9 @@
           }
         }
       }
+    },
+    "Undo Messages" : {
+
     },
     "User Background" : {
       "localizations" : {

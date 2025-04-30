@@ -7,42 +7,15 @@
 
 import SwiftUI
 
-//struct MilestoneDetailView: View {
-//    var milestone: Milestone
-//    
-//    var body: some View {
-//        VStack(alignment: .leading, spacing: 10) {
-//            Text(milestone.title)
-//                .font(.title)
-//                .bold()
-//                .padding(.bottom, 10)
-//            
-//            Text("Steps to Complete")
-//                .font(.headline)
-//            
-//            List(milestone.steps, id: \.self) { step in
-//                HStack {
-//                    Image(systemName: "circle.fill")
-//                        .foregroundColor(.green)
-//                    Text(step)
-//                }
-//            }
-//            
-//            Spacer()
-//        }
-//        .padding()
-//        .navigationTitle("Milestone Details")
-//    }
-//}
-
 struct MilestoneDetailView: View {
     @EnvironmentObject var chatViewModel: ChatServiceViewModel
     @EnvironmentObject var viewModel: AuthViewModel
     @Environment(\.dismiss) var dismiss
-
+    
     @State var milestone: Milestone
     @State private var isEditing = false
     @State private var title: String = ""
+    @State private var showDeleteConfirmation = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -59,7 +32,7 @@ struct MilestoneDetailView: View {
             }
             Text("Steps to Complete")
                 .font(.headline)
-
+            
             List(milestone.steps, id: \.self) { step in
                 HStack {
                     Image(systemName: milestone.completedSteps.contains(step) ? "checkmark.circle.fill" : "circle")
@@ -69,13 +42,13 @@ struct MilestoneDetailView: View {
                 .onTapGesture {
                     toggleStep(step)
                 }
-                      }
-//            List {
-//                ForEach(milestone.steps, id: \.self) { step in
-//
-//                }
-//            }
-
+            }
+            //            List {
+            //                ForEach(milestone.steps, id: \.self) { step in
+            //
+            //                }
+            //            }
+            
             Spacer()
         }
         
@@ -90,22 +63,29 @@ struct MilestoneDetailView: View {
                         isEditing.toggle()
                     }
                 }}) {
-                    Text(isEditing ? "Save" : "Edit")
+                    Text(isEditing ? "Save" : "Edit Title")
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundColor(isEditing ? Color.accent : Color.black)
                 }
-                Button(action: {
-                    Task {
-                        await chatViewModel.deleteMilestone(withId: milestone.id)
-                        withAnimation {
-                            dismiss()
-                        }
-                    }
-                }) {
-                    Image(systemName: "trash")
-                        .foregroundColor(.red)
-                        .font(.system(size: 14, weight: .semibold))
-                }
+            Button(action: {
+                showDeleteConfirmation = true
+            }) {
+                Image(systemName: "trash")
+                    .foregroundColor(.red)
+                    .font(.system(size: 14, weight: .semibold))
+            }
+            //                Button(action: {
+            //                    Task {
+            //                        await chatViewModel.deleteMilestone(withId: milestone.id)
+            //                        withAnimation {
+            //                            dismiss()
+            //                        }
+            //                    }
+            //                }) {
+            //                    Image(systemName: "trash")
+            //                        .foregroundColor(.red)
+            //                        .font(.system(size: 14, weight: .semibold))
+            //                }
             
         })
         .padding()
@@ -113,8 +93,19 @@ struct MilestoneDetailView: View {
         .onAppear() {
             self.title = milestone.title
         }
+        .alert("Are you sure you want to delete this milestone?", isPresented: $showDeleteConfirmation) {
+            Button("Delete", role: .destructive) {
+                Task {
+                    await chatViewModel.deleteMilestone(withId: milestone.id)
+                    withAnimation {
+                        dismiss()
+                    }
+                }
+            }
+            Button("Cancel", role: .cancel) {}
+        }
     }
-
+    
     private func toggleStep(_ step: String) {
         if milestone.completedSteps.contains(step) {
             milestone.completedSteps.removeAll { $0 == step }
@@ -133,7 +124,7 @@ struct MilestoneDetailView: View {
             }
         }
     }
-
+    
 }
 
 

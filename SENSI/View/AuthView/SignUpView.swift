@@ -110,7 +110,7 @@ struct SignUpView: View {
                         .disabled(!formIsValid)
                         .opacity(!formIsValid ? 0.5 : 1)
                         
-                        Spacer()
+//                        Spacer()
                         
                         // sign up button
                         Divider()
@@ -144,7 +144,7 @@ struct SignUpView: View {
 //                            .font(.system(size: 14))
 //                        }
                     }
-                    .padding(.horizontal, 32)
+//                    .padding(.horizontal, 32)
                     .alert("Signup Failed", isPresented: $registred) {
                         Button("OK", role: .cancel) {}
                     } message: {
@@ -152,6 +152,7 @@ struct SignUpView: View {
                     }
                     
                 }
+                .padding(.horizontal, 32)
                 .alert("Registration Error", isPresented: $showAlert, actions: {
                     Button("OK", role: .cancel) {
                         dismiss()
