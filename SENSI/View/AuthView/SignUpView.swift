@@ -31,9 +31,9 @@ struct SignUpView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     
     var body: some View {
-        return (
-            NavigationStack {
-                VStack {
+        NavigationStack {
+            ScrollView {
+                VStack (spacing: 24){
                     Image("LogoWithoutbacground")
                         .resizable()
                         .scaledToFit()
@@ -41,116 +41,92 @@ struct SignUpView: View {
                         .frame(height: 100)
                         .padding(.all, 45)
                     
-                    VStack(spacing: 24) {
-                        InputView(text: $email,
-                                  title: "Email Address",
-                                  placeholder: "Enter your Email")
-                        .autocapitalization(.none)
+                    InputView(text: $email,
+                              title: "Email Address",
+                              placeholder: "Enter your Email")
+                    .autocapitalization(.none)
+                    
+                    // Email Feedback
+                    if !email.isEmpty && (!email.contains("@") || !email.contains(".")) {
+                        Text("Please enter a valid email address.")
+                            .font(.caption)
+                            .foregroundColor(.red)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    
+                    InputView(text: $password,
+                              title: "Password",
+                              placeholder: "Enter your Password",
+                              isSecureField: true)
+                    
+                    if !password.isEmpty && password.count < 6 {
+                        Text("Password must be at least 6 characters.")
+                            .font(.caption)
+                            .foregroundColor(.red)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                         
-                        // Email Feedback
-                        if !email.isEmpty && (!email.contains("@") || !email.contains(".")) {
-                            Text("Please enter a valid email address.")
-                                .font(.caption)
-                                .foregroundColor(.red)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                        }
-                        
-                        InputView(text: $password,
-                                  title: "Password",
-                                  placeholder: "Enter your Password",
+                    }
+                    
+                    ZStack(alignment: .trailing){
+                        InputView(text: $ConfirmPassword,
+                                  title: "Confirm Password",
+                                  placeholder: "Confirm your Password",
                                   isSecureField: true)
                         
-                        if !password.isEmpty && password.count < 6 {
-                            Text("Password must be at least 6 characters.")
-                                .font(.caption)
-                                .foregroundColor(.red)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            
-                        }
-                        
-                        ZStack(alignment: .trailing){
-                            InputView(text: $ConfirmPassword,
-                                      title: "Confirm Password",
-                                      placeholder: "Confirm your Password",
-                                      isSecureField: true)
-                            if !password.isEmpty && password == ConfirmPassword {
+                        if !ConfirmPassword.isEmpty {
+                            if password == ConfirmPassword {
                                 Image(systemName: "checkmark.circle.fill")
                                     .imageScale(.large)
                                     .fontWeight(.bold)
-                                    .foregroundColor(Color(.systemGreen))
+                                    .foregroundColor(.green)
                             } else {
                                 Image(systemName: "xmark.circle.fill")
                                     .imageScale(.large)
                                     .fontWeight(.bold)
-                                    .foregroundColor(Color(.systemRed))
+                                    .foregroundColor(.red)
                             }
                         }
-                        Button {
-                            Task {
-                                registred = try await viewModel.createUser(withEmail: email, password: password, fullName: fullName, bio: bio, eduactionLevel: eduactionLevel, experienceLevel: experienceLevel, careerGoal: careerGoal)
-                                
-                                if registred {
-                                    dismiss()
-                                }
-                            }
-                        } label: {
-                             HStack {
-                                    Text("SIGN UP")
-                                        .fontWeight(.bold)
-                                    Image(systemName: "arrow.right")
-                                }
-                                .padding()
-                                .frame(width: UIScreen.main.bounds.width - 32, height: 48)
-                                .background(.accent)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
+                    }
+                    Button {
+                        Task {
+                            registred = try await viewModel.createUser(withEmail: email, password: password, fullName: fullName, bio: bio, eduactionLevel: eduactionLevel, experienceLevel: experienceLevel, careerGoal: careerGoal)
                             
+                            if registred {
+                                dismiss()
+                            }
+                        }
+                    } label: {
+                        HStack {
+                            Text("SIGN UP")
+                                .fontWeight(.bold)
+                            Image(systemName: "arrow.right")
                         }
                         .padding()
-                        .disabled(!formIsValid)
-                        .opacity(!formIsValid ? 0.5 : 1)
+                        .frame(maxWidth: .infinity, minHeight: 48)
+                        .background(.accent)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
                         
-//                        Spacer()
-                        
-                        // sign up button
-                        Divider()
-                        NavigationLink(destination:
-                                        LoginView()
-                            .navigationBarBackButtonHidden(true)) {
-                                HStack(spacing: 3){
-                                    Text("Already have an account?")
-                                        .fontWeight(.medium)
-                                        .foregroundColor(.accent)
-                                    Text("Sign In")
-                                        .fontWeight(.bold)
-                                        .foregroundColor(.accent)
-                                }
-                                .font(.system(size: 14))
-                            }
-                        Spacer()
-                        
-//                        // sign in button
-//                        Button {
-//                            dismiss()
-//                        } label: {
-//                            HStack(spacing: 3){
-//                                Text("Already have an account?")
-//                                    .fontWeight(.medium)
-//                                    .foregroundColor(.accent)
-//                                Text("Sign In")
-//                                    .fontWeight(.bold)
-//                                    .foregroundColor(.accent)
-//                            }
-//                            .font(.system(size: 14))
-//                        }
                     }
-//                    .padding(.horizontal, 32)
-                    .alert("Signup Failed", isPresented: $registred) {
-                        Button("OK", role: .cancel) {}
-                    } message: {
-                        Text("Failed to create user, Try Again")
-                    }
+                    .disabled(!formIsValid)
+                    .opacity(!formIsValid ? 0.5 : 1)
                     
+                    Divider()
+                    NavigationLink(destination:
+                                    LoginView()
+                        .navigationBarBackButtonHidden(true)) {
+                            HStack(spacing: 3){
+                                Text("Already have an account?")
+                                    .fontWeight(.medium)
+                                    .foregroundColor(.accent)
+                                Text("Sign In")
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.accent)
+                            }
+                            .font(.system(size: 14))
+                            .foregroundColor(.accent)
+                        }
+                    Spacer(minLength: 20)
                 }
                 .padding(.horizontal, 32)
                 .alert("Registration Error", isPresented: $showAlert, actions: {
@@ -160,8 +136,15 @@ struct SignUpView: View {
                 }, message: {
                     Text("There is an error registering your account. Please try again.")
                 })
-            }.tint(.accent)
-        )
+                .alert("Signup Failed", isPresented: $registred) {
+                    Button("OK", role: .cancel) {}
+                } message: {
+                    Text("Failed to create user, Try Again")
+                }
+            }
+            .tint(.accent)
+            .onTapGesture { hideKeyboard() }
+        }
     }
     
     func registerUser(email: String, password: String) {
@@ -183,5 +166,8 @@ extension SignUpView:AuthintcationFormPrtotcol {
         !password.isEmpty &&
         password.count >= 6
         && ConfirmPassword == password
+    }
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }

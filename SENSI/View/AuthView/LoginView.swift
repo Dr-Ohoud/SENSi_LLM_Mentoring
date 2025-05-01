@@ -26,84 +26,80 @@ struct LoginView: View {
                     .frame(width: .infinity)
                     .frame(height: 100)
                     .padding(.all, 45)
-                
-                VStack(spacing: 24) {
-                    InputView(text: $email,
-                              title: "Email Address",
-                              placeholder: "Enter your Email")
-                    .autocapitalization(.none)
-                    // Email Feedback
-                    if !email.isEmpty && (!email.contains("@") || !email.contains(".")) {
-                        Text("Please enter a valid email address.")
-                            .font(.caption)
-                            .foregroundColor(.red)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-                    
-                    InputView(text: $password,
-                              title: "Password",
-                              placeholder: "Enter your Password",
-                              isSecureField: true)
-                    
-                    // Password Feedback
-                    if !password.isEmpty && password.count < 6 {
-                        Text("Password must be at least 6 characters.")
-                            .font(.caption)
-                            .foregroundColor(.red)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-
-                    }
-                    
-                    // sign in button
-                    Button(action: {
-                        authenticateUser(email: email, password: password)
-                    }) {
+                ScrollView {
+                    VStack(spacing: 24) {
+                        InputView(text: $email,
+                                  title: "Email Address",
+                                  placeholder: "Enter your Email")
+                        .autocapitalization(.none)
+                        // Email Feedback
+                        if !email.isEmpty && (!email.contains("@") || !email.contains(".")) {
+                            Text("Please enter a valid email address.")
+                                .font(.caption)
+                                .foregroundColor(.red)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        
+                        InputView(text: $password,
+                                  title: "Password",
+                                  placeholder: "Enter your Password",
+                                  isSecureField: true)
+                        
+                        // Password Feedback
+                        if !password.isEmpty && password.count < 6 {
+                            Text("Password must be at least 6 characters.")
+                                .font(.caption)
+                                .foregroundColor(.red)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            
+                        }
+                        
+                        // sign in button
+                        Button(action: {
+                            authenticateUser(email: email, password: password)
+                        }) {
                             HStack {
                                 Text("SIGN IN")
                                     .fontWeight(.bold)
                                 Image(systemName: "arrow.right")
                             }
                             .padding()
-                            .frame(width: UIScreen.main.bounds.width - 32, height: 48)
+                            .frame(maxWidth: .infinity, minHeight: 48)
                             .background(.accent)
                             .disabled(formIsValid)
                             .foregroundColor(.white)
                             .cornerRadius(10)
-                    }
-                    .padding()
-                    .disabled(!formIsValid)
-                    .opacity(!formIsValid ? 0.5 : 1)
-                    Divider()
-
-                    // sign up button
-                    NavigationLink(destination:
-                                    ChatViewStyle(registrationStep: registrationStep)
-                        .navigationBarBackButtonHidden(true)) {
-                            HStack(spacing: 3){
-                                Text("Don't have an account?")
-                                    .fontWeight(.medium)
-                                    .foregroundColor(.accent)
-                                Text("Sign Up")
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.accent)
-                            }
-                            .font(.system(size: 14))
                         }
+                        .padding()
+                        .disabled(!formIsValid)
+                        .opacity(!formIsValid ? 0.5 : 1)
+                        Divider()
+                        
+                        // sign up button
+                        NavigationLink(destination:
+                                        ChatViewStyle(registrationStep: registrationStep)
+                            .navigationBarBackButtonHidden(true)) {
+                                HStack(spacing: 3){
+                                    Text("Don't have an account?")
+                                        .fontWeight(.medium)
+                                        .foregroundColor(.accent)
+                                    Text("Sign Up")
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.accent)
+                                }
+                                .font(.system(size: 14))
+                            }
+                    }
+                    .padding(.horizontal, 32)
                 }
-                .onTapGesture {
-                    hideKeyboard()
-                }
-//                .padding(.horizontal, 32)
             }
-            .padding(.horizontal, 32)
-//            .padding()
-            
+            .onTapGesture { hideKeyboard() }
+            .alert("Login Error", isPresented: $showAlert, actions: {
+                Button("OK", role: .cancel) {}
+            }, message: {
+                Text("Email or Password is incorrect")
+            })
         }
-        .alert("Login Error", isPresented: $showAlert, actions: {
-            Button("OK", role: .cancel) {}
-        }, message: {
-            Text("Email or Password is incorrect")
-        })
     }
     
     func authenticateUser(email: String, password: String) {

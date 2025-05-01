@@ -256,8 +256,10 @@ struct UserProfileView: View {
                         if isEditing {
                             await updateUserData()
                         }
-                        withAnimation {
-                            isEditing.toggle()
+                        await MainActor.run {
+                            withAnimation {
+                                isEditing.toggle()
+                            }
                         }
                     }
                 }) {

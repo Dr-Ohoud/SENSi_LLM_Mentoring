@@ -210,7 +210,7 @@ struct ChatViewStyle: View {
             }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("This will remove both your last message and the mentor’s response so you can rephrase your question or intent.")
+            Text("This will delete your last message and SENSI's response so you can rephrase your question or intent.")
         }
     }
 }
