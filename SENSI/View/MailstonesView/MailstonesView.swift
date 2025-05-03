@@ -14,7 +14,7 @@ struct MailstonesView: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
-                Text("Milestone")
+                Text("Milestone Plan")
                     .frame(alignment: .leading)
                     .font(.title).bold()
                     .padding()
@@ -23,12 +23,13 @@ struct MailstonesView: View {
                     
                 }  else if !chatViewModel.milestones.isEmpty {
                     ScrollView{
+//                        GridItem(.flexible())
                         LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
                             ForEach(chatViewModel.milestones, id: \.id) { milestone in
                                 
                                 NavigationLink(destination: MilestoneDetailView(milestone: milestone)) {
                                     
-                                    VStack {
+                                    VStack{
                                         
                                         Text(milestone.title)
                                             .font(.headline)
@@ -45,7 +46,7 @@ struct MailstonesView: View {
                                         
                                     }
                                     .padding()
-                                    .frame(width: 150, height: 150)
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                                     .background(RoundedRectangle(cornerRadius: 10).stroke(Color.green, lineWidth: 2))
                                 }
                             }

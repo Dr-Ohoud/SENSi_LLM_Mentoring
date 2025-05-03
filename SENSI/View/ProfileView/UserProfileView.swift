@@ -98,7 +98,7 @@ struct UserProfileView: View {
                                 MailstonesView()
                                     .navigationBarBackButtonHidden(false)
                             } label: {
-                                Text("Mailstones")
+                                Text("Mailstones Plan")
                                     .foregroundColor(.accent)
                                     .accentColor(.accent)
                             }
@@ -256,22 +256,19 @@ struct UserProfileView: View {
                         if isEditing {
                             await updateUserData()
                         }
-                        await MainActor.run {
-                            withAnimation {
-                                isEditing.toggle()
-                            }
+                        withAnimation {
+                            isEditing.toggle()
                         }
+                    }}) {
+                        Text(isEditing ? "Save" : "Edit Profile")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(isEditing ? Color.accent : Color.black)
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 10)
+    //                        .background(isEditing ? Color.accent : Color.black)
+    //                        .clipShape(Capsule())
+                            .padding(.top, 15)
                     }
-                }) {
-                    Text(isEditing ? "Save" : "Edit Profile")
-                        .font(.system(size: 14, weight: .semibold))
-                        .foregroundColor(isEditing ? Color.accent : Color.black)
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 10)
-//                        .background(isEditing ? Color.accent : Color.black)
-//                        .clipShape(Capsule())
-                        .padding(.top, 15)
-                }
             })
         }
     }

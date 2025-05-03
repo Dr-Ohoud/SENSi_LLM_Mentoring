@@ -320,16 +320,6 @@
         }
       }
     },
-    "Loading ..." : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "جاري التحميل…"
-          }
-        }
-      }
-    },
     "Login Error" : {
       "localizations" : {
         "ar" : {
@@ -340,12 +330,12 @@
         }
       }
     },
-    "Mailstones" : {
+    "Mailstones Plan" : {
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "خطوات الانجاز"
+            "value" : "خطة خطوات الانجاز"
           }
         }
       }
@@ -370,12 +360,12 @@
         }
       }
     },
-    "Milestone" : {
+    "Milestone Plan" : {
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "خطوة انجاز"
+            "value" : "خطة الانجاز"
           }
         }
       }
@@ -542,6 +532,9 @@
         }
       }
     },
+    "SENSI" : {
+      "shouldTranslate" : false
+    },
     "SENSI gives you:\n                        Career advice tailored to your goals\n                        Milestones to help you take action\n                        Skill gap insights to grow faster" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -549,6 +542,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "تقدم لك SENSI:\n•نصائح مهنية مُصممة خصيصًا لأهدافك\n•معالم تساعدك على اتخاذ الإجراءات\n•رؤى حول فجوات المهارات لتنمو بشكل أسرع"
+          }
+        }
+      }
+    },
+    "SENSI is loading..." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جاري تحميل SENSI..."
           }
         }
       }
@@ -678,21 +681,11 @@
       }
     },
     "This will delete your last message and SENSI's response so you can rephrase your question or intent." : {
-
-    },
-    "This will your last message and SENSI's response so you can rephrase your question or intent." : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "يؤدي هذا إلى حذف رسالتك الأخيرة وردّ SENSI حتى تتمكن من إعادة صياغة سؤالك ."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This will your last message and SENSI's response so you can rephrase your question or intent."
           }
         }
       }

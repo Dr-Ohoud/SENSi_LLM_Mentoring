@@ -125,15 +125,19 @@ class AuthViewModel: ObservableObject {
     
     func updateUser ( userUpdated: User) async {
         
-        isLoading = true
-        guard let user = Auth.auth().currentUser else {
-            print(" ERROR: User is nil, cannot proceed with Firestore update.")
-            return
-        }
-        
-        let userID = user.uid
-        let userRef = Firestore.firestore().collection("users").document(userID)
-        
+//        isLoading = true
+//        guard let user = Auth.auth().currentUser else {
+//            print(" ERROR: User is nil, cannot proceed with Firestore update.")
+//            return
+//        }
+//        
+//        let userID = user.uid
+//        let userRef = Firestore.firestore().collection("users").document(userID)
+//
+        guard let user = Auth.auth().currentUser else { return }
+
+        let userRef = Firestore.firestore().collection("users").document(user.uid)
+
         do {
             let snapshot = try await userRef.getDocument()
             
@@ -146,16 +150,11 @@ class AuthViewModel: ObservableObject {
             existingUser.experienceLevel = userUpdated.experienceLevel
             existingUser.careerGoal = userUpdated.careerGoal
             
-//            if let skills = skills {
-//                existingUser.skills = skills
-//            }
-            print("✅ Updated user: \(existingUser)")
 
             try userRef.setData(from: existingUser, merge: true)
             print("✅ SUCCESS: User profile updated.")
             await fetchUser() // Refresh the local user object
             
-            self.isLoading = false
         } catch {
             print("❌ ERROR: Failed to update user data: \(error.localizedDescription)")
         }
