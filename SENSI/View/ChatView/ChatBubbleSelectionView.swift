@@ -22,7 +22,8 @@ struct ChatBubbleSelectionView<T: Hashable & CustomStringConvertible>: View {
                         selectedOption = option
                         onSelect(option)
                     }) {
-                        Text(option.description)
+                        TextMarkdown(option.description)
+//                        Text(option.description)
                             .frame(maxWidth: .infinity)
                             .padding()
                             .background(Color.white)

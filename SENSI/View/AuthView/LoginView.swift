@@ -10,7 +10,12 @@ import SwiftUI
 struct LoginView: View {
     @State private var email: String = ""
     @State private var password: String = ""
-    @State var registrationStep: Int = 1
+    @State var isUserRegistered: Bool = false
+    
+    // MARK: - Regstration Data
+    @State var emailRegstration: String = ""
+    @State var passwordRegstration: String = ""
+    @State var ConfirmPasswordRegstration: String = ""
     
     @State private var showAlert = false
     @State private var alertMessage = ""
@@ -77,7 +82,15 @@ struct LoginView: View {
                         
                         // sign up button
                         NavigationLink(destination:
-                                        ChatViewStyle(registrationStep: registrationStep)
+                                        SignUpView(
+                                            email: $emailRegstration,
+                                            password: $passwordRegstration,
+                                            ConfirmPassword: $ConfirmPasswordRegstration
+                                            )
+//                                        ChatViewStyle(
+//                                            registrationStep: registrationStep,
+//                                            isUserRegistered: isUserRegistered
+//                                        )
                             .navigationBarBackButtonHidden(true)) {
                                 HStack(spacing: 3){
                                     Text("Don't have an account?")

@@ -49,9 +49,9 @@ class AuthViewModel: ObservableObject {
     
     func createUser(withEmail email: String, password: String, fullName: String, bio: String, eduactionLevel: eduactionLevelEnums, experienceLevel: experienceLevelEnums, careerGoal: String ) async throws -> Bool{
         
-        DispatchQueue.main.async {
-            self.isLoading = true
-        }
+//        DispatchQueue.main.async {
+//            self.isLoading = true
+//        }
         
         do {
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
@@ -80,7 +80,7 @@ class AuthViewModel: ObservableObject {
                 .setData(encodeUser)
             
             await fetchUser()
-            self.isLoading = false
+//            self.isLoading = false
             
             return true
         } catch {

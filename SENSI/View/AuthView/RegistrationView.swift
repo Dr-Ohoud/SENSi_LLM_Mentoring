@@ -9,49 +9,42 @@ import SwiftUI
 
 struct RegistrationView: View {
     
+    
+    // MARK: - Send from chat view
     @Binding var step: Int
     @Binding var messages: [ChatMessage]
     @Binding var isLoading: Bool
+    var onComplete: () -> Void
     
+    @State private var registred: Bool = false
     @EnvironmentObject var viewModel: AuthViewModel
+    
+    // MARK: - Profile Data
+
     @State var fullName: String = ""
     @State var bio: String = ""
-    
-    // MARK: - User Background Section
     @State var eduactionLevel: eduactionLevelEnums = .BachelorDegree
     @State var experienceLevel: experienceLevelEnums = .freshGraduateStudent
-    
-    // MARK: - Career Aspirations Section
     @State var careerGoal: String = ""
     
-//    @State var userData = User()
-    @State var currentInput: String = ""
-    
-    @State var registerUser: String? = "No"
-    @State private var shouldNavigate: Bool = false
+    var email: String
+    var password: String
     
     @State private var selectedEducation: eduactionLevelEnums? = nil
     @State private var selectedExperienceLevel: experienceLevelEnums? = nil
+    
+    @State var currentInput: String = ""
+    @State var registerUser: String? = "No"
+    @State private var shouldNavigate: Bool = false
+    @State private var showAlert = false
+
     @Environment(\.dismiss) var dismiss
     
-    var onComplete: () -> Void
+
     
     var body: some View {
         NavigationStack {
             VStack{
-                Button {
-                    dismiss()
-                } label: {
-                    HStack(spacing: 3){
-                        Text("Already have an account?")
-                            .fontWeight(.medium)
-                            .foregroundColor(.accent)
-                        Text("Sign In")
-                            .fontWeight(.bold)
-                            .foregroundColor(.accent)
-                    }
-                    .font(.system(size: 14))
-                }
                 HStack {
                     HStack{
                         
@@ -76,15 +69,10 @@ struct RegistrationView: View {
                         }  else if step == 6 {
                             ChatBubbleSelectionView(
                                 message: getRegistrationPrompt(),
-                                options: ["Ok, Lets create the account!"],
+                                options: ["Ok, Lets set the profile up!"],
                                 selectedOption: $registerUser,
                                 onSelect: { option in
                                     handleUserSelection(option)
-//                                    if option == "Yes" {
-                                        registerUser = "No"
-                                        shouldNavigate = true // Trigger navigation
-                                        
-//                                    }
                                 }
                             )
                             
@@ -121,9 +109,6 @@ struct RegistrationView: View {
                         .disabled(isLoading)
                     }
                     
-                    NavigationLink(destination: SignUpView(fullName: $fullName, bio: $bio, eduactionLevel: $eduactionLevel, experienceLevel: $experienceLevel, careerGoal: $careerGoal).navigationBarBackButtonHidden(true), isActive: $shouldNavigate) {
-                        EmptyView() // Keeps it hidden but allows navigation
-                    }.tint(.accent)
                 }
                 .padding()
                 .onAppear() {
@@ -137,6 +122,19 @@ struct RegistrationView: View {
                     }
                 }
             }
+            .alert("Registration Failed", isPresented: $registred) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text("Failed to create user, Try Again")
+            }
+            
+            .alert("Registration Error", isPresented: $showAlert, actions: {
+                Button("OK", role: .cancel) {
+                    dismiss()
+                }
+            }, message: {
+                Text("There is an error registering your account. Please try again.")
+            })
 //            .padding()
             .tint(.accent)
         }.tint(.accent)
@@ -155,7 +153,15 @@ struct RegistrationView: View {
     
     private func handleUserSelection(_ response: String) {
         messages.append(ChatMessage(text: response, isUser: true))
-        fakeLoadingAndProceed()
+//        fakeLoadingAndProceed()
+        
+        // If we just completed step 6 and step is now 7, create user
+            if step == 6 {
+                step += 1 // manually move to step 7
+                createUserProfile() // call user creation function
+            } else {
+                fakeLoadingAndProceed()
+            }
 
 //        step += 1
 //        currentInput = ""
@@ -182,7 +188,6 @@ struct RegistrationView: View {
         case 6:
             registerUser = userResponse
         case 7:
-            onComplete()
             return
         default:
             break
@@ -204,9 +209,31 @@ But first, can I know your name?
         case 3: return "What is you experience level?"
         case 4: return "What is your career goals? Example: I want to be Data Engineer "
         case 5: return "One more thing! help me to get know you by writing a short bio about yourself"
-        case 6: return "I am now ready to assist you. Let me **create a profile** for you first to personalize and save your preferences"
+        case 6: return "What a great bio! First, Let me **create a profile** for you first to personalize and save your preferences"
         case 7: return "Thank you, \(viewModel.currentUser?.fullName ?? "") All set !! I appreciate your confidence in me!"
         default: return "Welcome!"
+        }
+    }
+    
+    private func createUserProfile() {
+        isLoading = true
+        Task {
+            let success = try await viewModel.createUser(
+                withEmail: email,
+                password: password,
+                fullName: fullName,
+                bio: bio,
+                eduactionLevel: eduactionLevel,
+                experienceLevel: experienceLevel,
+                careerGoal: careerGoal
+            )
+            isLoading = false
+            if success {
+                onComplete()
+            } else {
+                print("DEBUG: user registration failed, from RegistrationView")
+                showAlert = true
+            }
         }
     }
 }

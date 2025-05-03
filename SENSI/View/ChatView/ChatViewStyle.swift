@@ -23,9 +23,11 @@ struct ChatViewStyle: View {
     @State private var showUndoConfirmation = false
     @State private var canUndo = false
     @State private var milestoneSaved: Bool = false
+
     
     @State var registrationStep: Int = 7
-    
+    var email: String = ""
+    var password: String = ""
     
     @EnvironmentObject var chatService: ChatServiceViewModel
     @EnvironmentObject var viewModel: AuthViewModel
@@ -34,23 +36,14 @@ struct ChatViewStyle: View {
         print(" The User: \(String(describing: viewModel.currentUser?.fullName))")
         return (
             NavigationStack{
-                
                 VStack {
                     // MARK: - Top Bar
                     HStack {
-                        
-//                        Button(action: {
-//                            undoLastMessage()
-//                        }) {
-//                            Image(systemName: "arrow.uturn.backward")
-//                                .font(.title2)
-//                                .foregroundColor(registrationStep < 7 ? Color.gray : .accent)
-//                        }
                         Button(action: {
                             if messages.count >= 2 {
                                 showUndoConfirmation = true
                             } else {
-                                alertMessage = "No ongoing dialogue, Text your mentor to get started."
+                                alertMessage = "No Ongoing Chat, Text SENSI to get started."
                                 showingAlert = true
                             }
                         }) {
@@ -64,7 +57,7 @@ struct ChatViewStyle: View {
                         .opacity(registrationStep < 7 ? 0 : 1.0)
                         Spacer()
                         
-                        Text(registrationStep < 7 ? "Regsitration Page" : "SENSI Mentor")
+                        Text(registrationStep < 7 ? "Profile Creation Page" : "SENSI Mentor")
                             .font(.headline)
                             .foregroundColor(.primary)
                         
@@ -107,7 +100,7 @@ struct ChatViewStyle: View {
                             
                             if isTyping {
                                 HStack {
-                                    Text("Mentor is typing...")
+                                    Text("SENSI is typing...")
                                         .italic()
                                         .foregroundColor(.gray)
                                     Spacer()
@@ -126,16 +119,24 @@ struct ChatViewStyle: View {
                     }
                     
                     if registrationStep < 7 {
+//                        SignUpView(
+//                            step: $registrationStep,
+//                            messages: $messages,
+//                            isLoading: $isLoading,
+//                            onComplete: completeRegistration
+//                        )
                         RegistrationView(
                             step: $registrationStep,
                             messages: $messages,
                             isLoading: $isLoading,
-                            onComplete: completeRegistration
+                            onComplete: completeRegistration,
+                            email: email,
+                            password: password
                         )
                     } else {
                         if self.chatOptionView{
                             ChatBubbleSelectionView(
-                                message: "Would you like me to save this plan as a milestone to track progress and review later?",
+                                message: "Would you like me to save this plan as a **milestone** to track progress and review later?",
                                 options: ["Yes", "No, Thanks"],
                                 selectedOption: $planSaved,
                                 onSelect: { option in
@@ -175,7 +176,7 @@ struct ChatViewStyle: View {
                 .alert(isPresented: $showingAlert) {
                     Alert(
                         title: Text(alertMessage),
-//                        message: Text(alertMessage),
+                        //                        message: Text(alertMessage),
                         dismissButton: .default(Text("OK"))
                     )
                 }
@@ -202,6 +203,7 @@ struct ChatViewStyle: View {
                     }
                     
                 }
+            
             }.tint(.accent)
         )
         .alert("SENSI not understand your question?", isPresented: $showUndoConfirmation) {
@@ -250,7 +252,7 @@ extension ChatViewStyle {
         var extractedSteps: [String] = []
         
         for line in lines {
-            if line.contains("**Step") {
+            if line.contains("**Step") || line.contains("###Step") {
                 let step = line.replacingOccurrences(of: "**Step", with: "").trimmingCharacters(in: .whitespaces)
                 extractedSteps.append(step)
             }
@@ -262,6 +264,8 @@ extension ChatViewStyle {
         
         if extractedSteps.isEmpty {
             print("❌ ERROR: No steps extracted. Cannot save.")
+            milestoneSaved = true
+            alertMessage = "No steps extracted. Cannot save."
             return
         }
         
@@ -311,8 +315,9 @@ extension ChatViewStyle {
     }
     
     private func completeRegistration() {
-        messages.append(ChatMessage(text: "Thank you, \(viewModel.currentUser?.fullName ?? "")! Your mentor is ready to assist you.", isUser: false))
+        messages.append(ChatMessage(text: "Now, \(viewModel.currentUser?.fullName ?? "")! Your mentor is ready to assist you. How I can help you today?", isUser: false))
         registrationStep = 7 // Enable normal chat mode
+        viewModel.isLoading = false
     }
     
     

@@ -482,6 +482,9 @@
         }
       }
     },
+    "Profile Creation Page" : {
+
+    },
     "Registration Error" : {
       "localizations" : {
         "ar" : {
@@ -491,6 +494,9 @@
           }
         }
       }
+    },
+    "Registration Failed" : {
+
     },
     "Registration Form" : {
       "localizations" : {
@@ -503,6 +509,7 @@
       }
     },
     "Regsitration Page" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
@@ -555,6 +562,9 @@
           }
         }
       }
+    },
+    "SENSI is typing..." : {
+
     },
     "SENSI Mentor" : {
       "localizations" : {
@@ -628,6 +638,7 @@
       }
     },
     "Signup Failed" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
