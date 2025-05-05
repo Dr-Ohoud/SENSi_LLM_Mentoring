@@ -39,15 +39,11 @@ struct MilestoneDetailView: View {
                         .foregroundColor(milestone.completedSteps.contains(step) ? .green : .gray)
                     TextMarkdown(step)
                 }
+//                .listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
                 .onTapGesture {
                     toggleStep(step)
                 }
-            }
-            //            List {
-            //                ForEach(milestone.steps, id: \.self) { step in
-            //
-            //                }
-            //            }
+            }.listStyle(.plain)
             
             Spacer()
         }
@@ -74,19 +70,6 @@ struct MilestoneDetailView: View {
                     .foregroundColor(.red)
                     .font(.system(size: 14, weight: .semibold))
             }
-            //                Button(action: {
-            //                    Task {
-            //                        await chatViewModel.deleteMilestone(withId: milestone.id)
-            //                        withAnimation {
-            //                            dismiss()
-            //                        }
-            //                    }
-            //                }) {
-            //                    Image(systemName: "trash")
-            //                        .foregroundColor(.red)
-            //                        .font(.system(size: 14, weight: .semibold))
-            //                }
-            
         })
         .padding()
         

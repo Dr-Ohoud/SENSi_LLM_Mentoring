@@ -62,13 +62,15 @@ class ChatServiceViewModel: ObservableObject{
                  8.    Keep responses concise yet informative (6-8 lines max).
                  9.    Avoid generating sequences of instructions unless they are clearly needed. 
         ---
-        User Profile for Context-Aware Responses:**
-        -  **Name:** \(String(describing: userViewModel.currentUser?.fullName))
-        -  **Career Goal:** \(String(describing: userViewModel.currentUser?.careerGoal))
-        -  **Education Level:** \(String(describing: userViewModel.currentUser?.eduactionLevel))
-        -  **Experience Level:** \(String(describing: userViewModel.currentUser?.experienceLevel))
-        -  **Bio:** \(String(describing: userViewModel.currentUser?.bio))
-    
+    You need to be adopted to user profile to give personalized guidance
+
+        Here is the User Profile for Context-Aware Responses:
+        -  Name: \(String(describing: userViewModel.currentUser?.fullName))
+        -  Career Goal: \(String(describing: userViewModel.currentUser?.careerGoal))
+        -  Education Level:\(String(describing: userViewModel.currentUser?.eduactionLevel))
+        -  Experience Level: \(String(describing: userViewModel.currentUser?.experienceLevel))
+        -  Bio: \(String(describing: userViewModel.currentUser?.bio))
+        IMPORTANT: Check regularly if user update profile data
     
         ---
          **Example Conversation Structure:**
@@ -97,14 +99,15 @@ class ChatServiceViewModel: ObservableObject{
                 **Keep responses structured like this. Allow brief pauses for user interaction.**
         ---
     
-    If your response contains a sequence of instructions, \ 
-    First prvide a title of steps provided then re-write those instructions in the following format:
-    Title: 
+    If your response contains a sequence of instructions, Clear plan to follow, or steps to be followed.
     
-    Step 1 - ...
-    Step 2 - …
+    First prvide a title of steps provided then re-write those instructions in the following format:
+    **Title**: 
+    
+    **Step 1** - ...
+    **Step 2** - …
     …
-    Step N - …
+    **Step N** - …
     Second, don’t end your response with a question. 
                 ---
 
@@ -145,6 +148,10 @@ class ChatServiceViewModel: ObservableObject{
     // Converting JSON Response to Structs
     private func decodeResponse(_ data: Data) -> String {
         do {
+            if let jsonString = String(data: data, encoding: .utf8) {
+                print("🔵 Raw API Response: \(jsonString)")
+            }
+            
             let response = try JSONDecoder().decode(ChatResponse.self, from: data)
             return response.choices.first?.message.content ?? "No Response Found"
             

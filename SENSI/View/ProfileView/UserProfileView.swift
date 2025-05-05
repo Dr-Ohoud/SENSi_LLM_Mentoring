@@ -256,8 +256,10 @@ struct UserProfileView: View {
                         if isEditing {
                             await updateUserData()
                         }
-                        withAnimation {
-                            isEditing.toggle()
+                        await MainActor.run {
+                            withAnimation {
+                                isEditing.toggle()
+                            }
                         }
                     }}) {
                         Text(isEditing ? "Save" : "Edit Profile")
@@ -273,6 +275,7 @@ struct UserProfileView: View {
         }
     }
     
+    @MainActor
     private func updateUserData() async {
         guard var user = viewModel.currentUser else { return }
         

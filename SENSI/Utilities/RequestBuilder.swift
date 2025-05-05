@@ -10,7 +10,8 @@ import StoreKit
 
 class ChatGPTAPI {
     
-    private let apiKey = Bundle.main.object(forInfoDictionaryKey: "OpenAI_API_Key") as? String
+//    private let apiKey = Bundle.main.object(forInfoDictionaryKey: "OpenAI_API_Key") as? String
+    private let apiKey = Bundle.main.object(forInfoDictionaryKey: "SeNSI_APIKEY") as? String
     
     func buildRequest (messages: [Message], url: URL?) -> URLRequest? {
         
@@ -34,7 +35,7 @@ class ChatGPTAPI {
         }
         
         let parameters: [String: Any] = [
-            "model": "gpt-4o-mini",
+            "model": "gpt-4o",
             "temperature": 0.2,
             "messages": formattedMessages,
 //                [
