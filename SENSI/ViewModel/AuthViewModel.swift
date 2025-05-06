@@ -124,16 +124,7 @@ class AuthViewModel: ObservableObject {
     }
     
     func updateUser ( userUpdated: User) async {
-        
-//        isLoading = true
-//        guard let user = Auth.auth().currentUser else {
-//            print(" ERROR: User is nil, cannot proceed with Firestore update.")
-//            return
-//        }
-//        
-//        let userID = user.uid
-//        let userRef = Firestore.firestore().collection("users").document(userID)
-//
+
         guard let user = Auth.auth().currentUser else { return }
 
         let userRef = Firestore.firestore().collection("users").document(user.uid)

@@ -115,10 +115,10 @@ struct RegistrationView: View {
                     isLoading = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         isLoading = false
-                        withAnimation {
+//                        withAnimation {
                             messages.append(ChatMessage(text: getRegistrationPrompt(), isUser: false))
 
-                        }
+//                        }
                     }
                 }
             }
@@ -153,7 +153,6 @@ struct RegistrationView: View {
     
     private func handleUserSelection(_ response: String) {
         messages.append(ChatMessage(text: response, isUser: true))
-//        fakeLoadingAndProceed()
         
         // If we just completed step 6 and step is now 7, create user
             if step == 6 {
@@ -163,9 +162,6 @@ struct RegistrationView: View {
                 fakeLoadingAndProceed()
             }
 
-//        step += 1
-//        currentInput = ""
-//        messages.append(ChatMessage(text: getRegistrationPrompt(), isUser: false))
     }
     
     private func proceedToNextStep() async {
@@ -178,9 +174,13 @@ struct RegistrationView: View {
         case 1:
             fullName = userResponse
         case 2:
-            eduactionLevel = selectedEducation!
+            if let selected = selectedEducation {
+                eduactionLevel = selected
+            }
         case 3:
-            experienceLevel = selectedExperienceLevel!
+            if let selected = selectedExperienceLevel {
+                experienceLevel = selected
+            }
         case 4:
             careerGoal = userResponse
         case 5:
@@ -200,16 +200,29 @@ struct RegistrationView: View {
         switch step {
         case 1: return
            """
-Welcome to **SIGNUP** page 🌟! 
+Welcome to **SENSI**  🌟! 
 I am very happy to help you,
 
-But first, can I know your name?
+But first, can I know your **name**?
 """
         case 2: return "Now, I need to start with knowing about your education background?"
         case 3: return "What is you experience level?"
-        case 4: return "What is your career goals? Example: I want to be Data Engineer "
-        case 5: return "One more thing! help me to get know you by writing a short bio about yourself"
-        case 6: return "What a great bio! First, Let me **create a profile** for you first to personalize and save your preferences"
+        case 4: return 
+            """
+What is your career goals? 
+Example: I want to be Data Engineer
+"""
+        case 5: return
+            """
+Interesting Goal  🌟!
+**One more thing!**
+help me to get know you better by writing a short bio about yourself
+"""
+        case 6: return
+            """
+What a great bio   🌟!
+Time to build your profile so I can personalize things just for you.
+"""
         case 7: return "Thank you, \(viewModel.currentUser?.fullName ?? "") All set !! I appreciate your confidence in me!"
         default: return "Welcome!"
         }
@@ -223,8 +236,8 @@ But first, can I know your name?
                 password: password,
                 fullName: fullName,
                 bio: bio,
-                eduactionLevel: eduactionLevel,
-                experienceLevel: experienceLevel,
+                eduactionLevel: selectedEducation ?? eduactionLevel,
+                experienceLevel: selectedExperienceLevel ?? experienceLevel,
                 careerGoal: careerGoal
             )
             isLoading = false

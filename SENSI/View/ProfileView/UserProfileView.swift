@@ -20,6 +20,7 @@ struct UserProfileView: View {
     @State var skills: [String]?
     @State var newSkill: String = ""
     
+    
     var body: some View {
         if let user = viewModel.currentUser {
             NavigationStack {
@@ -107,99 +108,99 @@ struct UserProfileView: View {
                     
                     // MARK: - User Background Section
                     Section("User Background") {
-                            // MARK: -  Background Level
-                            HStack {
-                                SettingsRowView(
-                                    imageName: "graduationcap",
-                                    title: "Education Level",
-                                    tintColor: Color(.systemGray)
-                                )
-                                Spacer()
-                                if isEditing {
-                                    Picker("Education Level", selection: $eduactionLevel) {
-                                        ForEach(eduactionLevelEnums.allCases.filter { $0 != .none }, id: \.self) { level in
-                                            Text("\(level)").tag(level)
-                                                .font(.system(size: 17))
-                                        }
+                        // MARK: -  Background Level
+                        HStack {
+                            SettingsRowView(
+                                imageName: "graduationcap",
+                                title: "Education Level",
+                                tintColor: Color(.systemGray)
+                            )
+                            Spacer()
+                            if isEditing {
+                                Picker("Education Level", selection: $eduactionLevel) {
+                                    ForEach(eduactionLevelEnums.allCases.filter { $0 != .none }, id: \.self) { level in
+                                        Text("\(level)").tag(level)
+                                            .font(.system(size: 17))
                                     }
-                                    .pickerStyle(.wheel)
-                                    .frame(height: 100)
-                                } else {
-                                    Text("\(user.eduactionLevel)")
-                                        .foregroundColor(.secondary)
-                                        .accentColor(.gray)
                                 }
+                                .pickerStyle(.wheel)
+                                .frame(height: 100)
+                            } else {
+                                Text("\(user.eduactionLevel)")
+                                    .foregroundColor(.secondary)
+                                    .accentColor(.gray)
+                            }
+                        }
+                        
+                        // MARK: -  User Skills
+                        //                            if let userSkills = user.skills, !userSkills.isEmpty {
+                        //                                ForEach(userSkills, id: \.self) { skill in
+                        //                                    HStack {
+                        //                                        SettingsRowView(
+                        //                                            imageName: "pencil.and.outline",
+                        //                                            title: "Skill",
+                        //                                            tintColor: Color(.systemGray)
+                        //                                        )
+                        //                                        Spacer()
+                        //                                        Text(skill)
+                        //                                            .foregroundColor(.secondary)
+                        //                                    }
+                        //                                }
+                        //                            } else {
+                        //                                HStack {
+                        //                                    SettingsRowView(
+                        //                                        imageName: "pencil.and.outline",
+                        //                                        title: "User Skills",
+                        //                                        tintColor: Color(.systemGray)
+                        //                                    )
+                        //                                    Spacer()
+                        //                                    Text("No skills added yet")
+                        //                                        .foregroundColor(.secondary)
+                        //                                }
+                        //                            }
+                        //                            if isEditing {
+                        //                                HStack {
+                        //                                    SettingsRowView(
+                        //                                        imageName: "plus",
+                        //                                        title: "Add Skill",
+                        //                                        tintColor: Color.accent
+                        //                                    )
+                        //                                    Spacer()
+                        //                                    TextField("Enter a skill", text: $newSkill)
+                        //                                    Button("Add") {
+                        //                                        if !newSkill.isEmpty {
+                        //                                            if skills == nil { skills = [] }
+                        //                                            skills?.append(newSkill)
+                        //                                            newSkill = ""
+                        //                                        }
+                        //                                    }
+                        //                                }
+                        //                            }
+                        
+                        // MARK: -  Experience Level
+                        HStack {
+                            SettingsRowView(
+                                imageName: "person.fill",
+                                title: "Experience Level",
+                                tintColor: Color(.systemGray)
+                            )
+                            Spacer()
+                            if isEditing {
+                                Picker("Experience Level", selection: $experienceLevel) {
+                                    ForEach(experienceLevelEnums.allCases.filter { $0 != .none } , id: \.self) { level in
+                                        Text("\(level)").tag(level)
+                                            .font(.system(size: 17))
+                                    }
+                                }
+                                .pickerStyle(.wheel)
+                                .frame(height: 100)
+                            } else {
+                                Text("\(user.experienceLevel)")
+                                    .foregroundColor(.secondary)
+                                    .accentColor(.gray)
                             }
                             
-                            // MARK: -  User Skills
-//                            if let userSkills = user.skills, !userSkills.isEmpty {
-//                                ForEach(userSkills, id: \.self) { skill in
-//                                    HStack {
-//                                        SettingsRowView(
-//                                            imageName: "pencil.and.outline",
-//                                            title: "Skill",
-//                                            tintColor: Color(.systemGray)
-//                                        )
-//                                        Spacer()
-//                                        Text(skill)
-//                                            .foregroundColor(.secondary)
-//                                    }
-//                                }
-//                            } else {
-//                                HStack {
-//                                    SettingsRowView(
-//                                        imageName: "pencil.and.outline",
-//                                        title: "User Skills",
-//                                        tintColor: Color(.systemGray)
-//                                    )
-//                                    Spacer()
-//                                    Text("No skills added yet")
-//                                        .foregroundColor(.secondary)
-//                                }
-//                            }
-//                            if isEditing {
-//                                HStack {
-//                                    SettingsRowView(
-//                                        imageName: "plus",
-//                                        title: "Add Skill",
-//                                        tintColor: Color.accent
-//                                    )
-//                                    Spacer()
-//                                    TextField("Enter a skill", text: $newSkill)
-//                                    Button("Add") {
-//                                        if !newSkill.isEmpty {
-//                                            if skills == nil { skills = [] }
-//                                            skills?.append(newSkill)
-//                                            newSkill = ""
-//                                        }
-//                                    }
-//                                }
-//                            }
-                            
-                            // MARK: -  Experience Level
-                            HStack {
-                                SettingsRowView(
-                                    imageName: "person.fill",
-                                    title: "Experience Level",
-                                    tintColor: Color(.systemGray)
-                                )
-                                Spacer()
-                                if isEditing {
-                                    Picker("Experience Level", selection: $experienceLevel) {
-                                        ForEach(experienceLevelEnums.allCases.filter { $0 != .none } , id: \.self) { level in
-                                            Text("\(level)").tag(level)
-                                                .font(.system(size: 17))
-                                        }
-                                    }
-                                    .pickerStyle(.wheel)
-                                    .frame(height: 100)
-                                } else {
-                                    Text("\(user.experienceLevel)")
-                                        .foregroundColor(.secondary)
-                                        .accentColor(.gray)
-                                }
-                                
-                            }
+                        }
                     }
                     
                     // MARK: - Career Aspirations Section
@@ -252,26 +253,26 @@ struct UserProfileView: View {
             }
             .navigationBarItems(trailing: HStack(spacing: 16){
                 Button(action: {
-                    Task {
-                        if isEditing {
-                            await updateUserData()
-                        }
-                        await MainActor.run {
-                            withAnimation {
-                                isEditing.toggle()
-                            }
-                        }
-                    }}) {
-                        Text(isEditing ? "Save" : "Edit Profile")
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundColor(isEditing ? Color.accent : Color.black)
-                            .padding(.horizontal, 20)
-                            .padding(.vertical, 10)
-    //                        .background(isEditing ? Color.accent : Color.black)
-    //                        .clipShape(Capsule())
-                            .padding(.top, 15)
+                    if isEditing {
+                        updateUserDataWrapper()
                     }
+                    withAnimation {
+                        isEditing.toggle()
+                    }
+                }) {
+                    Text(isEditing ? "Save" : "Edit Profile")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(isEditing ? Color.accent : Color.black)
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 10)
+                        .padding(.top, 15)
+                }
             })
+        }
+    }
+    private func updateUserDataWrapper() {
+        Task {
+            await updateUserData()
         }
     }
     
