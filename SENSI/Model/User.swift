@@ -59,6 +59,9 @@ enum experienceLevelEnums: String, CaseIterable, Identifiable, Codable, CustomSt
     case stillStudent = "Still Student"
     case freshGraduateStudent = "Fresh Graduate Student"
     case earlyCareer = "Early Career"
+    case midCareer = "Mid-Career"
+    case jobSeekers = "Job Seeker"
+    case other = "Other"
     case none = "None"
     var id: String { self.rawValue }
     
