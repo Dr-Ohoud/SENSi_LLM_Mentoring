@@ -2,11 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>SeNSI_APIKEY</key>
-	<string>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</string>
 	<key>AVGameBypassSystemSpatialAudio</key>
 	<false/>
 	<key>OpenAI_API_Key</key>
 	<string>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</string>
+	<key>SeNSI_APIKEY</key>
+	<string>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</string>
 </dict>
 </plist>
