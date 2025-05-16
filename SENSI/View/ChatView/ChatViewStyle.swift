@@ -227,16 +227,16 @@ extension ChatViewStyle {
         for line in lines {
             let trimmed = line.trimmingCharacters(in: .whitespacesAndNewlines)
             
-            if trimmed.lowercased().contains("**title:") {
+            if trimmed.lowercased().starts(with: "**title**:") || trimmed.lowercased().starts(with: "title:"){
                 title = trimmed
-                    .replacingOccurrences(of: "**Title:", with: "", options: .caseInsensitive)
+                    .replacingOccurrences(of: "**Title**:", with: "", options: .caseInsensitive)
+                    .replacingOccurrences(of: "Title:", with: "", options: .caseInsensitive)
                     .replacingOccurrences(of: "**", with: "")
                     .trimmingCharacters(in: .whitespacesAndNewlines)
                 break
             } else if trimmed.lowercased().contains("### title:") {
                 title = trimmed
                     .replacingOccurrences(of: "### title:", with: "", options: .caseInsensitive)
-                    .replacingOccurrences(of: "**", with: "")
                     .trimmingCharacters(in: .whitespacesAndNewlines)
                 break
             }
@@ -250,28 +250,45 @@ extension ChatViewStyle {
         
         let lines = response.split(separator: "\n").map { String($0) }
         var extractedSteps: [String] = []
+        var currentStep: String = ""
         
         for line in lines {
-            if line.contains("**Step") || line.contains("###Step") {
-                let step = line.replacingOccurrences(of: "**Step", with: "").trimmingCharacters(in: .whitespaces)
-                extractedSteps.append(step)
+                let trimmedLine = line.trimmingCharacters(in: .whitespaces)
+
+                if trimmedLine.lowercased().starts(with: "**step ") || trimmedLine.lowercased().starts(with: "**step") || line.contains("###Step"){
+                    // If starting a new step, save previous if exists
+                    if !currentStep.isEmpty {
+                        extractedSteps.append(currentStep)
+                        currentStep = ""
+                    }
+
+                    // Remove "Step X -", "**", etc.
+                    let cleanStep = trimmedLine
+                        .replacingOccurrences(of: "**", with: "")
+                        .replacingOccurrences(of: "–", with: "-")
+                        .trimmingCharacters(in: .whitespaces)
+                    currentStep += cleanStep
+                } else if trimmedLine.hasPrefix("-") || trimmedLine.hasPrefix("•") {
+                    // Add bullet point lines to current step
+                    let detail = trimmedLine.replacingOccurrences(of: "-", with: "•").trimmingCharacters(in: .whitespaces)
+                    currentStep += "\n\(detail)"
+                }
             }
-//            else if line.hasPrefix("-") {
-//                let step = line.replacingOccurrences(of: "-", with: "").trimmingCharacters(in: .whitespaces)
-//                extractedSteps.append(step)
-//            }
-        }
         
+        // Append the last step if exists
+        if !currentStep.isEmpty {
+            extractedSteps.append(currentStep)
+        }
+
         if extractedSteps.isEmpty {
             print("❌ ERROR: No steps extracted. Cannot save.")
             milestoneSaved = true
             alertMessage = "No steps extracted. Cannot save."
             return
         }
-        
+
         let milestone = Milestone(title: title, steps: extractedSteps)
-        print(milestone)
-        print("✅ DEBUG: Extracted Milestone")
+        print("✅ DEBUG: Extracted Milestone: \(milestone)")
         
         chatService.saveMilestoneToFirebase(milestone: milestone)
     }
