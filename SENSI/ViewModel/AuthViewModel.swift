@@ -153,5 +153,35 @@ class AuthViewModel: ObservableObject {
         
     }
     
+    func deleteAccount() async -> Bool {
+        isLoading = true
+            defer { isLoading = false } // ensures it's false even if error occurs
+        guard let user = Auth.auth().currentUser else {
+            print("❌ ERROR: No user currently signed in.")
+            return false
+        }
+
+        let uid = user.uid
+
+        do {
+            // Step 1: Delete Firestore user document
+            try await Firestore.firestore().collection("users").document(uid).delete()
+            print("🗑️ Firestore document deleted.")
+
+            // Step 2: Delete Auth account
+            try await user.delete()
+            print("✅ Firebase Auth account deleted.")
+
+            // Step 3: Clear local state
+            self.userSession = nil
+            self.currentUser = nil
+
+            return true
+        } catch {
+            print("❌ ERROR deleting user account: \(error.localizedDescription)")
+            return false
+        }
+    }
+    
     
 }

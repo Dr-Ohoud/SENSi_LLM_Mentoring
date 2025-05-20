@@ -38,11 +38,6 @@ class ChatGPTAPI {
             "model": "gpt-4o",
             "temperature": 0.2,
             "messages": formattedMessages,
-//                [
-//                [ "role": "user",
-//                  "content": prompt,
-//                ]
-//            ]
         ]
         
         // 3. Convert Parameters to JSON Data

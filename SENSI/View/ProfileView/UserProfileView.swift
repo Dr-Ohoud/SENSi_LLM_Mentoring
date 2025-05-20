@@ -19,7 +19,7 @@ struct UserProfileView: View {
     @State var bio: String = ""
     @State var skills: [String]?
     @State var newSkill: String = ""
-    
+    @State private var showDeleteConfirmation = false
     
     var body: some View {
         if let user = viewModel.currentUser {
@@ -238,8 +238,31 @@ struct UserProfileView: View {
                                 title: "Sign out",
                                 tintColor: Color(.red))
                         }
+                        if viewModel.isLoading {
+                            LoadingView()
+                        } else {
+                            Button(action: {
+                                showDeleteConfirmation = true
+                            }) {
+                                SettingsRowView(
+                                    imageName: "person.fill.xmark",
+                                    title: "Delete account",
+                                    tintColor: Color(.red))
+                            }
+                        }
                     }
                     
+                    
+                }.alert("Are you sure you want to delete your account?", isPresented: $showDeleteConfirmation) {
+                    Button("Delete", role: .destructive) {
+                        Task {
+                            let success = await viewModel.deleteAccount()
+                            if success {
+                                print("Account deleted.")
+                            }
+                        }
+                    }
+                    Button("Cancel", role: .cancel) {}
                 }
             }
             .onAppear {
